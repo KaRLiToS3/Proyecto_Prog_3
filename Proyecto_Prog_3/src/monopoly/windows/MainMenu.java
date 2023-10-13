@@ -4,13 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.awt.font.ImageGraphicAttribute;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
@@ -20,12 +24,24 @@ import javax.swing.UIManager.LookAndFeelInfo;
 public class MainMenu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static final Font mainT = new Font("Arial Black", Font.BOLD,  24);
-	private static final Dimension bMenuMinDim = new Dimension(200,60);
-	private static final Dimension bMenuMaxDim = new Dimension(600,200);
-	private static final Dimension WEPanelsMinDim = new Dimension(200,60);
-	private static final Dimension WEPanelsMaxDim = new Dimension(200,60);
-	private static final int leftImgWidth = 75;
-	private static final int leftImgHeight = 75;
+	private static Font buttonFont = new Font("Dubai", Font.BOLD,  12);
+	private static  final Dimension frameMinSize = new Dimension(500,500);
+	private static  final Dimension bMenuMinDim = new Dimension(0,0);
+	private static  Dimension bMenuMaxDim;
+	private static  final Dimension WEPanelsMinDim = new Dimension(0,0) ;
+	private static  Dimension WEPanelsMaxDim ;
+	private static final int centralImageDim = 75;
+	private static final double percentagePanelsWE = 0.25;
+	private static final double percentageButtons = 0.5;
+	private static final String path1 = "../images/monopoly_guy.jpg";
+	private static final String path2 = "../images/left_image_menu.jpg";
+	private static final String path3 = "../images/right_image_menu.jpg";
+	private ImageIcon originalIcon;
+	private ImageIcon originalLeftIcon;
+	private ImageIcon originalRightIcon;
+	
+	private JLabel leftImg;
+	private JLabel rightImg;
 	
 	//TEST MAIN
 	public static void main(String[] args) {
@@ -39,7 +55,8 @@ public class MainMenu extends JFrame {
 		
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setSize(800,600);
+		setSize(1000,700);
+		setMinimumSize(frameMinSize);
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
 		setLayout(new BorderLayout());
@@ -54,11 +71,12 @@ public class MainMenu extends JFrame {
 		
 		C.setAlignmentX(Component.CENTER_ALIGNMENT);
 		C.setLayout(new BoxLayout(C, BoxLayout.Y_AXIS));
-		C.setAlignmentX(Component.CENTER_ALIGNMENT);
 		S.setLayout(new BoxLayout(S, BoxLayout.X_AXIS));
 		
-		W.setBackground(Color.red);
-		E.setBackground(Color.RED);
+		//INICIALISATION FOR BUTTON AND PANEL PARAMETERS
+		WEPanelsMaxDim = new Dimension((int)(getWidth()*percentagePanelsWE),getHeight());
+		bMenuMaxDim = new Dimension((int)(getWidth()*percentageButtons),getHeight());
+		
 		setComponentSize(W, WEPanelsMinDim, WEPanelsMaxDim);
 		setComponentSize(E, WEPanelsMinDim, WEPanelsMaxDim);
 		
@@ -77,16 +95,20 @@ public class MainMenu extends JFrame {
 		
 		//IMAGES
 		try{
-			ImageIcon originalIcon = loadImageIcon("../images/monopoly_guy.jpg");
-			ImageIcon originalLeftIcon = loadImageIcon("../images/left_image_menu.jpg");
-			ImageIcon originalRightIcon = loadImageIcon("../images/right_image_menu.jpg");
-			ImageIcon resizedIcon = resizeIcon(originalIcon,leftImgWidth,leftImgHeight);
+			originalIcon = loadImageIcon(path1);
+			originalLeftIcon = loadImageIcon(path2);
+			originalRightIcon = loadImageIcon(path3);
+			ImageIcon resizedIcon = resizeIcon(originalIcon,centralImageDim,centralImageDim);
 			ImageIcon resizedLeftIcon = resizeIcon(originalLeftIcon,250,500);
 			ImageIcon resizedRightIcon = resizeIcon(originalRightIcon,250,500);
 			JLabel centerImg = new JLabel(resizedIcon);
-			JLabel leftImg = new JLabel(resizedLeftIcon);
-			JLabel rightImg = new JLabel(resizedRightIcon);
+			leftImg = new JLabel(resizedLeftIcon);
+			rightImg = new JLabel(resizedRightIcon);
+			
+			leftImg.setAlignmentX(Component.CENTER_ALIGNMENT);
+			rightImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 			centerImg.setAlignmentX(Component.CENTER_ALIGNMENT);
+			
 			C.add(centerImg);
 			W.add(leftImg);
 			E.add(rightImg);
@@ -96,7 +118,16 @@ public class MainMenu extends JFrame {
 		
 		//BUTTON SETTINGS
 		JButton[] buttons = new JButton[8];
-		String[] bText = {"PLAY", "GAME SETTINGS", "USER ACHIEVEMENTS", "MATCH RECORD", "MANAGE USERS", "CREDITS", "HELP", "LEAVE GAME"};
+		String[] bText = 
+			{"PLAY", 
+			"GAME SETTINGS", 
+			"USER ACHIEVEMENTS", 
+			"MATCH RECORD", 
+			"MANAGE USERS", 
+			"CREDITS", 
+			"HELP", 
+			"LEAVE GAME"};
+		
 		
 		for(int i = 0; i < 8; i++) {
 			buttons[i] = new JButton(bText[i]);
@@ -113,7 +144,28 @@ public class MainMenu extends JFrame {
 		}
 		
 		//EVENTS
-		
+		this.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				
+				WEPanelsMaxDim = new Dimension((int)(getWidth()*percentagePanelsWE),getHeight());
+				bMenuMaxDim = new Dimension((int)(getWidth()*percentageButtons),getHeight());
+				setComponentSize(W, WEPanelsMinDim, WEPanelsMaxDim);
+				setComponentSize(E, WEPanelsMinDim, WEPanelsMaxDim);
+				
+				for (int i = 0; i < buttons.length-2; i++) {
+					setComponentSize(buttons[i], bMenuMinDim, bMenuMaxDim);
+					buttons[i].setFont(buttonFont);
+				}
+//				ImageIcon img1 = resizeIcon(originalLeftIcon, (int) (getWidth()*percentagePanelsWE), (int) (getHeight()*percentagePanelsWE));
+//				ImageIcon img2 = resizeIcon(originalRightIcon, (int) (getWidth()*percentagePanelsWE), (int) (getHeight()*percentagePanelsWE));
+//				
+//				leftImg.setIcon(img1);
+//				rightImg.setIcon(img2);
+				
+			}
+			
+		});
 		setVisible(true);
 	}
 	
@@ -146,7 +198,7 @@ public class MainMenu extends JFrame {
 	 */
 	private ImageIcon resizeIcon(ImageIcon img, int width, int height) {
 		//.setPreferredSize(new Dimension((this.getWidth()-C.getWidth())/2,this.getHeight()-N.getHeight()-S.getHeight()));
-		Image image = img.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		Image image = img.getImage().getScaledInstance(width, height, Image.SCALE_FAST);
 		return new ImageIcon(image);
 	}
 	

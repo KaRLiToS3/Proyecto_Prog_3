@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
@@ -24,31 +26,22 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 public class MainMenu extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private static final Font mainT = new Font("Arial Black", Font.BOLD,  24);
+	private static final Font mainT = new Font("Arial Black", Font.BOLD,  36);
 	private static Font buttonFont = new Font("Dubai", Font.BOLD,  12);
 	private static  final Dimension frameMinSize = new Dimension(500,500);
-	private static  final Dimension bMenuMinDim = new Dimension(0,0);
 	private static  Dimension bMenuMaxDim;
-	private static  final Dimension WEPanelsMinDim = new Dimension(0,0) ;
 	private static  Dimension WEPanelsMaxDim ;
-	private static final int centralImageDim = 75;
+	private static final int centralImageDim = 100;
 	private static final double percentagePanelsWE = 0.25;
 	private static final double percentageButtons = 0.5;
 	private static final String path1 = "../images/monopoly_guy.jpg";
 	private static final String path2 = "../images/left_image_menu.jpg";
 	private static final String path3 = "../images/right_image_menu.jpg";
 	private static final String path4 = "../images/cash_bg.jpg";
-	private ImageIcon originalIcon;
-	private ImageIcon originalLeftIcon;
-	private ImageIcon originalRightIcon;
-	
-	private JLabel leftImg;
-	private JLabel rightImg;
 	
 	//TEST MAIN
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> new MainMenu());
-		
 	}
 	
 	public MainMenu() {
@@ -61,32 +54,39 @@ public class MainMenu extends JFrame {
 		setMinimumSize(frameMinSize);
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
-		setLayout(new BorderLayout());
 
-        // ADD PANEL FOR BACKGROUND IMAGE
-		JPanel backgroundPanel = new JPanel() {
+		//CLASS TO DRAW A PICTURE INTO A PANEL
+		class PanelImageBuilder extends JPanel{
 			private static final long serialVersionUID = 1L;
-
+			
+			private String path;
+			public PanelImageBuilder(String path) {
+				this.path = path;
+			}
 			@Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 try {                	
-                	Image img  = loadImageIcon(path4).getImage();
+                	Image img  = loadImageIcon(path).getImage();
                 	g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
                 }catch (FileNotFoundException e) {
                 	e.printStackTrace();
                 }
             }
-        };
+		}
+		
+        // ADD PANEL FOR BACKGROUND IMAGE
+		JPanel backgroundPanel = new PanelImageBuilder(path4);
+        
         backgroundPanel.setLayout(new BorderLayout());
-        add(backgroundPanel, BorderLayout.CENTER);
+        setContentPane(backgroundPanel);
 		
 		//DECLARATION OF COMPONENTS
 		
 		JPanel N = new JPanel();
-		JPanel W = new JPanel();
+		JPanel W = new PanelImageBuilder(path2);
 		JPanel C = new JPanel();
-		JPanel E = new JPanel();
+		JPanel E = new PanelImageBuilder(path3);
 		JPanel S = new JPanel();
 		
 		N.setOpaque(false);
@@ -103,8 +103,8 @@ public class MainMenu extends JFrame {
 		WEPanelsMaxDim = new Dimension((int)(getWidth()*percentagePanelsWE),getHeight());
 		bMenuMaxDim = new Dimension((int)(getWidth()*percentageButtons),getHeight());
 		
-		setComponentSize(W, WEPanelsMinDim, WEPanelsMaxDim);
-		setComponentSize(E, WEPanelsMinDim, WEPanelsMaxDim);
+		setComponentSize(W, WEPanelsMaxDim);
+		setComponentSize(E, WEPanelsMaxDim);
 		
 		backgroundPanel.add(N, BorderLayout.NORTH);
 		backgroundPanel.add(W, BorderLayout.WEST);
@@ -114,30 +114,20 @@ public class MainMenu extends JFrame {
 		
 		JLabel title = new JLabel("MONOPOLY GAME");
 		title.setFont(mainT);
-		
+		title.setBackground(Color.BLACK);
+		title.setForeground(Color.WHITE);
+		title.setOpaque(true);
 
 		//ADDING THE COMPONENTS TO THE PANELS
 		N.add(title);
 		
 		//IMAGES
 		try{
-			originalIcon = loadImageIcon(path1);
-			originalLeftIcon = loadImageIcon(path2);
-			originalRightIcon = loadImageIcon(path3);
+			ImageIcon originalIcon = loadImageIcon(path1);
 			ImageIcon resizedIcon = resizeIcon(originalIcon,centralImageDim,centralImageDim);
-			ImageIcon resizedLeftIcon = resizeIcon(originalLeftIcon,250,500);
-			ImageIcon resizedRightIcon = resizeIcon(originalRightIcon,250,500);
 			JLabel centerImg = new JLabel(resizedIcon);
-			leftImg = new JLabel(resizedLeftIcon);
-			rightImg = new JLabel(resizedRightIcon);
-			
-			leftImg.setAlignmentX(Component.CENTER_ALIGNMENT);
-			rightImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 			centerImg.setAlignmentX(Component.CENTER_ALIGNMENT);
-			
 			C.add(centerImg);
-			W.add(leftImg);
-			E.add(rightImg);
 		}catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -161,7 +151,7 @@ public class MainMenu extends JFrame {
 				C.add(new Box.Filler(new Dimension(1, 1), null, null));
 				C.add(buttons[i]);
 				buttons[i].setAlignmentX(Component.CENTER_ALIGNMENT);
-				setComponentSize(buttons[i], bMenuMinDim, bMenuMaxDim);
+				setComponentSize(buttons[i], bMenuMaxDim);
 			}else {
 				S.add(buttons[i]);
 				buttons[i].setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -173,25 +163,28 @@ public class MainMenu extends JFrame {
 		this.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				
 				WEPanelsMaxDim = new Dimension((int)(getWidth()*percentagePanelsWE),getHeight());
 				bMenuMaxDim = new Dimension((int)(getWidth()*percentageButtons),getHeight());
-				setComponentSize(W, WEPanelsMinDim, WEPanelsMaxDim);
-				setComponentSize(E, WEPanelsMinDim, WEPanelsMaxDim);
+				setComponentSize(W,WEPanelsMaxDim);
+				setComponentSize(E, WEPanelsMaxDim);
 				
 				for (int i = 0; i < buttons.length-2; i++) {
-					setComponentSize(buttons[i], bMenuMinDim, bMenuMaxDim);
+					setComponentSize(buttons[i], bMenuMaxDim);
 					buttons[i].setFont(buttonFont);
 				}
-//				ImageIcon img1 = resizeIcon(originalLeftIcon, (int) (getWidth()*percentagePanelsWE), (int) (getHeight()*percentagePanelsWE));
-//				ImageIcon img2 = resizeIcon(originalRightIcon, (int) (getWidth()*percentagePanelsWE), (int) (getHeight()*percentagePanelsWE));
-//				
-//				leftImg.setIcon(img1);
-//				rightImg.setIcon(img2);
-				
 			}
-			
 		});
+		
+		//BUTTONS
+		buttons[7].addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit the game?", "WARNING", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if(option == JOptionPane.YES_OPTION) dispose();
+			}
+		});
+		
 		setVisible(true);
 	}
 	
@@ -209,8 +202,8 @@ public class MainMenu extends JFrame {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
-	private void setComponentSize(Component B, Dimension minDim, Dimension maxDim) {
-		B.setMinimumSize(minDim);
+	private void setComponentSize(Component B, Dimension maxDim) {
+		B.setMinimumSize(new Dimension(0,0));
 		B.setMaximumSize(maxDim);
 		B.setPreferredSize(B.getMaximumSize());
 	}

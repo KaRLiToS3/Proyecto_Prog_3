@@ -4,10 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class UsersMenu extends JFrame{
 	
@@ -64,10 +70,28 @@ public class UsersMenu extends JFrame{
 		JLabel TextUser = new JLabel("USERS");
 		TextUser.setFont(UserFont);
 		N.add(TextUser);
+		
 		//CENTER-LEFT
 		C.add(CL, BorderLayout.WEST);
-		JLabel IUser = new JLabel("Imagen");
+		JButton IUser = new JButton("Upload Image");
 		CL.add(IUser);
+		IUser.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser ImageChooser = new JFileChooser();  
+	            // Only ".jpeg" extension 
+	            FileFilter ImageFilter = new FileNameExtensionFilter("File JPG", "jpeg");
+	            ImageChooser.setFileFilter(ImageFilter);
+	            int result = ImageChooser.showSaveDialog(UsersMenu.this);
+	            if (result == JFileChooser.APPROVE_OPTION) {
+	               File ImageFile = ImageChooser.getSelectedFile();
+	               //In the future we will save file for the user in the database
+	               System.out.println("Fichero seleccionado: " + ImageFile.toString());
+	            }
+			}
+			
+		});
 		
 		//CENTER-RIGHT
 		

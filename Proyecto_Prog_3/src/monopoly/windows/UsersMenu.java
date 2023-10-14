@@ -1,12 +1,13 @@
 package monopoly.windows;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +30,9 @@ public class UsersMenu extends JFrame{
 		}
 	
 	public UsersMenu(){
+		
+		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
+		Font TextFont = new Font("Arial Black", Font.ITALIC, 12);
 		//LOOK AND FEEL SETUP
 		setUpLookAndFeel();
 		
@@ -48,10 +52,22 @@ public class UsersMenu extends JFrame{
 		JPanel CL = new JPanel();
 		JPanel HEADERS = new JPanel();
 		JPanel FIELDS = new JPanel();
+		JPanel SEARCH = new JPanel();
+		JPanel BUTTONS = new JPanel();
 		
 		add(N, BorderLayout.NORTH);
 		add(C, BorderLayout.CENTER);
 		add(S, BorderLayout.SOUTH);
+		
+		
+		//UP
+		JLabel TextUser = new JLabel("USERS");
+		TextUser.setFont(UserFont);
+		N.add(TextUser);
+		//CENTER-LEFT
+		C.add(CL, BorderLayout.WEST);
+		JLabel IUser = new JLabel("Imagen");
+		CL.add(IUser);
 		
 		//CENTER-RIGHT
 		
@@ -70,6 +86,7 @@ public class UsersMenu extends JFrame{
 		
 		for (String elem: HEADERSNAMES) {
 			JLabel Name = new JLabel(elem);
+			Name.setFont(TextFont);
 			JTextField Field = new JTextField(20);
 			
 			//Storage the JTextField in the map in order to use it later
@@ -78,10 +95,21 @@ public class UsersMenu extends JFrame{
 			FIELDS.add(Field);
 		}
 		
-		
-		//CENTER-LEFT
-		C.add(CL, BorderLayout.WEST);
-		
+		//DOWN
+		S.setLayout(new FlowLayout());
+		S.add(SEARCH);
+		JLabel TextSearch = new JLabel("SEARCH USER: ");
+		TextSearch.setFont(TextFont);
+		JTextField SearchUser = new JTextField(20);
+		SEARCH.add(TextSearch);
+		SEARCH.add(SearchUser);
+		S.add(BUTTONS);
+		BUTTONS.setLayout(new GridLayout(1,2));
+		JButton CreateUser = new JButton("Create User");
+		JButton DeleteUser = new JButton("Delete User");
+		BUTTONS.add(CreateUser);
+		BUTTONS.add(DeleteUser);
+	
 	}
 	
 	/**

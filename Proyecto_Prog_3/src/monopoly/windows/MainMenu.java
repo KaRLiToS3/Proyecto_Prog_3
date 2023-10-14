@@ -16,6 +16,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.awt.font.ImageGraphicAttribute;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 
 import javax.swing.*;
@@ -36,6 +37,7 @@ public class MainMenu extends JFrame {
 	private static final String path1 = "../images/monopoly_guy.jpg";
 	private static final String path2 = "../images/left_image_menu.jpg";
 	private static final String path3 = "../images/right_image_menu.jpg";
+	private static final String path4 = "../images/cash_bg.jpg";
 	private ImageIcon originalIcon;
 	private ImageIcon originalLeftIcon;
 	private ImageIcon originalRightIcon;
@@ -60,6 +62,24 @@ public class MainMenu extends JFrame {
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
 		setLayout(new BorderLayout());
+
+        // ADD PANEL FOR BACKGROUND IMAGE
+		JPanel backgroundPanel = new JPanel() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {                	
+                	Image img  = loadImageIcon(path4).getImage();
+                	g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+                }catch (FileNotFoundException e) {
+                	e.printStackTrace();
+                }
+            }
+        };
+        backgroundPanel.setLayout(new BorderLayout());
+        add(backgroundPanel, BorderLayout.CENTER);
 		
 		//DECLARATION OF COMPONENTS
 		
@@ -68,6 +88,12 @@ public class MainMenu extends JFrame {
 		JPanel C = new JPanel();
 		JPanel E = new JPanel();
 		JPanel S = new JPanel();
+		
+		N.setOpaque(false);
+		W.setOpaque(false);
+		C.setOpaque(false);
+		E.setOpaque(false);
+		S.setOpaque(false);
 		
 		C.setAlignmentX(Component.CENTER_ALIGNMENT);
 		C.setLayout(new BoxLayout(C, BoxLayout.Y_AXIS));
@@ -80,11 +106,11 @@ public class MainMenu extends JFrame {
 		setComponentSize(W, WEPanelsMinDim, WEPanelsMaxDim);
 		setComponentSize(E, WEPanelsMinDim, WEPanelsMaxDim);
 		
-		add(N, BorderLayout.NORTH);
-		add(W, BorderLayout.WEST);
-		add(C, BorderLayout.CENTER);
-		add(E, BorderLayout.EAST);
-		add(S, BorderLayout.SOUTH);
+		backgroundPanel.add(N, BorderLayout.NORTH);
+		backgroundPanel.add(W, BorderLayout.WEST);
+		backgroundPanel.add(C, BorderLayout.CENTER);
+		backgroundPanel.add(E, BorderLayout.EAST);
+		backgroundPanel.add(S, BorderLayout.SOUTH);
 		
 		JLabel title = new JLabel("MONOPOLY GAME");
 		title.setFont(mainT);

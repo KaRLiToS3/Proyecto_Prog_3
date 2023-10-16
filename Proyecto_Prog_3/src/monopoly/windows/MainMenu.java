@@ -175,6 +175,14 @@ public class MainMenu extends JFrame {
 			}
 		});
 		
+		buttons[4].addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(() -> new UsersMenu());				
+			}
+		});
+		
 		//BUTTONS
 		buttons[7].addActionListener(new ActionListener() {
 			

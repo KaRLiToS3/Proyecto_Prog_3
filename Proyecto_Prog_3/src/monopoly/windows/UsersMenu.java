@@ -30,10 +30,10 @@ public class UsersMenu extends JFrame{
 	private static final long serialVersionUID = 1L;
 
 		//TEST USERSMENU
-		public static void main(String[] args) {
-			SwingUtilities.invokeLater(() -> new UsersMenu());
-			
-		}
+//		public static void main(String[] args) {
+//			SwingUtilities.invokeLater(() -> new UsersMenu());
+//			
+//		}
 	
 	public UsersMenu(){
 		

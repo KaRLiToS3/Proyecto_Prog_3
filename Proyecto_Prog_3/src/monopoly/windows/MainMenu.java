@@ -4,21 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
-import java.awt.font.ImageGraphicAttribute;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 
 import javax.swing.*;
@@ -28,12 +19,9 @@ public class MainMenu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static final Font mainT = new Font("Arial Black", Font.BOLD,  36);
 	private static Font buttonFont = new Font("Dubai", Font.BOLD,  12);
-	private static  final Dimension frameMinSize = new Dimension(500,500);
-	private static  Dimension bMenuMaxDim;
-	private static  Dimension WEPanelsMaxDim ;
+	private static final Dimension frameMinSize = new Dimension(700,600);
 	private static final int centralImageDim = 100;
 	private static final double percentagePanelsWE = 0.25;
-	private static final double percentageButtons = 0.5;
 	private static final String path1 = "../images/monopoly_guy.jpg";
 	private static final String path2 = "../images/left_image_menu.jpg";
 	private static final String path3 = "../images/right_image_menu.jpg";
@@ -73,6 +61,11 @@ public class MainMenu extends JFrame {
                 	e.printStackTrace();
                 }
             }
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension windowDim = getMainWindowDimension();
+				return new Dimension((int)(windowDim.getWidth()*percentagePanelsWE),(int) windowDim.getHeight());
+			}
 		}
 		
         // ADD PANEL FOR BACKGROUND IMAGE
@@ -100,11 +93,6 @@ public class MainMenu extends JFrame {
 		S.setLayout(new BoxLayout(S, BoxLayout.X_AXIS));
 		
 		//INICIALISATION FOR BUTTON AND PANEL PARAMETERS
-		WEPanelsMaxDim = new Dimension((int)(getWidth()*percentagePanelsWE),getHeight());
-		bMenuMaxDim = new Dimension((int)(getWidth()*percentageButtons),getHeight());
-		
-		setComponentSize(W, WEPanelsMaxDim);
-		setComponentSize(E, WEPanelsMaxDim);
 		
 		backgroundPanel.add(N, BorderLayout.NORTH);
 		backgroundPanel.add(W, BorderLayout.WEST);
@@ -146,34 +134,31 @@ public class MainMenu extends JFrame {
 		
 		
 		for(int i = 0; i < 8; i++) {
-			buttons[i] = new JButton(bText[i]);
 			if(i <6) {
-				C.add(new Box.Filler(new Dimension(1, 1), null, null));
+				buttons[i] = new JButton(bText[i]) {
+					private static final long serialVersionUID = 1L;
+					@Override
+					public Dimension getMaximumSize() {
+						return new Dimension(C.getWidth(), C.getHeight());
+					}
+					@Override
+					public Dimension getPreferredSize() {
+						return new Dimension(C.getWidth(), C.getHeight());
+					}
+				};
+				C.add(new Box.Filler(new Dimension(5, 5), null, null));
 				C.add(buttons[i]);
 				buttons[i].setAlignmentX(Component.CENTER_ALIGNMENT);
-				setComponentSize(buttons[i], bMenuMaxDim);
 			}else {
+				buttons[i] = new JButton(bText[i]);
 				S.add(buttons[i]);
 				buttons[i].setAlignmentX(Component.LEFT_ALIGNMENT);
 				if(i == 6) S.add(Box.createHorizontalGlue());
 			}
+			buttons[i].setFont(buttonFont);
 		}
 		
 		//EVENTS
-		this.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				WEPanelsMaxDim = new Dimension((int)(getWidth()*percentagePanelsWE),getHeight());
-				bMenuMaxDim = new Dimension((int)(getWidth()*percentageButtons),getHeight());
-				setComponentSize(W,WEPanelsMaxDim);
-				setComponentSize(E, WEPanelsMaxDim);
-				
-				for (int i = 0; i < buttons.length-2; i++) {
-					setComponentSize(buttons[i], bMenuMaxDim);
-					buttons[i].setFont(buttonFont);
-				}
-			}
-		});
 		
 		//BUTTONS
 		buttons[7].addActionListener(new ActionListener() {
@@ -202,12 +187,6 @@ public class MainMenu extends JFrame {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
-	private void setComponentSize(Component B, Dimension maxDim) {
-		B.setMinimumSize(new Dimension(0,0));
-		B.setMaximumSize(maxDim);
-		B.setPreferredSize(B.getMaximumSize());
-	}
-	
 	/**
 	 * This method resizes a given ImageIcon, according to its height and width applying a SCALE_SMOOTH algorithm
 	 * @param img
@@ -232,5 +211,9 @@ public class MainMenu extends JFrame {
         if (url != null) {
             return new ImageIcon(url);
         }else throw new FileNotFoundException("Image not found at path: " + path);
+	}
+	
+	private Dimension getMainWindowDimension() {
+		return new Dimension(this.getWidth(), this.getHeight());
 	}
 }

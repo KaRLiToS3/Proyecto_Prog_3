@@ -9,8 +9,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
@@ -19,7 +17,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 public class MainMenu extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private static final Font mainT = new Font("Arial Black", Font.BOLD,  36);
 	private static Font buttonFont = new Font("Dubai", Font.BOLD,  18);
 	private static final Color gold = new Color(212, 175, 55);
 	private static final Dimension frameMinSize = new Dimension(700,600);
@@ -149,10 +146,18 @@ public class MainMenu extends JFrame {
 		//EVENTS
 		
 		buttons[4].addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(() -> new UsersMenu());
+			}
+		});
+		buttons[3].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(() -> {
+					new MatchRecordMenu();
+					dispose();
+				});
 			}
 		});
 		
@@ -183,26 +188,13 @@ public class MainMenu extends JFrame {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
-//	/**
-//	 * This method resizes a given ImageIcon, according to its height and width applying a SCALE_SMOOTH algorithm
-//	 * @param img
-//	 * @param width
-//	 * @param height
-//	 * @return Returns the ImageIcon resized to the given proportions
-//	 */
-//	private ImageIcon resizeIcon(ImageIcon img, int width, int height) {
-//		//.setPreferredSize(new Dimension((this.getWidth()-C.getWidth())/2,this.getHeight()-N.getHeight()-S.getHeight()));
-//		Image image = img.getImage().getScaledInstance(width, height, Image.SCALE_FAST);
-//		return new ImageIcon(image);
-//	}
-	
 	/**
 	 * Loads the image resource form the memory into the ImageIcon object
 	 * @param path A relative path to the file
 	 * @return	Returns the ImageIcon with the file associated
 	 * @throws FileNotFoundException	In case the path is wrong
 	 */
-	private ImageIcon loadImageIcon(String path) throws FileNotFoundException{
+	public static ImageIcon loadImageIcon(String path) throws FileNotFoundException{
 		URL url = MainMenu.class.getResource(path); //Obtains the image directory
         if (url != null) {
             return new ImageIcon(url);

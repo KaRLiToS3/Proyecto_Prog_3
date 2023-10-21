@@ -45,43 +45,21 @@ public class MainMenu extends MasterFrame {
 		setTitle("MONOPOLY");
 
 		//CLASS TO DRAW A PICTURE INTO A PANEL
-		class PanelImageBuilder extends JPanel{
-			private static final long serialVersionUID = 1L;
-			
-			private String path;
-			public PanelImageBuilder(String path) {
-				this.path = path;
-			}
-			@Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                try {                	
-                	Image img  = loadImageIcon(path).getImage();
-                	g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-                }catch (FileNotFoundException e) {
-                	e.printStackTrace();
-                }
-            }
-			@Override
-			public Dimension getPreferredSize() {
-				Dimension windowDim = getMainWindowDimension();
-				return new Dimension((int)(windowDim.getWidth()*percentagePanelsWE), (int) windowDim.getHeight());
-			}
-		}
+		
 		
         // ADD PANEL FOR BACKGROUND IMAGE
-		JPanel backgroundPanel = new PanelImageBuilder(path4);
+		JPanel backgroundPanel = new PanelImageBuilder(path4, 1);
         backgroundPanel.setLayout(new BorderLayout());
         setContentPane(backgroundPanel);
 		
 		//DECLARATION OF COMPONENTS
 		
 		JPanel N = new JPanel();
-		JPanel W = new PanelImageBuilder(path2);
+		JPanel W = new PanelImageBuilder(path2, percentagePanelsWE);
 		JPanel C = new JPanel();
-		JPanel E = new PanelImageBuilder(path3);
+		JPanel E = new PanelImageBuilder(path3, percentagePanelsWE);
 		JPanel S = new JPanel();
-		JPanel pCentralImg = new PanelImageBuilder(path1);
+		JPanel pCentralImg = new PanelImageBuilder(path1, 0.5);
 		
 		//INICIALISATION FOR BUTTON AND PANEL PARAMETERS
 		

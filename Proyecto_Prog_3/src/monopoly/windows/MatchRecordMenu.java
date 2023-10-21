@@ -24,7 +24,7 @@ import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-public class MatchRecordMenu extends JFrame {
+public class MatchRecordMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
 	private static final Dimension frameMinSize = new Dimension(500,300);
 	private static final String path1 = "../images/searchIcon.png";
@@ -112,31 +112,9 @@ public class MatchRecordMenu extends JFrame {
 		setVisible(true);
 	}
 	
-	public void setComponentDimension(Component C, int x, int y) {
-		C.setPreferredSize(new Dimension(x, y));
-		C.setMaximumSize(new Dimension(x, y));
-	}
 	
-	public ImageIcon getIconifiedImage(String path, int width, int height){
-		try {
-			ImageIcon originalImg = MainMenu.loadImageIcon(path);
-			ImageIcon resizedImg = resizeIcon(originalImg, width, height);
-			return resizedImg;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 	
-	/**
-	 * This method resizes a given ImageIcon, according to its height and width applying a SCALE_SMOOTH algorithm
-	 * @param img
-	 * @param width
-	 * @param height
-	 * @return Returns the ImageIcon resized to the given proportions
-	 */
-	private ImageIcon resizeIcon(ImageIcon img, int width, int height) {
-		Image image = img.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		return new ImageIcon(image);
-	}
+	
+	
+	
 }

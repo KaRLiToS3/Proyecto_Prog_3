@@ -15,7 +15,7 @@ import java.net.URL;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-public class MainMenu extends JFrame {
+public class MainMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
 	private static Font buttonFont = new Font("Dubai", Font.BOLD,  18);
 	private static final Color gold = new Color(212, 175, 55);
@@ -65,7 +65,7 @@ public class MainMenu extends JFrame {
 			@Override
 			public Dimension getPreferredSize() {
 				Dimension windowDim = getMainWindowDimension();
-				return new Dimension((int)(windowDim.getWidth()*percentagePanelsWE),(int) windowDim.getHeight());
+				return new Dimension((int)(windowDim.getWidth()*percentagePanelsWE), (int) windowDim.getHeight());
 			}
 		}
 		
@@ -188,20 +188,7 @@ public class MainMenu extends JFrame {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
-	/**
-	 * Loads the image resource form the memory into the ImageIcon object
-	 * @param path A relative path to the file
-	 * @return	Returns the ImageIcon with the file associated
-	 * @throws FileNotFoundException	In case the path is wrong
-	 */
-	public static ImageIcon loadImageIcon(String path) throws FileNotFoundException{
-		URL url = MainMenu.class.getResource(path); //Obtains the image directory
-        if (url != null) {
-            return new ImageIcon(url);
-        }else throw new FileNotFoundException("Image not found at path: " + path);
-	}
 	
-	private Dimension getMainWindowDimension() {
-		return new Dimension(this.getWidth(), this.getHeight());
-	}
+	
+	
 }

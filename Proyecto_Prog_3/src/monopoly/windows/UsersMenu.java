@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,19 +30,11 @@ public class UsersMenu extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-		//TEST USERSMENU
-		public static void main(String[] args) {
-			SwingUtilities.invokeLater(() -> new UsersMenu());
-			
-		}
 	
 	public UsersMenu(){
 		
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
 		Font TextFont = new Font("Arial Black", Font.ITALIC, 12);
-		//LOOK AND FEEL SETUP
-		setUpLookAndFeel();
 		
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -133,20 +127,17 @@ public class UsersMenu extends JFrame{
 		JButton DeleteUser = new JButton("Delete User");
 		BUTTONS.add(CreateUser);
 		BUTTONS.add(DeleteUser);
-	
-	}
-	
-	/**
-	 * This method searches for the predefined look and feel "Nimbus" 
-	 */
-	private void setUpLookAndFeel() {
-		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            return;
-		        }
-		    }
-		} catch (Exception e) {e.printStackTrace();}
+		
+		//EVENTS
+		this.addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				SwingUtilities.invokeLater(() -> {
+					new MainMenu();
+					dispose();
+				});
+			}
+		});
 	}
 }

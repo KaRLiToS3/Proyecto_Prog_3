@@ -148,7 +148,10 @@ public class MainMenu extends MasterFrame {
 		buttons[4].addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> new UsersMenu());
+				SwingUtilities.invokeLater(() -> {
+					new UsersMenu();
+					dispose();
+				});
 			}
 		});
 		buttons[3].addActionListener(new ActionListener() {

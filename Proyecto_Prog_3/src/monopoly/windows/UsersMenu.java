@@ -8,21 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class UsersMenu extends JFrame{
 	
@@ -31,7 +23,13 @@ public class UsersMenu extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	//Boolean that is used to let the window know which window
+	//has to be generated when it is closed
+	private boolean createUserWindow;
+	
 	public UsersMenu(){
+		
+		createUserWindow = false;
 		
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
 		Font TextFont = new Font("Arial Black", Font.ITALIC, 12);
@@ -48,10 +46,6 @@ public class UsersMenu extends JFrame{
 		JPanel N = new JPanel();
 		JPanel C = new JPanel();
 		JPanel S = new JPanel();
-		JPanel CR = new JPanel();
-		JPanel CL = new JPanel();
-		JPanel HEADERS = new JPanel();
-		JPanel FIELDS = new JPanel();
 		JPanel SEARCH = new JPanel();
 		JPanel BUTTONS = new JPanel();
 		
@@ -65,53 +59,7 @@ public class UsersMenu extends JFrame{
 		TextUser.setFont(UserFont);
 		N.add(TextUser);
 		
-		//CENTER-LEFT
-		C.add(CL, BorderLayout.WEST);
-		JButton IUser = new JButton("Upload Image");
-		CL.add(IUser);
-		IUser.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser ImageChooser = new JFileChooser();  
-	            // Only ".jpeg" extension 
-	            FileFilter ImageFilter = new FileNameExtensionFilter("File JPG", "jpeg");
-	            ImageChooser.setFileFilter(ImageFilter);
-	            int result = ImageChooser.showSaveDialog(UsersMenu.this);
-	            if (result == JFileChooser.APPROVE_OPTION) {
-	               File ImageFile = ImageChooser.getSelectedFile();
-	               //In the future we will save file for the user in the database
-	               System.out.println("Fichero seleccionado: " + ImageFile.toString());
-	            }
-			}
-			
-		});
-		
-		//CENTER-RIGHT
-		
-		//I want to use the data that the user gives me, so i use a Map in order to later
-		//identified the JTextField that i need to use.
-		
-		String[] HEADERSNAMES = {"NAME:","EMAIL:","PASSWORD:"};
-		Map<String, JTextField> textFieldMap = new HashMap<>();
-		
-		C.add(CR, BorderLayout.EAST);
-		CR.setLayout(new GridLayout(1,2));
-		CR.add(HEADERS, BorderLayout.WEST);
-		CR.add(FIELDS, BorderLayout.EAST);
-		HEADERS.setLayout(new GridLayout(HEADERSNAMES.length,2));
-		FIELDS.setLayout(new GridLayout(HEADERSNAMES.length,1));
-		
-		for (String elem: HEADERSNAMES) {
-			JLabel Name = new JLabel(elem);
-			Name.setFont(TextFont);
-			JTextField Field = new JTextField(20);
-			
-			//Storage the JTextField in the map in order to use it later
-			textFieldMap.put(elem, Field);
-			HEADERS.add(Name);
-			FIELDS.add(Field);
-		}
+		//CENTER
 		
 		//DOWN
 		S.setLayout(new FlowLayout());
@@ -134,9 +82,25 @@ public class UsersMenu extends JFrame{
 			@Override
 			public void windowClosed(WindowEvent e) {
 				SwingUtilities.invokeLater(() -> {
-					new MainMenu();
-					dispose();
+					if (createUserWindow) {
+						dispose();
+					} else {
+						new MainMenu();
+						dispose();
+					}		
 				});
+			}
+		});
+		
+		CreateUser.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(() -> {
+					new CreateUser();
+					createUserWindow = true;
+					dispose();
+				});	
 			}
 		});
 	}

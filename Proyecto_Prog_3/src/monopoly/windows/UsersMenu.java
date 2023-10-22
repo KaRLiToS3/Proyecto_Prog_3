@@ -1,6 +1,7 @@
 package monopoly.windows;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -72,7 +73,9 @@ public class UsersMenu extends JFrame{
 		S.add(BUTTONS);
 		BUTTONS.setLayout(new GridLayout(1,2));
 		JButton CreateUser = new JButton("Create User");
+		CreateUser.setBackground(Color.GREEN);
 		JButton DeleteUser = new JButton("Delete User");
+		DeleteUser.setBackground(Color.RED);
 		BUTTONS.add(CreateUser);
 		BUTTONS.add(DeleteUser);
 		

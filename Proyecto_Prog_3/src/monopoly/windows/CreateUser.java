@@ -1,6 +1,7 @@
 package monopoly.windows;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -16,9 +17,12 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -81,10 +85,14 @@ public class CreateUser extends JFrame{
 		});
 		
 		//RIGHT SIDE
+		//These button don't go here, but we need to use it for the document listener.
+		JButton createNewUser = new JButton("Create User");
+		createNewUser.setBackground(Color.GREEN);
+		
 		//I want to use the data that the user gives me, so i use a Map in order to later
 		//identified the JTextField that i need to use.
 		Center.add(RightSide,BorderLayout.EAST);		
-		String[] HEADERSNAMES = {"NAME:","SURNAMES:","EMAIL:","PASSWORD:","CODE:"};
+		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:","PASSWORD:","CODE:"};
 		Map<String, JTextField> textFieldMap = new HashMap<>();
 
 		RightSide.setLayout(new GridLayout(1,2));
@@ -97,6 +105,44 @@ public class CreateUser extends JFrame{
 			JLabel Name = new JLabel(elem);
 			Name.setFont(TextFont);
 			JTextField Field = new JTextField(20);
+			Field.getDocument().addDocumentListener(new DocumentListener() {
+				
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					for (JTextField fields: textFieldMap.values()) {
+						if(fields.getText().isEmpty()) {
+							createNewUser.setEnabled(false);
+							break;
+						} else{
+							createNewUser.setEnabled(true);
+						};
+					}
+				}
+				
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					for (JTextField fields: textFieldMap.values()) {
+						if(fields.getText().isEmpty()) {
+							createNewUser.setEnabled(false);
+							break;
+						} else{
+							createNewUser.setEnabled(true);
+						};
+					}
+				}
+				
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					for (JTextField fields: textFieldMap.values()) {
+						if(fields.getText().isEmpty()) {
+							createNewUser.setEnabled(false);
+							break;
+						} else{
+							createNewUser.setEnabled(true);
+						};
+					} 		
+				}
+			});
 			
 			//Storage the JTextField in the map in order to use it later
 			textFieldMap.put(elem, Field);
@@ -106,13 +152,35 @@ public class CreateUser extends JFrame{
 		
 		//BOTTOM
 		Bottom.setLayout(new FlowLayout());
-		JButton createNewUser = new JButton("Create User");
 		JButton cancelNewUser = new JButton("Cancel");
+		cancelNewUser.setBackground(Color.RED);
 		Bottom.add(createNewUser);
 		Bottom.add(cancelNewUser);
-		
+		createNewUser.setEnabled(false);
 		
 		//EVENTS
+		createNewUser.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		cancelNewUser.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new JOptionPane();
+				int option = JOptionPane.showConfirmDialog(CreateUser.this, "Are you sure you want to cancel?","Confirmation",JOptionPane.YES_NO_OPTION);
+				if (option == JOptionPane.YES_OPTION) {
+					dispose();
+				} else if(option == JOptionPane.NO_OPTION) {
+					
+				}
+			}
+		});
+		
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -122,5 +190,9 @@ public class CreateUser extends JFrame{
 				});
 			}
 		});
+	}
+	
+	public static void EnableButton() {
+		
 	}
 }

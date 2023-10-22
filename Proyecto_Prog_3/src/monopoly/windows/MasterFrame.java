@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -13,7 +15,7 @@ import javax.swing.JPanel;
 
 public class MasterFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	
+	protected static Map<String, ImageIcon> imageCache = new HashMap<>();
 	
 	/**
 	 * @author KaRLiToS3
@@ -30,9 +32,7 @@ public class MasterFrame extends JFrame {
 		 * @param percentagePanelsWidth	Values should be between 0 and 1, otherwise the Layout will handle it
 		 */
 		public PanelImageBuilder(String path, double percentagePanelsWidth) {
-			this.path = path;
-			this.percentagePanelsWidth = percentagePanelsWidth;
-			percentagePanelsHeight = 1;
+			this (path, percentagePanelsWidth, 1);
 		}
 		
 		/**Second builder that demands the width and height percentage it should use from the window where the panel is placed
@@ -77,9 +77,15 @@ public class MasterFrame extends JFrame {
 	 * @throws FileNotFoundException	In case the path is wrong
 	 */
 	protected static ImageIcon loadImageIcon(String path) throws FileNotFoundException{
+		if (imageCache.containsKey(path)) {
+			return imageCache.get(path);
+		}
 		URL url = MainMenu.class.getResource(path); //Obtains the image directory
+		
         if (url != null) {
-            return new ImageIcon(url);
+        	ImageIcon img = new ImageIcon(url);
+        	imageCache.put(path, img);
+            return img;
         }else throw new FileNotFoundException("Image not found at path: " + path);
 	}
 	
@@ -107,7 +113,7 @@ public class MasterFrame extends JFrame {
 	 * @param height
 	 * @return Returns the ImageIcon resized to the given proportions
 	 */
-	protected static ImageIcon resizeIcon(ImageIcon img, int width, int height) {
+	private static ImageIcon resizeIcon(ImageIcon img, int width, int height) {
 		Image image = img.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		return new ImageIcon(image);
 	}

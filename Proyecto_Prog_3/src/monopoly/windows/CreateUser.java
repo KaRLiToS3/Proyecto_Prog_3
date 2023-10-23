@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
@@ -104,50 +105,62 @@ public class CreateUser extends JFrame{
 		for (String elem: HEADERSNAMES) {
 			JLabel Name = new JLabel(elem);
 			Name.setFont(TextFont);
-			JTextField Field = new JTextField(20);
-			Field.getDocument().addDocumentListener(new DocumentListener() {
-				
-				@Override
-				public void removeUpdate(DocumentEvent e) {
-					for (JTextField fields: textFieldMap.values()) {
-						if(fields.getText().isEmpty()) {
-							createNewUser.setEnabled(false);
-							break;
-						} else{
-							createNewUser.setEnabled(true);
-						};
-					}
-				}
-				
-				@Override
-				public void insertUpdate(DocumentEvent e) {
-					for (JTextField fields: textFieldMap.values()) {
-						if(fields.getText().isEmpty()) {
-							createNewUser.setEnabled(false);
-							break;
-						} else{
-							createNewUser.setEnabled(true);
-						};
-					}
-				}
-				
-				@Override
-				public void changedUpdate(DocumentEvent e) {
-					for (JTextField fields: textFieldMap.values()) {
-						if(fields.getText().isEmpty()) {
-							createNewUser.setEnabled(false);
-							break;
-						} else{
-							createNewUser.setEnabled(true);
-						};
-					} 		
-				}
-			});
 			
-			//Storage the JTextField in the map in order to use it later
-			textFieldMap.put(elem, Field);
-			HEADERS.add(Name);
-			FIELDS.add(Field);
+			//CREATING THE FIELDS, ADDING TO THE MAP AND PUTTING THEM IN FIELDS
+			if (elem.equals("PASSWORD:")) {
+				JPasswordField password = new JPasswordField(20);
+				textFieldMap.put(elem, password);
+				FIELDS.add(password);
+			} else {
+				JTextField field = new JTextField(20);
+				textFieldMap.put(elem, field);
+				FIELDS.add(field);
+			}
+			
+			//DOCUMENT LISTENER FOR EACH FIELD
+			for (JTextField Field:textFieldMap.values()) {
+				Field.getDocument().addDocumentListener(new DocumentListener() {
+					
+					@Override
+					public void removeUpdate(DocumentEvent e) {
+						for (JTextField fields: textFieldMap.values()) {
+							if(fields.getText().isEmpty()) {
+								createNewUser.setEnabled(false);
+								break;
+							} else{
+								createNewUser.setEnabled(true);
+							};
+						}
+					}
+					
+					@Override
+					public void insertUpdate(DocumentEvent e) {
+						for (JTextField fields: textFieldMap.values()) {
+							if(fields.getText().isEmpty()) {
+								createNewUser.setEnabled(false);
+								break;
+							} else{
+								createNewUser.setEnabled(true);
+							};
+						}
+					}
+					
+					@Override
+					public void changedUpdate(DocumentEvent e) {
+						for (JTextField fields: textFieldMap.values()) {
+							if(fields.getText().isEmpty()) {
+								createNewUser.setEnabled(false);
+								break;
+							} else{
+								createNewUser.setEnabled(true);
+							};
+						} 		
+					}
+				});
+				//PUT THE HEADERS
+				HEADERS.add(Name);
+			}
+			
 		}
 		
 		//BOTTOM
@@ -190,9 +203,5 @@ public class CreateUser extends JFrame{
 				});
 			}
 		});
-	}
-	
-	public static void EnableButton() {
-		
 	}
 }

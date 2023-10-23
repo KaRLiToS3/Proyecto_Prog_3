@@ -43,9 +43,6 @@ public class MainMenu extends MasterFrame {
 		setMinimumSize(frameMinSize);
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
-
-		//CLASS TO DRAW A PICTURE INTO A PANEL
-		
 		
         // ADD PANEL FOR BACKGROUND IMAGE
 		JPanel backgroundPanel = new PanelImageBuilder(path4, 1);
@@ -89,10 +86,9 @@ public class MainMenu extends MasterFrame {
 			"USER ACHIEVEMENTS", 
 			"MATCH RECORD", 
 			"MANAGE USERS", 
-			"CREDITS", 
 			"HELP", 
+			"CREDITS", 
 			"LEAVE GAME"};
-		
 		
 		for(int i = 0; i < 8; i++) {
 			if(i <6) {
@@ -137,6 +133,15 @@ public class MainMenu extends MasterFrame {
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(() -> {
 					new MatchRecordMenu();
+					dispose();
+				});
+			}
+		});
+		buttons[5].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(() -> {
+					new HelpMenu();
 					dispose();
 				});
 			}

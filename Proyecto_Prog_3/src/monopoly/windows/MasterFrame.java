@@ -25,9 +25,13 @@ public class MasterFrame extends JFrame {
 		private static final long serialVersionUID = 1L;
 		private double percentagePanelsWidth;
 		private double percentagePanelsHeight;
+		private int width;
+		private int height;
+		private boolean fixedDimensions = false;
 		private String path;
 		
-		/**Main builder, only demands the width percentage it should use from the window where the panel is placed
+		/**Main builder, only demands the width percentage it should use from the window where the panel is placed, thus
+		 * allowing scaled resizes
 		 * @param path
 		 * @param percentagePanelsWidth	Values should be between 0 and 1, otherwise the Layout will handle it
 		 */
@@ -35,7 +39,8 @@ public class MasterFrame extends JFrame {
 			this (path, percentagePanelsWidth, 1);
 		}
 		
-		/**Second builder that demands the width and height percentage it should use from the window where the panel is placed
+		/**Second builder that demands the width and height percentage it should use from the window where the panel is placed, thus
+		 * allowing scaled resizes
 		 * @param path
 		 * @param percentagePanelsWidth	Values should be between 0 and 1, otherwise the Layout will handle it
 		 * @param percentagePanelsHeight	Values should be between 0 and 1, otherwise the Layout will handle it
@@ -44,6 +49,19 @@ public class MasterFrame extends JFrame {
 			this.path = path;
 			this.percentagePanelsWidth = percentagePanelsWidth;
 			this.percentagePanelsHeight = percentagePanelsHeight;
+		}
+		
+		
+		/**Third builder that demands the fixed width and height of the image to display, however certain layouts may not respect it.
+		 * @param path
+		 * @param width	Fixed width of the image, certain layouts may disagree and change it to their will
+		 * @param height	Fixed height of the image, certain layouts may disagree and change it to their will
+		 */
+		public PanelImageBuilder(String path, int width, int height) {
+			this.path = path;
+			this.width = width;
+			this.height = height;
+			fixedDimensions = true;
 		}
 		
 		@Override
@@ -59,12 +77,16 @@ public class MasterFrame extends JFrame {
 		@Override
 		public Dimension getPreferredSize() {
 			Dimension windowDim;
-			try {
-				windowDim = getMainWindowDimension();
-				return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth), (int) (windowDim.getHeight()*percentagePanelsHeight));
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-				return super.getSize();
+			if(fixedDimensions == false) {
+				try {
+					windowDim = getMainWindowDimension();
+					return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth), (int) (windowDim.getHeight()*percentagePanelsHeight));
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+					return super.getSize();
+				}
+			} else {
+				return new Dimension(width, height);
 			}
 		}
 	}
@@ -113,7 +135,7 @@ public class MasterFrame extends JFrame {
 	 * @param height
 	 * @return Returns the ImageIcon resized to the given proportions
 	 */
-	private static ImageIcon resizeIcon(ImageIcon img, int width, int height) {
+	protected static ImageIcon resizeIcon(ImageIcon img, int width, int height) {
 		Image image = img.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		return new ImageIcon(image);
 	}

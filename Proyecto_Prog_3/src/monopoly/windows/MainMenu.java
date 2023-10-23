@@ -137,6 +137,15 @@ public class MainMenu extends MasterFrame {
 				});
 			}
 		});
+		buttons[5].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(() -> {
+					new HelpMenu();
+					dispose();
+				});
+			}
+		});
 		
 		//BUTTONS
 		buttons[7].addActionListener(new ActionListener() {

@@ -1,5 +1,6 @@
 package monopoly.windows;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -23,6 +24,18 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
+import monopoly.objects.LineChart;
+import monopoly.objects.Match;
 
 public class MatchRecordMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
@@ -66,24 +79,45 @@ public class MatchRecordMenu extends MasterFrame {
 		W.add(searchPanel);
 		
 		/////////////////////DATA EXAMPLE//////////////////////
-		List<String> testList = new ArrayList<>();
-		testList.add("Name 1");
-		testList.add("Name 2");
-		testList.add("Name 3");
-		testList.add("Name 4");
+		List<Match> testList = new ArrayList<>();
+		testList.add(new Match("Name 1", 2));
+		testList.add(new Match("Name 2", 2));
+		testList.add(new Match("Name 3", 2));
+		testList.add(new Match("Name 4", 2));
 		/////////////////////DATA EXAMPLE//////////////////////
 		
 		//LIST MODEL
 		
-		DefaultListModel<String> model = new DefaultListModel<>();
+		DefaultListModel<Match> model = new DefaultListModel<>();
 		model.addAll(testList);
-		JList<String> list = new JList<String>(model);
+		JList<Match> list = new JList<Match>(model);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL);
 		setComponentDimension(list, 230, 200);
 		
 		JScrollPane scroll = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		W.add(scroll);
+		
+		//CHART
+		list.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				LineChart chart = new LineChart("Currency Statistics",list.getSelectedValue(), list);
+				C.removeAll();
+				ChartPanel panel = new ChartPanel(chart.getChart()) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public Dimension getPreferredSize() {
+						return C.getSize();
+					}
+					
+				};
+				C.add(panel);
+				revalidate();
+				repaint();
+			}
+		});
 		
 		//EVENTS
 		
@@ -92,9 +126,9 @@ public class MatchRecordMenu extends MasterFrame {
 			public void actionPerformed(ActionEvent e) {
 				model.removeAllElements();
 				if(!searchBar.getText().isBlank()) {
-					for(String str : testList) {
-						if(str.startsWith(searchBar.getText())){
-							model.insertElementAt(searchBar.getText(), 0);
+					for(Match m : testList) {
+						if(m.getName().startsWith(searchBar.getText())){
+							model.insertElementAt(m, 0);
 						}
 					}
 				}else model.addAll(testList);

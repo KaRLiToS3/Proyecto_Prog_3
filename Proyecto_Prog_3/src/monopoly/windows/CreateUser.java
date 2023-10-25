@@ -176,7 +176,11 @@ public class CreateUser extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				String Alias = textFieldMap.get("ALIAS:").getText();
+				String Name = textFieldMap.get("NAME:").getText();
+				String Email = textFieldMap.get("EMAIL:").getText();
+				String Password = textFieldMap.get("PASSWORD:").getText();
+				User NewUser = new User(Alias,Name,Email,Password);
 			}
 		});
 		

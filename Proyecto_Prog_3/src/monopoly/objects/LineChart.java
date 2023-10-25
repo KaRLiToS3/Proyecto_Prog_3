@@ -1,6 +1,7 @@
 package monopoly.objects;
 
 import java.awt.BasicStroke;
+import java.util.TreeMap;
 
 import javax.swing.JList;
 
@@ -16,21 +17,29 @@ public class LineChart {
 	
 	private JFreeChart chart;
 	
-	public LineChart(String title, Match match, JList<Match> list) {
+	public LineChart(String title, Match match) {
 		XYSeriesCollection dataset = new XYSeriesCollection();
-		chart = ChartFactory.createXYLineChart(title, "X", "Y", dataset );
-		for(int i = 0; i < list.getSelectedValue().getNumUsers(); i++) {
-			XYSeries leyend = new XYSeries(list.getSelectedValue().getUsers().get(i).getName());
+		chart = ChartFactory.createXYLineChart(title, "Currency", "Time", dataset );
+		
+		for(int i = 0; i < match.getTurnCurrencyPerUser().keySet().size(); i++) {
+			User usr = match.getUsers().get(i);
+			TreeMap<Long, Integer> timeAndCurrencyData = match.getTurnCurrencyPerUser().get(usr);
 			
-			leyend.add(1.0, 1.0);
-			leyend.add(2.0, 4.0);
-			leyend.add(3.0, 3.0);
-			leyend.add(4.0, 10.0);
+			XYSeries leyend = new XYSeries(usr.getName());
+			
+			for(Long lng : timeAndCurrencyData.keySet()) {
+				leyend.add(convertToMinutes(lng), (double) timeAndCurrencyData.get(lng));
+			}
+			
 			dataset.addSeries(leyend);
 			XYPlot line = (XYPlot) chart.getPlot();
 			line.getRenderer().setSeriesStroke(i, new BasicStroke(5.0f));
 			
 		}		
+	}
+	
+	public double convertToMinutes(long data) {
+		return data/60000.0;
 	}
 
 	public JFreeChart getChart() {

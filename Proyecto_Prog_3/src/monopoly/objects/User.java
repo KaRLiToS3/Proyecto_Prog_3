@@ -3,7 +3,7 @@ package monopoly.objects;
 public class User {
 	String Alias;
 	String Name;
-	String Email;
+	String Email; //ID
 	String Password;
 	
 	public User() {
@@ -13,8 +13,9 @@ public class User {
 		setPassword("");
 	}
 	
-	public User(String name) {
+	public User(String name, String email) {
 		this.Name = name;
+		this.Email = email;
 	}
 	
 	public User(String alias,String name,String email, String password) {
@@ -61,15 +62,16 @@ public class User {
 		return "User alias: " + Alias + " - " + "User name: " + Name;
 	}
 
-	public boolean equals(User user) {
-		boolean equal;
-		if (this.getEmail().equals(user.getEmail()) || this.getAlias().equals(user.getAlias())) {
-			equal = true;
-		} else {
-			equal = false;
-		}
-		return equal;
+	@Override
+	public boolean equals(Object user) {
+		if(user instanceof User) {
+			User us = (User) user;
+			return this.getEmail().equals(us.getEmail()) || this.getAlias().equals(us.getAlias());
+		}else return false;
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		return this.getEmail().hashCode();
+	}
 }

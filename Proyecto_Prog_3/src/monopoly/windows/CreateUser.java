@@ -27,6 +27,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import monopoly.objects.User;
+
 public class CreateUser extends JFrame{
 	/**
 	 * 

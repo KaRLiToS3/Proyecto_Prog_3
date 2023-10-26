@@ -27,7 +27,7 @@ public class MasterFrame extends JFrame {
 		private double percentagePanelsHeight;
 		private int width;
 		private int height;
-		private boolean fixedDimensions = false;
+		private boolean proportionalDimensions = false;
 		private String path;
 		
 		/**Main builder, only demands the width percentage it should use from the window where the panel is placed, thus
@@ -36,8 +36,9 @@ public class MasterFrame extends JFrame {
 		 * @param percentagePanelsWidth	Values should be between 0 and 1, otherwise the Layout will handle it
 		 */
 		public PanelImageBuilder(String path, double percentagePanelsWidth) {
-			this (path, percentagePanelsWidth, 1);
+			this (path, percentagePanelsWidth, 1, false);
 		}
+
 		
 		/**Second builder that demands the width and height percentage it should use from the window where the panel is placed, thus
 		 * allowing scaled resizes
@@ -45,53 +46,69 @@ public class MasterFrame extends JFrame {
 		 * @param percentagePanelsWidth	Values should be between 0 and 1, otherwise the Layout will handle it
 		 * @param percentagePanelsHeight	Values should be between 0 and 1, otherwise the Layout will handle it
 		 */
-		public PanelImageBuilder(String path, double percentagePanelsWidth, double percentagePanelsHeight) {
+		public PanelImageBuilder(String path, double percentagePanelsWidth, double percentagePanelsHeight, boolean proportionalDimensions) {
 			this.path = path;
 			this.percentagePanelsWidth = percentagePanelsWidth;
 			this.percentagePanelsHeight = percentagePanelsHeight;
-		}
-		
-		
-		/**Third builder that demands the fixed width and height of the image to display, however certain layouts may not respect it.
-		 * @param path
-		 * @param width	Fixed width of the image, certain layouts may disagree and change it to their will
-		 * @param height	Fixed height of the image, certain layouts may disagree and change it to their will
-		 */
-		public PanelImageBuilder(String path, int width, int height) {
-			this.path = path;
-			this.width = width;
-			this.height = height;
-			fixedDimensions = true;
-		}
+			this.proportionalDimensions = proportionalDimensions;
+		}	
 		
 		@Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             try {                	
             	Image img  = loadImageIcon(path).getImage();
-            	g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+            	if (!proportionalDimensions) {
+            		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+            	} else {
+            		if (getWidth()<getHeight()) {
+            			g.drawImage(img, 0, 0, getWidth(), getWidth(), this);				
+            		} else {
+            			g.drawImage(img, 0, 0, getHeight(), getHeight(), this);
+            		}
+            	}            
             }catch (FileNotFoundException e) {
             	e.printStackTrace();
             }
-        }
+		}
+
 		@Override
 		public Dimension getPreferredSize() {
+			Dimension panelDim;
 			Dimension windowDim;
-			if(fixedDimensions == false) {
+			try {
+				windowDim = new Dimension(getMainWindowDimension());
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			if(proportionalDimensions) {
 				try {
-					windowDim = getMainWindowDimension();
+					windowDim = new Dimension(getMainWindowDimension());
+					panelDim = new Dimension(this.getWidth(), this.getHeight());
+					if (panelDim.getHeight()/windowDim.getWidth() < percentagePanelsWidth) {
+						return new Dimension((int)(this.getHeight()),(int)(this.getHeight()*percentagePanelsHeight));			
+					} else {
+						return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth),(int)(this.getHeight()*percentagePanelsHeight));			
+					}
+					
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+					return null;
+				}
+				
+			} else {
+				try {
+					windowDim = new Dimension(getMainWindowDimension());
 					return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth), (int) (windowDim.getHeight()*percentagePanelsHeight));
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
-					return super.getSize();
+					return null;
 				}
-			} else {
-				return new Dimension(width, height);
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Loads the image resource form the memory into the ImageIcon object
 	 * @param path A relative path to the file
@@ -158,6 +175,14 @@ public class MasterFrame extends JFrame {
 	protected Dimension getMainWindowDimension() throws ClassNotFoundException{
 		if(this instanceof JFrame) {
 			return new Dimension(this.getWidth(), this.getHeight());			
+		}else {
+			throw new ClassNotFoundException();
+		}
+	}
+	
+	protected JFrame getMainWindow() throws ClassNotFoundException{
+		if(this instanceof JFrame) {
+			return this;			
 		}else {
 			throw new ClassNotFoundException();
 		}

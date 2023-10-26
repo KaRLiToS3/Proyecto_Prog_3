@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,9 +18,6 @@ public class MainGameMenu extends MasterFrame {
 	private static final String boardPath = "../images/board_monopoly.png";
 	private static final String dicePath = "../images/dice.png";
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	public static void main(String[] args) {
@@ -40,7 +39,7 @@ public class MainGameMenu extends MasterFrame {
 		// PANEL FOR BOARD
 		
 		JPanel boardPanel = new PanelImageBuilder(boardPath, 0.7, 1, true);
-//		boardPanel.setBackground(Color.BLACK);
+		boardPanel.setBackground(Color.BLACK);
 		add(boardPanel, BorderLayout.WEST);
 		
 		

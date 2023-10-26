@@ -25,8 +25,6 @@ public class MasterFrame extends JFrame {
 		private static final long serialVersionUID = 1L;
 		private double percentagePanelsWidth;
 		private double percentagePanelsHeight;
-		private int width;
-		private int height;
 		private boolean proportionalDimensions = false;
 		private String path;
 		
@@ -41,10 +39,12 @@ public class MasterFrame extends JFrame {
 
 		
 		/**Second builder that demands the width and height percentage it should use from the window where the panel is placed, thus
-		 * allowing scaled resizes
+		 * allowing scaled resizes. It can also be resized proportionally, however depending on the layout it might be partially ignored (Specially designed
+		 * for BorderLayout).
 		 * @param path
 		 * @param percentagePanelsWidth	Values should be between 0 and 1, otherwise the Layout will handle it
 		 * @param percentagePanelsHeight	Values should be between 0 and 1, otherwise the Layout will handle it
+		 * @param proportionalDimensions	Special limitation, if true the JPanel will escalate proportionally even if the window doesn't.
 		 */
 		public PanelImageBuilder(String path, double percentagePanelsWidth, double percentagePanelsHeight, boolean proportionalDimensions) {
 			this.path = path;
@@ -62,7 +62,7 @@ public class MasterFrame extends JFrame {
             		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
             	} else {
             		if (getWidth()<getHeight()) {
-            			g.drawImage(img, 0, 0, getWidth(), getWidth(), this);				
+            			g.drawImage(img, 0, 0, getWidth(), getWidth(), this);	
             		} else {
             			g.drawImage(img, 0, 0, getHeight(), getHeight(), this);
             		}
@@ -76,26 +76,23 @@ public class MasterFrame extends JFrame {
 		public Dimension getPreferredSize() {
 			Dimension panelDim;
 			Dimension windowDim;
-			try {
-				windowDim = new Dimension(getMainWindowDimension());
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+
 			if(proportionalDimensions) {
 				try {
 					windowDim = new Dimension(getMainWindowDimension());
 					panelDim = new Dimension(this.getWidth(), this.getHeight());
-					if (panelDim.getHeight()/windowDim.getWidth() < percentagePanelsWidth) {
-						return new Dimension((int)(this.getHeight()),(int)(this.getHeight()*percentagePanelsHeight));			
+
+					if (panelDim.getHeight()/windowDim.getWidth() < percentagePanelsWidth) {	//Limits the reach of the resize according to percentages
+						return new Dimension((int)(this.getHeight()),(int)(this.getHeight()*percentagePanelsHeight));			//Creates a square due to the fixed height
 					} else {
-						return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth),(int)(this.getHeight()*percentagePanelsHeight));			
+						return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth),(int)(this.getHeight()*percentagePanelsHeight));			//Resolves the panel according to the width of the window
+						//Height here is irrelevant
 					}
 					
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 					return null;
 				}
-				
 			} else {
 				try {
 					windowDim = new Dimension(getMainWindowDimension());
@@ -176,15 +173,7 @@ public class MasterFrame extends JFrame {
 		if(this instanceof JFrame) {
 			return new Dimension(this.getWidth(), this.getHeight());			
 		}else {
-			throw new ClassNotFoundException();
-		}
-	}
-	
-	protected JFrame getMainWindow() throws ClassNotFoundException{
-		if(this instanceof JFrame) {
-			return this;			
-		}else {
-			throw new ClassNotFoundException();
+			throw new ClassNotFoundException("This method cannot be implemented if the class doesn't extend JFrame");
 		}
 	}
 }

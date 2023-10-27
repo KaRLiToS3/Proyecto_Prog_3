@@ -80,10 +80,10 @@ public class MatchRecordMenu extends MasterFrame {
 		
 		/////////////////////DATA EXAMPLE//////////////////////
 		List<Match> testList = new ArrayList<>();
-		testList.add(new Match("Name 1", 2));
-		testList.add(new Match("Name 2", 2));
-		testList.add(new Match("Name 3", 2));
-		testList.add(new Match("Name 4", 2));
+		testList.add(new Match());
+//		testList.add(new Match("Name 2", 2));
+//		testList.add(new Match("Name 3", 2));
+//		testList.add(new Match("Name 4", 2));
 		/////////////////////DATA EXAMPLE//////////////////////
 		
 		//LIST MODEL
@@ -102,7 +102,7 @@ public class MatchRecordMenu extends MasterFrame {
 		list.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				LineChart chart = new LineChart("Currency Statistics",list.getSelectedValue(), list);
+				LineChart chart = new LineChart("Currency Statistics",list.getSelectedValue());
 				C.removeAll();
 				ChartPanel panel = new ChartPanel(chart.getChart()) {
 					private static final long serialVersionUID = 1L;

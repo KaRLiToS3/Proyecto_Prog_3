@@ -44,6 +44,7 @@ public class MainMenu extends MasterFrame {
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
 		
+		
         // ADD PANEL FOR BACKGROUND IMAGE
 		JPanel backgroundPanel = new PanelImageBuilder(path4, 1);
         backgroundPanel.setLayout(new BorderLayout());

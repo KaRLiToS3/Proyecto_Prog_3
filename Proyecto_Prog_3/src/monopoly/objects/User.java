@@ -1,29 +1,11 @@
 package monopoly.objects;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-
-public class User implements Serializable{
-	/**
-	 * 
-	 */
+public class User{
 	private static final long serialVersionUID = 1L;
-	private final String path1 = "/monopoly/data/UserFile.dat";
 	String Alias;
 	String Name;
 	String Email; //ID
 	String Password;
-	File Image;
 	
 	public User() {
 		setAlias("");
@@ -37,12 +19,11 @@ public class User implements Serializable{
 		this.Email = email;
 	}
 	
-	public User(String alias,String name,String email, String password, File image) {
+	public User(String alias,String name,String email, String password) {
 		setAlias(alias);
 		setName(name);
 		setEmail(email);
 		setPassword(password);
-		setImage(image);
 	}
 
 	public String getAlias() {
@@ -76,15 +57,6 @@ public class User implements Serializable{
 	public void setPassword(String password) {
 		Password = password;
 	}
-	
-
-	public File getImage() {
-		return Image;
-	}
-
-	public void setImage(File image) {
-		Image = image;
-	}
 
 	@Override
 	public String toString() {
@@ -102,54 +74,5 @@ public class User implements Serializable{
 	@Override
 	public int hashCode() {
 		return this.getEmail().hashCode();
-	}
-	
-	/**
-	 * Save User method
-	 * @return ArrayList<User>
-	 */
-	public void saveUser() {
-		ArrayList<User> UserList = loadUsers();
-		UserList.add(User.this);
-		Path toUserFile = Paths.get(path1);
-		if (!Files.exists(toUserFile)) {
-			try {
-				Files.createFile(toUserFile);
-			} catch (IOException e) {
-				System.err.println("The address to create the file was not found");
-				e.printStackTrace();
-			}
-		}
-		try {
-			ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(toUserFile.toString()));
-			forFile.writeObject(UserList);
-			System.out.println("New User saved");
-			forFile.close();
-		} catch (IOException e) {
-			System.err.println("The address to add the file was not found");
-			e.printStackTrace();
-		}	
-	}
-	
-	/**
-	 * User loading method
-	 * @return ArrayList<User>
-	 */
-	@SuppressWarnings("unchecked")
-	public ArrayList<User> loadUsers(){
-		try (ObjectInputStream UsersInput = new ObjectInputStream(getClass().getResourceAsStream(path1))) {
-			System.out.println("Works???");
-			return (ArrayList<User>) UsersInput.readObject();
-		} catch (FileNotFoundException e) {
-			System.err.println("File for load users not found");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.err.println("User loading failed");
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			System.err.println("Incorrect cast to User");
-			e.printStackTrace();
-		} 		
-			return new ArrayList<>();
 	}
 }

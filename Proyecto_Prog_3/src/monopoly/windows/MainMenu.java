@@ -5,11 +5,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.net.URL;
 
 import javax.swing.*;
@@ -23,10 +20,10 @@ public class MainMenu extends MasterFrame {
 	private static final int buttonSize = 250;
 	private static final int buttonMargin = 50;
 	private static final double percentagePanelsWE = 0.25;
-	private static final String path1 = "../images/monopoly_title.png";
-	private static final String path2 = "../images/left_image_menu.jpg";
-	private static final String path3 = "../images/right_image_menu.jpg";
-	private static final String path4 = "../images/cash_bg.jpg";
+	private final URL path1 = getClass().getResource("/monopoly/images/monopoly_title.png");
+	private final URL path2 = getClass().getResource("/monopoly/images/left_image_menu.jpg");
+	private final URL path3 = getClass().getResource("/monopoly/images/right_image_menu.jpg");
+	private final URL path4 = getClass().getResource("/monopoly/images/cash_bg.jpg");
 	
 	//TEST MAIN
 	public static void main(String[] args) {

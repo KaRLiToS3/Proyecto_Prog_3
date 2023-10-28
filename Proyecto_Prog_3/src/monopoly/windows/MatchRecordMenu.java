@@ -1,38 +1,20 @@
 package monopoly.windows;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Scrollbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
 import monopoly.objects.LineChart;
 import monopoly.objects.Match;
@@ -40,7 +22,7 @@ import monopoly.objects.Match;
 public class MatchRecordMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
 	private static final Dimension frameMinSize = new Dimension(500,300);
-	private static final String path1 = "../images/searchIcon.png";
+	private final URL path1 = getClass().getResource("/monopoly/images/searchIcon.png");
 	
 	private JTextField searchBar = new JTextField(12);
 
@@ -67,7 +49,6 @@ public class MatchRecordMenu extends MasterFrame {
 		
 		add(W, BorderLayout.WEST);
 		add(C, BorderLayout.CENTER);
-		
 		
 		//SEARCH
 		JLabel txtSearchBar = new JLabel("  Search: ");
@@ -145,10 +126,4 @@ public class MatchRecordMenu extends MasterFrame {
 		
 		setVisible(true);
 	}
-	
-	
-	
-	
-	
-	
 }

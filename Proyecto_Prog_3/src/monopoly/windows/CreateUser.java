@@ -182,7 +182,7 @@ public class CreateUser extends JFrame{
 				String Name = textFieldMap.get("NAME:").getText();
 				String Email = textFieldMap.get("EMAIL:").getText();
 				String Password = textFieldMap.get("PASSWORD:").getText();
-				User NewUser = new User(Alias,Name,Email,Password);
+				new User(Alias,Name,Email,Password);
 			}
 		});
 		

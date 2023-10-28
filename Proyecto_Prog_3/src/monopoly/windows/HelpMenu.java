@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,10 +15,12 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -40,6 +44,7 @@ public class HelpMenu extends MasterFrame {
 	public HelpMenu() {
 		loadPDFintoArray();
 		
+		saveWindowReference("HelpMenu", this);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1100,700);
 		setMinimumSize(frameMinSize);
@@ -88,6 +93,22 @@ public class HelpMenu extends MasterFrame {
 			});
 		hilo.start();
 		}
+		
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				SwingUtilities.invokeLater(() -> {
+					if(!isReferenceInMemory("MainMenu")) {						
+						new MainMenu();
+						setVisible(false);
+					}else {
+						JFrame w = returnWindow("MainMenu");
+						w.setVisible(true);
+						setVisible(false);
+					}
+				});
+			}
+		});
 	}
 	
 	private JPanel loadPDFintoPanel(InputStream file) {

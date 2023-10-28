@@ -7,6 +7,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
 import javax.swing.*;
@@ -14,6 +17,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 public class MainMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
+	protected static final String[] windowNames = {"MainGameMenu", "GameSettingsMenu", "UserAchievementsMenu", "MatchRecordMenu", "UsersMenu", "HelpMenu", "CreditsMenu"};
 	private static Font buttonFont = new Font("Dubai", Font.BOLD,  18);
 	private static final Color gold = new Color(212, 175, 55);
 	private static final Dimension frameMinSize = new Dimension(700,600);
@@ -40,7 +44,7 @@ public class MainMenu extends MasterFrame {
 		setMinimumSize(frameMinSize);
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
-		
+		saveWindowReference("MainMenu", this);
 		
         // ADD PANEL FOR BACKGROUND IMAGE
 		JPanel backgroundPanel = new PanelImageBuilder(path4, 1);
@@ -105,49 +109,24 @@ public class MainMenu extends MasterFrame {
 				C.add(buttons[i]);
 				buttons[i].setAlignmentX(Component.CENTER_ALIGNMENT);
 				buttons[i].setBackground(gold);
+				buttons[i].addActionListener(new ButtonActionListener(windowNames[i]));
 			}else {
 				buttons[i] = new JButton(bText[i]);
 				S.add(buttons[i]);
 				buttons[i].setAlignmentX(Component.LEFT_ALIGNMENT);
 				buttons[i].setBackground(Color.GREEN);
-				if(i == 6) S.add(Box.createHorizontalGlue());
+				if(i == 6) {
+					S.add(Box.createHorizontalGlue());
+					buttons[i].addActionListener(new ButtonActionListener(windowNames[i]));
+				}
 			}
 			buttons[i].setFont(buttonFont);
 		}
 		
+		
 		//EVENTS
 		
-		buttons[4].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					new UsersMenu();
-					dispose();
-				});
-			}
-		});
-		buttons[3].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					new MatchRecordMenu();
-					dispose();
-				});
-			}
-		});
-		buttons[5].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					new HelpMenu();
-					dispose();
-				});
-			}
-		});
-		
-		//BUTTONS
-		buttons[7].addActionListener(new ActionListener() {
-			
+		buttons[7].addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit the game?", "WARNING", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -155,9 +134,42 @@ public class MainMenu extends MasterFrame {
 			}
 		});
 		
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				for(JFrame frame : windowRefs.values()) {
+					frame.dispose();
+				}
+			}
+		});
 		setVisible(true);
 	}
 	
+	class ButtonActionListener implements ActionListener{
+		private String className;
+		public ButtonActionListener(String className) {
+			this.className = className;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(!isReferenceInMemory(className)) {						
+				try {
+					Class<?> clazz = Class.forName("monopoly.windows."+className);
+					clazz.getDeclaredConstructor().newInstance();
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException  e1) {
+					e1.printStackTrace();
+				}
+				setVisible(false);
+			}else {
+				JFrame w = returnWindow(className);
+				w.setVisible(true);
+				setVisible(false);
+			}
+		}
+		
+	}
+
 	/**
 	 * This method searches for the predefined look and feel "Nimbus" 
 	 */
@@ -171,8 +183,4 @@ public class MainMenu extends MasterFrame {
 		    }
 		} catch (Exception e) {e.printStackTrace();}
 	}
-	
-	
-	
-	
 }

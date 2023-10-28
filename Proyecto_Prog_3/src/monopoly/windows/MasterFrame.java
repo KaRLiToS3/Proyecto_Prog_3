@@ -13,8 +13,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class MasterFrame extends JFrame {
+public abstract class MasterFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
+	protected static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
 	
 	/**
@@ -104,8 +105,19 @@ public class MasterFrame extends JFrame {
 			}
 		}
 	}
-
-
+	
+	protected void saveWindowReference(String name, JFrame frame) {
+		if(!isReferenceInMemory(name))windowRefs.put(name, frame);
+	}
+	
+	protected JFrame returnWindow(String name) {
+		return windowRefs.get(name);
+	}
+	
+	protected boolean isReferenceInMemory(String name) {
+		return windowRefs.containsKey(name);
+	}
+	
 	/**
 	 * Loads the image resource form the memory into the ImageIcon object
 	 * @param path A relative path to the file

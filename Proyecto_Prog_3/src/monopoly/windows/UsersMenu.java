@@ -17,21 +17,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-public class UsersMenu extends JFrame{
-	
-	/**
-	 * 
-	 */
+public class UsersMenu extends MasterFrame{
 	private static final long serialVersionUID = 1L;
 	
-	//Boolean that is used to let the window know which window
-	//has to be generated when it is closed
-	private boolean createUserWindow;
-	
 	public UsersMenu(){
-		
-		createUserWindow = false;
-		
+		saveWindowReference("UsersMenu", this);
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
 		Font TextFont = new Font("Arial Black", Font.ITALIC, 12);
 		
@@ -83,14 +73,16 @@ public class UsersMenu extends JFrame{
 		this.addWindowListener(new WindowAdapter() {
 
 			@Override
-			public void windowClosed(WindowEvent e) {
+			public void windowClosing(WindowEvent e) {
 				SwingUtilities.invokeLater(() -> {
-					if (createUserWindow) {
-						dispose();
-					} else {
+					if(!isReferenceInMemory("MainMenu")) {						
 						new MainMenu();
-						dispose();
-					}		
+						setVisible(false);
+					}else {
+						JFrame w = returnWindow("MainMenu");
+						w.setVisible(true);
+						setVisible(false);
+					}
 				});
 			}
 		});
@@ -100,9 +92,14 @@ public class UsersMenu extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(() -> {
-					new CreateUser();
-					createUserWindow = true;
-					dispose();
+					if(!isReferenceInMemory("CreateUser")) {						
+						new CreateUser();
+						setVisible(false);
+					}else {
+						JFrame w = returnWindow("CreateUser");
+						w.setVisible(true);
+						setVisible(false);
+					}
 				});	
 			}
 		});

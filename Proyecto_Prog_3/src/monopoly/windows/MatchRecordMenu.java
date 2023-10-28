@@ -27,6 +27,7 @@ public class MatchRecordMenu extends MasterFrame {
 	private JTextField searchBar = new JTextField(12);
 
 	public MatchRecordMenu() {
+		saveWindowReference("MatchRecordMenu", this);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(800,600);
 		setMinimumSize(frameMinSize);
@@ -43,7 +44,6 @@ public class MatchRecordMenu extends MasterFrame {
 		setComponentDimension(W, 230, 200);
 		setComponentDimension(searchPanel, 230, 30);
 		
-//		W.setBackground(Color.RED);
 		W.setLayout(new BoxLayout(W, BoxLayout.Y_AXIS));
 		searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
 		
@@ -117,13 +117,20 @@ public class MatchRecordMenu extends MasterFrame {
 		});
 		
 		this.addWindowListener(new WindowAdapter() {
-
 			@Override
-			public void windowClosed(WindowEvent e) {
-				SwingUtilities.invokeLater(() -> new MainMenu());
+			public void windowClosing(WindowEvent e) {
+				SwingUtilities.invokeLater(() -> {
+					if(!isReferenceInMemory("MainMenu")) {						
+						new MainMenu();
+						setVisible(false);
+					}else {
+						JFrame w = returnWindow("MainMenu");
+						w.setVisible(true);
+						setVisible(false);
+					}
+				});
 			}
 		});
-		
 		setVisible(true);
 	}
 }

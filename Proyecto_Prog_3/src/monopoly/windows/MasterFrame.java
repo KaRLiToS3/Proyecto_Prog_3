@@ -13,9 +13,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class MasterFrame extends JFrame {
+public abstract class MasterFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
-	protected static Map<String, ImageIcon> imageCache = new HashMap<>();
+	protected static Map<String, JFrame> windowRefs = new HashMap<>();
+	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
 	
 	/**
 	 * @author KaRLiToS3
@@ -26,14 +27,14 @@ public class MasterFrame extends JFrame {
 		private double percentagePanelsWidth;
 		private double percentagePanelsHeight;
 		private boolean proportionalDimensions = false;
-		private String path;
+		private URL path;
 		
 		/**Main builder, only demands the width percentage it should use from the window where the panel is placed, thus
 		 * allowing scaled resizes
 		 * @param path
 		 * @param percentagePanelsWidth	Values should be between 0 and 1, otherwise the Layout will handle it
 		 */
-		public PanelImageBuilder(String path, double percentagePanelsWidth) {
+		public PanelImageBuilder(URL path, double percentagePanelsWidth) {
 			this (path, percentagePanelsWidth, 1, false);
 		}
 
@@ -46,7 +47,7 @@ public class MasterFrame extends JFrame {
 		 * @param percentagePanelsHeight	Values should be between 0 and 1, otherwise the Layout will handle it
 		 * @param proportionalDimensions	Special limitation, if true the JPanel will escalate proportionally even if the window doesn't.
 		 */
-		public PanelImageBuilder(String path, double percentagePanelsWidth, double percentagePanelsHeight, boolean proportionalDimensions) {
+		public PanelImageBuilder(URL path, double percentagePanelsWidth, double percentagePanelsHeight, boolean proportionalDimensions) {
 			this.path = path;
 			this.percentagePanelsWidth = percentagePanelsWidth;
 			this.percentagePanelsHeight = percentagePanelsHeight;
@@ -104,22 +105,33 @@ public class MasterFrame extends JFrame {
 			}
 		}
 	}
-
-
+	
+	protected void saveWindowReference(String name, JFrame frame) {
+		if(!isReferenceInMemory(name))windowRefs.put(name, frame);
+	}
+	
+	protected JFrame returnWindow(String name) {
+		return windowRefs.get(name);
+	}
+	
+	protected boolean isReferenceInMemory(String name) {
+		return windowRefs.containsKey(name);
+	}
+	
 	/**
 	 * Loads the image resource form the memory into the ImageIcon object
 	 * @param path A relative path to the file
 	 * @return	Returns the ImageIcon with the file associated
 	 * @throws FileNotFoundException	In case the path is wrong
 	 */
-	protected static ImageIcon loadImageIcon(String path) throws FileNotFoundException{
+	protected static ImageIcon loadImageIcon(URL path) throws FileNotFoundException{
 		if (imageCache.containsKey(path)) {
 			return imageCache.get(path);
 		}
-		URL url = MainMenu.class.getResource(path); //Obtains the image directory
+//		URL url = getClass().getResource(path); //Obtains the image directory
 		
-        if (url != null) {
-        	ImageIcon img = new ImageIcon(url);
+        if (path != null) {
+        	ImageIcon img = new ImageIcon(path);
         	imageCache.put(path, img);
             return img;
         }else throw new FileNotFoundException("Image not found at path: " + path);
@@ -131,7 +143,7 @@ public class MasterFrame extends JFrame {
 	 * @param height
 	 * @return
 	 */
-	protected static ImageIcon getIconifiedImage(String path, int width, int height){
+	protected static ImageIcon getIconifiedImage(URL path, int width, int height){
 		try {
 			ImageIcon originalImg = loadImageIcon(path);
 			ImageIcon resizedImg = resizeIcon(originalImg, width, height);

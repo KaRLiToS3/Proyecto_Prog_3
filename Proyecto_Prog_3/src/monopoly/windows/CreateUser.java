@@ -29,7 +29,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import monopoly.objects.User;
 
-public class CreateUser extends JFrame{
+public class CreateUser extends MasterFrame{
 	/**
 	 * 
 	 */
@@ -37,7 +37,7 @@ public class CreateUser extends JFrame{
 	private File ImageUser;
 	
 	public CreateUser() {
-		
+		saveWindowReference("CreateUser", this);
 		//FONTS
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
 		Font TextFont = new Font("Arial Black", Font.ITALIC, 12);
@@ -183,10 +183,14 @@ public class CreateUser extends JFrame{
 				String Name = textFieldMap.get("NAME:").getText();
 				String Email = textFieldMap.get("EMAIL:").getText();
 				String Password = textFieldMap.get("PASSWORD:").getText();
+//<<<<<<< UserWindows
 				User NewUser = new User(Alias,Name,Email,Password,ImageUser);
 				System.out.println("New User created");
 				NewUser.saveUser();
 				
+//=======
+				new User(Alias,Name,Email,Password);
+//>>>>>>> karlitosBranch
 			}
 		});
 		
@@ -194,22 +198,36 @@ public class CreateUser extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new JOptionPane();
 				int option = JOptionPane.showConfirmDialog(CreateUser.this, "Are you sure you want to cancel?","Confirmation",JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
-					dispose();
-				} else if(option == JOptionPane.NO_OPTION) {
-					
-				}
+					SwingUtilities.invokeLater(() -> {
+						if(!isReferenceInMemory("UsersMenu")) {						
+							new UsersMenu();
+							setVisible(false);
+						}else {
+							JFrame w = returnWindow("UsersMenu");
+							w.setVisible(true);
+							setVisible(false);
+						}
+					});
+				} 
 			}
 		});
 		
 		this.addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosed(WindowEvent e) {
+			public void windowClosing(WindowEvent e) {
 				SwingUtilities.invokeLater(() -> {
-					new UsersMenu();
-					dispose();
+					if(!isReferenceInMemory("UsersMenu")) {	
+						System.out.println("ClosedWindowUsersIF");
+						new UsersMenu();
+						setVisible(false);
+ 					}else {
+						JFrame w = returnWindow("UsersMenu");
+						System.out.println("ClosedWindowUsersELSE");
+						w.setVisible(true);
+						setVisible(false);
+					}
 				});
 			}
 		});

@@ -5,27 +5,32 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.net.URL;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import monopoly.objects.Token;
 
 public class MainGameMenu extends MasterFrame {
 	
-	private static final String boardPath = "../images/board_monopoly.png";
-	private static final String dicePath = "../images/dice.png";
+	private final URL boardPath = getClass().getResource("/monopoly/images/board_monopoly.png");
+	private final URL dicePath = getClass().getResource("/monopoly/images/dice.png");
 
 	private static final long serialVersionUID = 1L;
 	
 	public static void main(String[] args) {
-		new MainGameMenu();
 	}
 	
 	public MainGameMenu() {
 		
+		saveWindowReference("MainGameMenu", this);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1000,700);
 		setMinimumSize(new Dimension(1000, 700));
@@ -70,9 +75,22 @@ public class MainGameMenu extends MasterFrame {
 			}
 		});
 		
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				SwingUtilities.invokeLater(() -> {
+					if(!isReferenceInMemory("MainMenu")) {						
+						new MainMenu();
+						setVisible(false);
+					}else {
+						JFrame w = returnWindow("MainMenu");
+						w.setVisible(true);
+						setVisible(false);
+					}
+				});
+			}
+		});
+		
 		setVisible(true);
 	}
-
-
-
 }

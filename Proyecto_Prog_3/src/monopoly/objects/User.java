@@ -18,6 +18,7 @@ public class User implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private final String path1 = "/monopoly/data/UserFile.dat";
 	String Alias;
 	String Name;
 	String Email; //ID
@@ -110,7 +111,7 @@ public class User implements Serializable{
 	public void saveUser() {
 		ArrayList<User> UserList = loadUsers();
 		UserList.add(User.this);
-		Path toUserFile = Paths.get("./src/monopoly.data/UserFile.dat");
+		Path toUserFile = Paths.get(path1);
 		if (!Files.exists(toUserFile)) {
 			try {
 				Files.createFile(toUserFile);
@@ -136,7 +137,8 @@ public class User implements Serializable{
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<User> loadUsers(){
-		try (ObjectInputStream UsersInput = new ObjectInputStream(new FileInputStream("./src/monopoly.data/UserFile.dat"))) {
+		try (ObjectInputStream UsersInput = new ObjectInputStream(getClass().getResourceAsStream(path1))) {
+			System.out.println("Works???");
 			return (ArrayList<User>) UsersInput.readObject();
 		} catch (FileNotFoundException e) {
 			System.err.println("File for load users not found");
@@ -147,7 +149,7 @@ public class User implements Serializable{
 		} catch (ClassNotFoundException e) {
 			System.err.println("Incorrect cast to User");
 			e.printStackTrace();
-		}
-		return new ArrayList<>();
+		} 		
+			return new ArrayList<>();
 	}
 }

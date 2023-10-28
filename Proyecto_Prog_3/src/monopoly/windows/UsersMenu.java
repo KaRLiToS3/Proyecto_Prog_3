@@ -28,15 +28,8 @@ import monopoly.objects.User;
 
 public class UsersMenu extends MasterFrame{
 	private static final long serialVersionUID = 1L;
-	
-//<<<<<<< UserWindows
-	//Boolean that is used to let the window know which window
-	//has to be generated when it is closed
-	private boolean createUserWindow;
 	public ArrayList<User> listUser = new User().loadUsers();
 	
-//=======
-//>>>>>>> karlitosBranch
 	public UsersMenu(){
 		saveWindowReference("UsersMenu", this);
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);

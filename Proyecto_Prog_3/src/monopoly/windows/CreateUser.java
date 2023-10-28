@@ -30,9 +30,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import monopoly.objects.User;
 
 public class CreateUser extends MasterFrame{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private File ImageUser;
 	
@@ -183,14 +180,9 @@ public class CreateUser extends MasterFrame{
 				String Name = textFieldMap.get("NAME:").getText();
 				String Email = textFieldMap.get("EMAIL:").getText();
 				String Password = textFieldMap.get("PASSWORD:").getText();
-//<<<<<<< UserWindows
 				User NewUser = new User(Alias,Name,Email,Password,ImageUser);
 				System.out.println("New User created");
 				NewUser.saveUser();
-				
-//=======
-				new User(Alias,Name,Email,Password);
-//>>>>>>> karlitosBranch
 			}
 		});
 		

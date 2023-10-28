@@ -34,7 +34,8 @@ public class CreateUser extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private File ImageUser;
+	
 	public CreateUser() {
 		
 		//FONTS
@@ -79,9 +80,9 @@ public class CreateUser extends JFrame{
 	            ImageChooser.setFileFilter(ImageFilter);
 	            int result = ImageChooser.showSaveDialog(CreateUser.this);
 	            if (result == JFileChooser.APPROVE_OPTION) {
-	               File ImageFile = ImageChooser.getSelectedFile();
+	               ImageUser = ImageChooser.getSelectedFile();
 	               //In the future we will save file for the user in the database
-	               System.out.println("Fichero seleccionado: " + ImageFile.toString());
+	               System.out.println("Fichero seleccionado: " + ImageUser.toString());
 	            }
 			}
 			
@@ -182,7 +183,10 @@ public class CreateUser extends JFrame{
 				String Name = textFieldMap.get("NAME:").getText();
 				String Email = textFieldMap.get("EMAIL:").getText();
 				String Password = textFieldMap.get("PASSWORD:").getText();
-				User NewUser = new User(Alias,Name,Email,Password);
+				User NewUser = new User(Alias,Name,Email,Password,ImageUser);
+				System.out.println("New User created");
+				NewUser.saveUser();
+				
 			}
 		});
 		

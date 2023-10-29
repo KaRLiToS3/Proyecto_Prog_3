@@ -9,10 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -28,15 +24,8 @@ import monopoly.objects.User;
 
 public class UsersMenu extends MasterFrame{
 	private static final long serialVersionUID = 1L;
-	
-//<<<<<<< UserWindows
-	//Boolean that is used to let the window know which window
-	//has to be generated when it is closed
-	private boolean createUserWindow;
-	public ArrayList<User> listUser = new User().loadUsers();
-	
-//=======
-//>>>>>>> karlitosBranch
+	public ArrayList<User> listUser;
+
 	public UsersMenu(){
 		saveWindowReference("UsersMenu", this);
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
@@ -76,10 +65,8 @@ public class UsersMenu extends MasterFrame{
 			System.out.println("added");
 		}
 		//SEARCHING USERS
-		for (User user: listUser) {
-			Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
-			tableModel.addRow(UserRow);
-		}
+		//When the windows reactivates, the users are updated
+		
 		//JTable
 		JTable table = new JTable(tableModel);
 		C.add(table);
@@ -116,6 +103,19 @@ public class UsersMenu extends MasterFrame{
 						setVisible(false);
 					}
 				});
+			}
+			
+			@Override
+	        public void windowActivated(WindowEvent e) {
+				//Update Users
+				listUser = new User().loadUsers();
+				//Remove previous rows
+				tableModel.setRowCount(0);
+				//AddUsers
+				for (User user: listUser) {
+					Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
+					tableModel.addRow(UserRow);
+				}
 			}
 		});
 		

@@ -8,10 +8,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import monopoly.windows.UsersMenu;
 
 public class User implements Serializable{
 	/**
@@ -111,14 +112,6 @@ public class User implements Serializable{
 		ArrayList<User> UserList = loadUsers();
 		UserList.add(User.this);
 		Path toUserFile = Paths.get("./src/monopoly.data/UserFile.dat");
-		if (!Files.exists(toUserFile)) {
-			try {
-				Files.createFile(toUserFile);
-			} catch (IOException e) {
-				System.err.println("The address to create the file was not found");
-				e.printStackTrace();
-			}
-		}
 		try {
 			ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(toUserFile.toString()));
 			forFile.writeObject(UserList);

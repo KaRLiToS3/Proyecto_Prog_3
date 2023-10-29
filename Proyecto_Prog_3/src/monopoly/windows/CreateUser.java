@@ -222,6 +222,9 @@ public class CreateUser extends MasterFrame{
 						System.out.println("ClosedWindowUsersELSE");
 						w.setVisible(true);
 						setVisible(false);
+						for (JTextField removeField: textFieldMap.values()) {
+							removeField.setText("");
+						}
 					}
 				});
 			}

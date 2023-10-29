@@ -44,7 +44,6 @@ public class HelpMenu extends MasterFrame {
 	public HelpMenu() {
 		loadPDFintoArray();
 		
-		saveWindowReference("HelpMenu", this);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1100,700);
 		setMinimumSize(frameMinSize);
@@ -97,16 +96,7 @@ public class HelpMenu extends MasterFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					if(!isReferenceInMemory("MainMenu")) {						
-						new MainMenu();
-						setVisible(false);
-					}else {
-						JFrame w = returnWindow("MainMenu");
-						w.setVisible(true);
-						setVisible(false);
-					}
-				});
+				switchToNextWindow(MasterFrame.MainMenu);
 			}
 		});
 	}
@@ -136,6 +126,11 @@ public class HelpMenu extends MasterFrame {
 		}
 	}
 	
+	@Override
+	public String windowName() {
+		return MasterFrame.HelpMenu;
+	}
+
 	private void loadPDFintoArray() {
 		for (int i = 0; i < pdfDirectory.length; i++) {
 			pdfPaths[i] = getClass().getResourceAsStream(pdfDirectory[i]);

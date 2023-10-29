@@ -33,7 +33,6 @@ public class CreateUser extends MasterFrame{
 	private static final long serialVersionUID = 1L;
 
 	public CreateUser() {
-		saveWindowReference("CreateUser", this);
 		//FONTS
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
 		Font TextFont = new Font("Arial Black", Font.ITALIC, 12);
@@ -188,16 +187,7 @@ public class CreateUser extends MasterFrame{
 			public void actionPerformed(ActionEvent e) {
 				int option = JOptionPane.showConfirmDialog(CreateUser.this, "Are you sure you want to cancel?","Confirmation",JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
-					SwingUtilities.invokeLater(() -> {
-						if(!isReferenceInMemory("UsersMenu")) {						
-							new UsersMenu();
-							setVisible(false);
-						}else {
-							JFrame w = returnWindow("UsersMenu");
-							w.setVisible(true);
-							setVisible(false);
-						}
-					});
+					switchToNextWindow(MasterFrame.UsersMenu);
 				} 
 			}
 		});
@@ -205,19 +195,13 @@ public class CreateUser extends MasterFrame{
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					if(!isReferenceInMemory("UsersMenu")) {	
-						System.out.println("ClosedWindowUsersIF");
-						new UsersMenu();
-						setVisible(false);
- 					}else {
-						JFrame w = returnWindow("UsersMenu");
-						System.out.println("ClosedWindowUsersELSE");
-						w.setVisible(true);
-						setVisible(false);
-					}
-				});
+				switchToNextWindow(MasterFrame.UsersMenu);
 			}
 		});
+	}
+	
+	@Override
+	public String windowName() {
+		return MasterFrame.CreateUser;
 	}
 }

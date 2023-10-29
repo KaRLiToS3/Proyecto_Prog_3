@@ -21,7 +21,6 @@ public class UsersMenu extends MasterFrame{
 	private static final long serialVersionUID = 1L;
 	
 	public UsersMenu(){
-		saveWindowReference("UsersMenu", this);
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
 		Font TextFont = new Font("Arial Black", Font.ITALIC, 12);
 		
@@ -73,17 +72,8 @@ public class UsersMenu extends MasterFrame{
 		this.addWindowListener(new WindowAdapter() {
 
 			@Override
-			public void windowClosing(WindowEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					if(!isReferenceInMemory("MainMenu")) {						
-						new MainMenu();
-						setVisible(false);
-					}else {
-						JFrame w = returnWindow("MainMenu");
-						w.setVisible(true);
-						setVisible(false);
-					}
-				});
+			public void windowClosed(WindowEvent e) {
+				switchToNextWindow(MasterFrame.MainMenu);
 			}
 		});
 		
@@ -91,17 +81,12 @@ public class UsersMenu extends MasterFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					if(!isReferenceInMemory("CreateUser")) {						
-						new CreateUser();
-						setVisible(false);
-					}else {
-						JFrame w = returnWindow("CreateUser");
-						w.setVisible(true);
-						setVisible(false);
-					}
-				});	
+				switchToNextWindow(MasterFrame.CreateUser);
 			}
 		});
+	}
+	@Override
+	public String windowName() {
+		return MasterFrame.UsersMenu;
 	}
 }

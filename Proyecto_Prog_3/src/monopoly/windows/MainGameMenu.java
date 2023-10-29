@@ -30,7 +30,6 @@ public class MainGameMenu extends MasterFrame {
 	
 	public MainGameMenu() {
 		
-		saveWindowReference("MainGameMenu", this);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1000,700);
 		setMinimumSize(new Dimension(1000, 700));
@@ -78,19 +77,14 @@ public class MainGameMenu extends MasterFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					if(!isReferenceInMemory("MainMenu")) {						
-						new MainMenu();
-						setVisible(false);
-					}else {
-						JFrame w = returnWindow("MainMenu");
-						w.setVisible(true);
-						setVisible(false);
-					}
-				});
+				switchToNextWindow(MasterFrame.MainMenu);
 			}
 		});
 		
 		setVisible(true);
+	}
+	@Override
+	public String windowName() {
+		return MasterFrame.MainGameMenu;
 	}
 }

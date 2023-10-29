@@ -27,7 +27,6 @@ public class MatchRecordMenu extends MasterFrame {
 	private JTextField searchBar = new JTextField(12);
 
 	public MatchRecordMenu() {
-		saveWindowReference("MatchRecordMenu", this);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(800,600);
 		setMinimumSize(frameMinSize);
@@ -119,18 +118,16 @@ public class MatchRecordMenu extends MasterFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					if(!isReferenceInMemory("MainMenu")) {						
-						new MainMenu();
-						setVisible(false);
-					}else {
-						JFrame w = returnWindow("MainMenu");
-						w.setVisible(true);
-						setVisible(false);
-					}
-				});
+				switchToNextWindow(MasterFrame.MainMenu);
 			}
 		});
 		setVisible(true);
 	}
+
+	@Override
+	public String windowName() {
+		return MasterFrame.MatchRecordMenu;
+	}
+	
+	
 }

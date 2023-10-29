@@ -1,18 +1,14 @@
 package monopoly.objects;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.URL;
 import java.util.ArrayList;
-
-import monopoly.windows.UsersMenu;
 
 public class User implements Serializable{
 	/**
@@ -24,7 +20,8 @@ public class User implements Serializable{
 	String Email; //ID
 	String Password;
 	File Image;
-	
+	private final String path1 = "/monopoly/data/UserFile.dat";
+	private final URL UserURL = getClass().getResource(path1);
 	public User() {
 		setAlias("");
 		setName("");
@@ -111,9 +108,8 @@ public class User implements Serializable{
 	public void saveUser() {
 		ArrayList<User> UserList = loadUsers();
 		UserList.add(User.this);
-		Path toUserFile = Paths.get("./src/monopoly.data/UserFile.dat");
 		try {
-			ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(toUserFile.toString()));
+			ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(UserURL.getPath()));
 			forFile.writeObject(UserList);
 			System.out.println("New User saved");
 			forFile.close();
@@ -129,7 +125,7 @@ public class User implements Serializable{
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<User> loadUsers(){
-		try (ObjectInputStream UsersInput = new ObjectInputStream(new FileInputStream("./src/monopoly.data/UserFile.dat"))) {
+		try (ObjectInputStream UsersInput = new ObjectInputStream(getClass().getResourceAsStream(path1))) {
 			return (ArrayList<User>) UsersInput.readObject();
 		} catch (FileNotFoundException e) {
 			System.err.println("File for load users not found");

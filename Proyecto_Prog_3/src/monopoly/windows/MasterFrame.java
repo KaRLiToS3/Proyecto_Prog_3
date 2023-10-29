@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,9 +17,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/**This is a JFrame that is to provide other JFrames subclasses with methods to improve their overall efficiency and coordination
+ * Also provides some tools to draw images into {@code Component} and {@code JPanel} with the inner class PanelImageBuilder
+ * @author KaRLiToS3
+ *
+ */
 public abstract class MasterFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
-	protected static Map<String, JFrame> windowRefs = new HashMap<>();
+	private static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
 	protected static final String MainMenu = "monopoly.windows.MainMenu";
 	protected static final String MainGameMenu = "monopoly.windows.MainGameMenu";
@@ -34,7 +40,7 @@ public abstract class MasterFrame extends JFrame{
 			HelpMenu, CreditsMenu};
 	
 	/**
-	 * @author KaRLiToS3
+	 * @author KaRLiToS3 and rekix
 	 *Class specially designed to draw images into panels
 	 */
 	class PanelImageBuilder extends JPanel{
@@ -133,6 +139,17 @@ public abstract class MasterFrame extends JFrame{
 		return windowRefs.containsKey(name);
 	}
 	
+	/**Returns a collection of JFrame that contains all the windows that are still running
+	 * @return
+	 */
+	protected Collection<JFrame> getAllWindows() {
+		return windowRefs.values();
+	}
+	
+	/**This method should return one of the static paths to any window recorded in the MasterFrame class otherwise
+	 * the linking between windows will cause coordination and optimization issues.
+	 * @return
+	 */
 	public abstract String windowName();
 	
 	/**This method links the windows that extend MasterFrame, is sets the current window to {@link #setVisible(false)} while creates the next window if
@@ -171,7 +188,6 @@ public abstract class MasterFrame extends JFrame{
 		if (imageCache.containsKey(path)) {
 			return imageCache.get(path);
 		}
-//		URL url = getClass().getResource(path); //Obtains the image directory
 		
         if (path != null) {
         	ImageIcon img = new ImageIcon(path);

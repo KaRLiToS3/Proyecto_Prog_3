@@ -135,7 +135,7 @@ public class MainMenu extends MasterFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				for(JFrame frame : windowRefs.values()) {
+				for(JFrame frame : getAllWindows()) {
 					frame.dispose();
 				}
 			}

@@ -33,6 +33,40 @@ public class Token extends JComponent{
 	public Token() {
 		this (100*(counter+1),100*(counter+1),TOKEN_COLORS[counter]);
 	}
+	
+	
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public int getCell() {
+		return cell;
+	}
+
+	public void setCell(int cell) {
+		this.cell = cell;
+	}
 
 	@Override
 	protected void paintComponent(Graphics g) {

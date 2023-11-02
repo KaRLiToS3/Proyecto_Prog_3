@@ -3,9 +3,11 @@ package monopoly.windows;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -13,15 +15,17 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class MainGameMenu extends MasterFrame {
-	
-	private static final String boardPath = "../images/board_monopoly.png";
-	private static final String dicePath = "../images/dice.png";
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private static final String boardPath = "../images/board_monopoly.png";
+	private static final String dicePath = "../images/dice.png";
+	
+	private List<Token> tokenList = new ArrayList<>();
+
 	public static void main(String[] args) {
 		new MainGameMenu();
 	}
@@ -40,7 +44,24 @@ public class MainGameMenu extends MasterFrame {
 		
 		// PANEL FOR BOARD
 		
-		JPanel boardPanel = new PanelImageBuilder(boardPath, 0.7, 1, true);
+		JPanel boardPanel = new PanelImageBuilder(boardPath, 0.7, 1, true) {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				for (Token token : tokenList) {
+					token.paintComponent(g);
+				}
+				
+				
+			}
+			
+		};
 //		boardPanel.setBackground(Color.BLACK);
 		add(boardPanel, BorderLayout.WEST);
 		
@@ -68,7 +89,8 @@ public class MainGameMenu extends MasterFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Token t1 = new Token();
-				add(t1);				
+				tokenList.add(t1);
+				repaint();
 			}
 		});
 		

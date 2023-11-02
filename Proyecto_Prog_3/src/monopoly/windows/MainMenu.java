@@ -11,6 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.logging.Level;
 
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -34,6 +35,7 @@ public class MainMenu extends MasterFrame {
 	}
 	
 	public MainMenu() {
+		logger.log(Level.INFO, "MainMenu running");
 		//LOOK AND FEEL SETUP
 		setUpLookAndFeel();
 		
@@ -141,6 +143,7 @@ public class MainMenu extends MasterFrame {
 			}
 		});
 		setVisible(true);
+		logger.log(Level.INFO, "Window building ended");
 	}
 	
 	class ButtonActionListener implements ActionListener{
@@ -171,6 +174,9 @@ public class MainMenu extends MasterFrame {
 		            return;
 		        }
 		    }
-		} catch (Exception e) {e.printStackTrace();}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.log(Level.SEVERE, "LookAndFeel was not found");
+			}
 	}
 }

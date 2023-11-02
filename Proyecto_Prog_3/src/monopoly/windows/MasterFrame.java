@@ -11,11 +11,14 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import monopoly.objects.LogRecorder;
 
 /**This is a JFrame that is to provide other JFrames subclasses with methods to improve their overall efficiency and coordination
  * Also provides some tools to draw images into {@code Component} and {@code JPanel} with the inner class PanelImageBuilder
@@ -24,8 +27,10 @@ import javax.swing.SwingUtilities;
  */
 public abstract class MasterFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
+	
 	private static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
+	
 	protected static final String MainMenu = "monopoly.windows.MainMenu";
 	protected static final String MainGameMenu = "monopoly.windows.MainGameMenu";
 	protected static final String GameSettingsMenu = "monopoly.windows.GameSettingsMenu";
@@ -37,7 +42,9 @@ public abstract class MasterFrame extends JFrame{
 	protected static final String CreateUser = "monopoly.windows.CreateUser";
 	//DO NOT TOUCH
 	protected static final String[] windowArray = {MainGameMenu, GameSettingsMenu, UserAchievementsMenu, MatchRecordMenu, UsersMenu,
-			HelpMenu, CreditsMenu};
+			HelpMenu, CreditsMenu };
+	
+	protected LogRecorder logger = new LogRecorder(this.getClass());
 	
 	/**
 	 * @author KaRLiToS3 and rekix

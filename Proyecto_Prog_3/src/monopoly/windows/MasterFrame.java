@@ -51,9 +51,7 @@ public class MasterFrame extends JFrame {
 			this.percentagePanelsWidth = percentagePanelsWidth;
 			this.percentagePanelsHeight = percentagePanelsHeight;
 			this.proportionalDimensions = proportionalDimensions;
-		}
-		
-		
+		}	
 		
 		@Override
         protected void paintComponent(Graphics g) {
@@ -87,7 +85,6 @@ public class MasterFrame extends JFrame {
 				try {
 					windowDim = new Dimension(getMainWindowDimension());
 					panelDim = new Dimension(this.getWidth(), this.getHeight());
-					
 					if (panelDim.getHeight()/windowDim.getWidth() < percentagePanelsWidth) {
 						return new Dimension((int)(this.getHeight()),(int)(this.getHeight()*percentagePanelsHeight));			
 					} else {
@@ -98,6 +95,7 @@ public class MasterFrame extends JFrame {
 					e.printStackTrace();
 					return null;
 				}
+				
 			} else {
 				try {
 					windowDim = new Dimension(getMainWindowDimension());

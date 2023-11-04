@@ -17,6 +17,6 @@
 	<classpathentry kind="lib" path="lib/JFreeChart/orsonpdf-1.6-eval.jar"/>
 	<classpathentry kind="lib" path="lib/JFreeChart/servlet.jar"/>
 	<classpathentry kind="lib" path="lib/JFreeChart/swtgraphics2d.jar"/>
-	<classpathentry kind="lib" path="lib/ApachePDF/pdfbox-app-3.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/ApachePDF/pdfbox-app-2.0.29.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,6 +1,7 @@
 package monopoly.objects;
 
-public class User {
+public class User{
+	private static final long serialVersionUID = 1L;
 	String Alias;
 	String Name;
 	String Email; //ID

@@ -5,12 +5,13 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.logging.Level;
 
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -23,10 +24,10 @@ public class MainMenu extends MasterFrame {
 	private static final int buttonSize = 250;
 	private static final int buttonMargin = 50;
 	private static final double percentagePanelsWE = 0.25;
-	private static final String path1 = "../images/monopoly_title.png";
-	private static final String path2 = "../images/left_image_menu.jpg";
-	private static final String path3 = "../images/right_image_menu.jpg";
-	private static final String path4 = "../images/cash_bg.jpg";
+	private final URL path1 = getClass().getResource("/monopoly/images/monopoly_title.png");
+	private final URL path2 = getClass().getResource("/monopoly/images/left_image_menu.jpg");
+	private final URL path3 = getClass().getResource("/monopoly/images/right_image_menu.jpg");
+	private final URL path4 = getClass().getResource("/monopoly/images/cash_bg.jpg");
 	
 	//TEST MAIN
 	public static void main(String[] args) {
@@ -34,6 +35,7 @@ public class MainMenu extends MasterFrame {
 	}
 	
 	public MainMenu() {
+		logger.log(Level.INFO, "MainMenu running");
 		//LOOK AND FEEL SETUP
 		setUpLookAndFeel();
 		
@@ -43,7 +45,6 @@ public class MainMenu extends MasterFrame {
 		setMinimumSize(frameMinSize);
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
-		
 		
         // ADD PANEL FOR BACKGROUND IMAGE
 		JPanel backgroundPanel = new PanelImageBuilder(path4, 1);
@@ -108,57 +109,24 @@ public class MainMenu extends MasterFrame {
 				C.add(buttons[i]);
 				buttons[i].setAlignmentX(Component.CENTER_ALIGNMENT);
 				buttons[i].setBackground(gold);
+				buttons[i].addActionListener(new ButtonActionListener(MasterFrame.windowArray[i]));
 			}else {
 				buttons[i] = new JButton(bText[i]);
 				S.add(buttons[i]);
 				buttons[i].setAlignmentX(Component.LEFT_ALIGNMENT);
 				buttons[i].setBackground(Color.GREEN);
-				if(i == 6) S.add(Box.createHorizontalGlue());
+				if(i == 6) {
+					S.add(Box.createHorizontalGlue());
+					buttons[i].addActionListener(new ButtonActionListener(MasterFrame.windowArray[i]));
+				}
 			}
 			buttons[i].setFont(buttonFont);
 		}
 		
+		
 		//EVENTS
-		
-		buttons[4].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					new UsersMenu();
-					dispose();
-				});
-			}
-		});
-		buttons[3].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					new MatchRecordMenu();
-					dispose();
-				});
-			}
-		});
-		buttons[5].addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					new HelpMenu();
-					dispose();
-				});
-			}
-		});
-		
-		buttons[4].addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> new UsersMenu());				
-			}
-		});
-		
-		//BUTTONS
-		buttons[7].addActionListener(new ActionListener() {
-			
+
+		buttons[7].addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit the game?", "WARNING", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -166,9 +134,36 @@ public class MainMenu extends MasterFrame {
 			}
 		});
 		
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				for(JFrame frame : getAllWindows()) {
+					frame.dispose();
+				}
+			}
+		});
 		setVisible(true);
+		logger.log(Level.INFO, "Window building ended");
+		logger.readReadLogger();
 	}
 	
+	class ButtonActionListener implements ActionListener{
+		private String className;
+		public ButtonActionListener(String className) {
+			this.className = className;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			switchToNextWindow(className);
+		}
+		
+	}
+
+	@Override
+	public String windowName() {
+		return MasterFrame.MainMenu;
+	}
+
 	/**
 	 * This method searches for the predefined look and feel "Nimbus" 
 	 */
@@ -180,10 +175,9 @@ public class MainMenu extends MasterFrame {
 		            return;
 		        }
 		    }
-		} catch (Exception e) {e.printStackTrace();}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.log(Level.SEVERE, "LookAndFeel was not found");
+			}
 	}
-	
-	
-	
-	
 }

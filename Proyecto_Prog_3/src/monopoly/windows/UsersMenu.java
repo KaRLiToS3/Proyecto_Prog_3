@@ -17,30 +17,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-public class UsersMenu extends JFrame{
-	
-	/**
-	 * 
-	 */
+
+public class UsersMenu extends MasterFrame{
 	private static final long serialVersionUID = 1L;
-//<<<<<<< HEAD
-
-		//TEST USERSMENU
-//		public static void main(String[] args) {
-//			SwingUtilities.invokeLater(() -> new UsersMenu());
-//			
-//		}
-
-//>>>>>>> branch 'master' of https://github.com/KaRLiToS3/Proyecto_Prog_3
-	
-	//Boolean that is used to let the window know which window
-	//has to be generated when it is closed
-	private boolean createUserWindow;
 	
 	public UsersMenu(){
-		
-		createUserWindow = false;
-		
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
 		Font TextFont = new Font("Arial Black", Font.ITALIC, 12);
 		
@@ -93,14 +74,7 @@ public class UsersMenu extends JFrame{
 
 			@Override
 			public void windowClosed(WindowEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					if (createUserWindow) {
-						dispose();
-					} else {
-						new MainMenu();
-						dispose();
-					}		
-				});
+				switchToNextWindow(MasterFrame.MainMenu);
 			}
 		});
 		
@@ -108,12 +82,12 @@ public class UsersMenu extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					new CreateUser();
-					createUserWindow = true;
-					dispose();
-				});	
+				switchToNextWindow(MasterFrame.CreateUser);
 			}
 		});
+	}
+	@Override
+	public String windowName() {
+		return MasterFrame.UsersMenu;
 	}
 }

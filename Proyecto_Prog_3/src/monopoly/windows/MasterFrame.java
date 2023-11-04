@@ -1,52 +1,81 @@
 package monopoly.windows;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-public class MasterFrame extends JFrame {
+import monopoly.objects.LogRecorder;
+
+/**This is a JFrame that is to provide other JFrames subclasses with methods to improve their overall efficiency and coordination
+ * Also provides some tools to draw images into {@code Component} and {@code JPanel} with the inner class PanelImageBuilder
+ * @author KaRLiToS3
+ *
+ */
+public abstract class MasterFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
-	protected static Map<String, ImageIcon> imageCache = new HashMap<>();
+	
+	private static Map<String, JFrame> windowRefs = new HashMap<>();
+	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
+	
+	protected static final String MainMenu = "monopoly.windows.MainMenu";
+	protected static final String MainGameMenu = "monopoly.windows.MainGameMenu";
+	protected static final String GameSettingsMenu = "monopoly.windows.GameSettingsMenu";
+	protected static final String UserAchievementsMenu = "monopoly.windows.UserAchievementsMenu";
+	protected static final String MatchRecordMenu = "monopoly.windows.MatchRecordMenu";
+	protected static final String UsersMenu = "monopoly.windows.UsersMenu";
+	protected static final String HelpMenu = "monopoly.windows.HelpMenu";
+	protected static final String CreditsMenu = "monopoly.windows.CreditsMenu";
+	protected static final String CreateUser = "monopoly.windows.CreateUser";
+	//DO NOT TOUCH
+	protected static final String[] windowArray = {MainGameMenu, GameSettingsMenu, UserAchievementsMenu, MatchRecordMenu, UsersMenu,
+			HelpMenu, CreditsMenu };
+	
+	protected LogRecorder logger = new LogRecorder(this.getClass());
 	
 	/**
-	 * @author KaRLiToS3
+	 * @author KaRLiToS3 and rekix
 	 *Class specially designed to draw images into panels
 	 */
 	class PanelImageBuilder extends JPanel{
 		private static final long serialVersionUID = 1L;
 		private double percentagePanelsWidth;
 		private double percentagePanelsHeight;
-		private int width;
-		private int height;
 		private boolean proportionalDimensions = false;
-		private String path;
+		private URL path;
 		
 		/**Main builder, only demands the width percentage it should use from the window where the panel is placed, thus
 		 * allowing scaled resizes
 		 * @param path
 		 * @param percentagePanelsWidth	Values should be between 0 and 1, otherwise the Layout will handle it
 		 */
-		public PanelImageBuilder(String path, double percentagePanelsWidth) {
+		public PanelImageBuilder(URL path, double percentagePanelsWidth) {
 			this (path, percentagePanelsWidth, 1, false);
 		}
 
 		
 		/**Second builder that demands the width and height percentage it should use from the window where the panel is placed, thus
-		 * allowing scaled resizes
+		 * allowing scaled resizes. It can also be resized proportionally, however depending on the layout it might be partially ignored (Specially designed
+		 * for BorderLayout).
 		 * @param path
 		 * @param percentagePanelsWidth	Values should be between 0 and 1, otherwise the Layout will handle it
 		 * @param percentagePanelsHeight	Values should be between 0 and 1, otherwise the Layout will handle it
+		 * @param proportionalDimensions	Special limitation, if true the JPanel will escalate proportionally even if the window doesn't.
 		 */
-		public PanelImageBuilder(String path, double percentagePanelsWidth, double percentagePanelsHeight, boolean proportionalDimensions) {
+		public PanelImageBuilder(URL path, double percentagePanelsWidth, double percentagePanelsHeight, boolean proportionalDimensions) {
 			this.path = path;
 			this.percentagePanelsWidth = percentagePanelsWidth;
 			this.percentagePanelsHeight = percentagePanelsHeight;
@@ -62,7 +91,7 @@ public class MasterFrame extends JFrame {
             		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
             	} else {
             		if (getWidth()<getHeight()) {
-            			g.drawImage(img, 0, 0, getWidth(), getWidth(), this);				
+            			g.drawImage(img, 0, 0, getWidth(), getWidth(), this);	
             		} else {
             			g.drawImage(img, 0, 0, getHeight(), getHeight(), this);
             		}
@@ -76,26 +105,23 @@ public class MasterFrame extends JFrame {
 		public Dimension getPreferredSize() {
 			Dimension panelDim;
 			Dimension windowDim;
-			try {
-				windowDim = new Dimension(getMainWindowDimension());
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+
 			if(proportionalDimensions) {
 				try {
 					windowDim = new Dimension(getMainWindowDimension());
 					panelDim = new Dimension(this.getWidth(), this.getHeight());
-					if (panelDim.getHeight()/windowDim.getWidth() < percentagePanelsWidth) {
-						return new Dimension((int)(this.getHeight()),(int)(this.getHeight()*percentagePanelsHeight));			
+
+					if (panelDim.getHeight()/windowDim.getWidth() < percentagePanelsWidth) {	//Limits the reach of the resize according to percentages
+						return new Dimension((int)(this.getHeight()),(int)(this.getHeight()*percentagePanelsHeight));			//Creates a square due to the fixed height
 					} else {
-						return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth),(int)(this.getHeight()*percentagePanelsHeight));			
+						return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth),(int)(this.getHeight()*percentagePanelsHeight));			//Resolves the panel according to the width of the window
+						//Height here is irrelevant
 					}
 					
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 					return null;
 				}
-				
 			} else {
 				try {
 					windowDim = new Dimension(getMainWindowDimension());
@@ -107,7 +133,57 @@ public class MasterFrame extends JFrame {
 			}
 		}
 	}
-
+	
+	private void saveWindowReference(String name, JFrame frame) {
+		if(!isReferenceInMemory(name))windowRefs.put(name, frame);
+	}
+	
+	private JFrame returnWindow(String name) {
+		return windowRefs.get(name);
+	}
+	
+	private boolean isReferenceInMemory(String name) {
+		return windowRefs.containsKey(name);
+	}
+	
+	/**Returns a collection of JFrame that contains all the windows that are still running
+	 * @return
+	 */
+	protected Collection<JFrame> getAllWindows() {
+		return windowRefs.values();
+	}
+	
+	/**This method should return one of the static paths to any window recorded in the MasterFrame class otherwise
+	 * the linking between windows will cause coordination and optimization issues.
+	 * @return
+	 */
+	public abstract String windowName();
+	
+	/**This method links the windows that extend MasterFrame, is sets the current window to {@link #setVisible(false)} while creates the next window if
+	 * wasn't already and sets the stage of the window to {@link #setVisible(true)}
+	 * @param windowName Should be one of the constant String from the class MasterFrame that refers the class with the package name ensuring
+	 * no mistakes while converting to .jar file.
+	 */
+	protected void switchToNextWindow(String windowName) {
+		SwingUtilities.invokeLater(() -> {
+			saveWindowReference(windowName(), this);
+			
+			if(!isReferenceInMemory(windowName)) {
+				try {
+					Class<?> clazz = Class.forName(windowName);
+					clazz.getDeclaredConstructor().newInstance();
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException  e1) {
+					e1.printStackTrace();
+				}
+				setVisible(false);
+			}else {
+				JFrame w = returnWindow(windowName);
+				w.setVisible(true);
+				setVisible(false);
+			}
+		});
+	};
 
 	/**
 	 * Loads the image resource form the memory into the ImageIcon object
@@ -115,14 +191,13 @@ public class MasterFrame extends JFrame {
 	 * @return	Returns the ImageIcon with the file associated
 	 * @throws FileNotFoundException	In case the path is wrong
 	 */
-	protected static ImageIcon loadImageIcon(String path) throws FileNotFoundException{
+	protected static ImageIcon loadImageIcon(URL path) throws FileNotFoundException{
 		if (imageCache.containsKey(path)) {
 			return imageCache.get(path);
 		}
-		URL url = MainMenu.class.getResource(path); //Obtains the image directory
 		
-        if (url != null) {
-        	ImageIcon img = new ImageIcon(url);
+        if (path != null) {
+        	ImageIcon img = new ImageIcon(path);
         	imageCache.put(path, img);
             return img;
         }else throw new FileNotFoundException("Image not found at path: " + path);
@@ -134,7 +209,7 @@ public class MasterFrame extends JFrame {
 	 * @param height
 	 * @return
 	 */
-	protected static ImageIcon getIconifiedImage(String path, int width, int height){
+	protected static ImageIcon getIconifiedImage(URL path, int width, int height){
 		try {
 			ImageIcon originalImg = loadImageIcon(path);
 			ImageIcon resizedImg = resizeIcon(originalImg, width, height);
@@ -176,15 +251,7 @@ public class MasterFrame extends JFrame {
 		if(this instanceof JFrame) {
 			return new Dimension(this.getWidth(), this.getHeight());			
 		}else {
-			throw new ClassNotFoundException();
-		}
-	}
-	
-	protected JFrame getMainWindow() throws ClassNotFoundException{
-		if(this instanceof JFrame) {
-			return this;			
-		}else {
-			throw new ClassNotFoundException();
+			throw new ClassNotFoundException("This method cannot be implemented if the class doesn't extend JFrame");
 		}
 	}
 }

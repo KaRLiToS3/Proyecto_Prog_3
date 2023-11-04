@@ -1,7 +1,13 @@
 package monopoly.objects;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -9,6 +15,7 @@ import java.util.logging.Logger;
 public class LogRecorder {
 	public Logger logger;
 	private InputStream setup = getClass().getResourceAsStream("/monopoly/files/loggerSetup.properties");
+	private Path loggerLocation = Paths.get("record.log").toAbsolutePath();
 	
 	public LogRecorder(Class<?> clazz) {
 		logger = Logger.getLogger(clazz.getName());
@@ -22,5 +29,17 @@ public class LogRecorder {
 	
 	public void log(Level level,String Message) {
 		logger.log(level, logger.getName() + "   " + Message);
+	}
+	
+	public void readReadLogger() {
+		System.out.println(loggerLocation.toString());
+		try(Scanner file = new Scanner(loggerLocation.toFile())) {
+			while(file.hasNextLine()) {
+				System.out.println(file.nextLine());
+			}
+		} catch(SecurityException | IOException e) {
+			logger.log(Level.SEVERE, "Failed to load the logger, beacuse " + loggerLocation.toString() + " does not exist");
+			e.printStackTrace();
+		}
 	}
 }

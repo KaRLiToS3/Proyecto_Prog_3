@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
@@ -135,7 +136,12 @@ public abstract class MasterFrame extends JFrame{
 	}
 	
 	private void saveWindowReference(String name, JFrame frame) {
-		if(!isReferenceInMemory(name))windowRefs.put(name, frame);
+		if(!isReferenceInMemory(name)) {
+			windowRefs.put(name, frame);
+			logger.log(Level.INFO, String.format("Saved key %s with value %s",name, frame.toString()));
+		}else {
+			logger.log(Level.WARNING, String.format("Window with %s was already saved", name ));
+		}
 	}
 	
 	private JFrame returnWindow(String name) {
@@ -161,26 +167,29 @@ public abstract class MasterFrame extends JFrame{
 	
 	/**This method links the windows that extend MasterFrame, is sets the current window to {@link #setVisible(false)} while creates the next window if
 	 * wasn't already and sets the stage of the window to {@link #setVisible(true)}
-	 * @param windowName Should be one of the constant String from the class MasterFrame that refers the class with the package name ensuring
-	 * no mistakes while converting to .jar file.
+	 * @param nextWindowName Should be one of the constant String from the class MasterFrame that refers the class with the package name ensuring
+	 * no mistakes while converting to .jar file. This should be the next window to display
 	 */
-	protected void switchToNextWindow(String windowName) {
+	protected void switchToNextWindow(String nextWindowName) {
 		SwingUtilities.invokeLater(() -> {
 			saveWindowReference(windowName(), this);
 			
-			if(!isReferenceInMemory(windowName)) {
+			if(!isReferenceInMemory(nextWindowName)) {
 				try {
-					Class<?> clazz = Class.forName(windowName);
+					Class<?> clazz = Class.forName(nextWindowName);
 					clazz.getDeclaredConstructor().newInstance();
+					logger.log(Level.INFO, "Window " + nextWindowName + " was created");
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException | SecurityException  e1) {
 					e1.printStackTrace();
 				}
 				setVisible(false);
 			}else {
-				JFrame w = returnWindow(windowName);
+				JFrame w = returnWindow(nextWindowName);
 				w.setVisible(true);
+				logger.log(Level.INFO, "Window " + nextWindowName + " is visible");
 				setVisible(false);
+				logger.log(Level.INFO, "Window " + windowName() + " is not visible");
 			}
 		});
 	};

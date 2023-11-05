@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -31,7 +32,7 @@ public class HelpMenu extends MasterFrame {
 	private static final Font scrollFont = new Font("Consolas", Font.ITALIC, 18);
 	private static final Color gold = new Color(212, 175, 55);
 	private static final Dimension frameMinSize = new Dimension(500,300);
-	private static final String pdf1 = "/monopoly/pdf_files/INTERFACE GUIDE.pdf";
+	private static final String pdf1 = "/monopoly/files/INTERFACE GUIDE.pdf";
 	
 	private final URL path1 = getClass().getResource("/monopoly/images/help_interface.jpg");
 	private final URL path2 = getClass().getResource("/monopoly/images/help_match.png");
@@ -111,16 +112,22 @@ public class HelpMenu extends MasterFrame {
 				BufferedImage bim = render.renderImageWithDPI(pags, 300); //Loads the image into memory
 				ImageIcon img = resizeIcon(new ImageIcon(bim), 1000, 1500);
 				JLabel page = new JLabel(img);
+				
+				logger.log(Level.INFO, String.format("Page %d from file %s is ready", pags, file.toString()));
+				
 				page.setAlignmentX(Component.CENTER_ALIGNMENT);
 				JPanel fillPanel = new JPanel();
 				fillPanel.setBackground(new Color(225,225,225));
 				setComponentDimension(fillPanel, 1000, 20);
+				
 				panel.add(page);
 				panel.add(fillPanel);
 			}
+			logger.log(Level.INFO, "PDF file " + file + " loaded correctly");
 			doc.close();
 			return panel;
 		} catch (IOException e) {
+			logger.log(Level.SEVERE, "The PDF file " + file + " was not found");
 			e.printStackTrace();
 			return null;
 		}

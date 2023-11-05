@@ -8,15 +8,17 @@ public class User{
 	String Password;
 	
 	public User() {
-		setAlias("");
-		setName("");
-		setEmail("");
-		setPassword("");
+		setAlias("alias");
+		setName("name");
+		setEmail("email");
+		setPassword("password");
 	}
 	
 	public User(String name, String email) {
 		this.Name = name;
 		this.Email = email;
+		this.Alias = "alias";
+		this.Password = "password";
 	}
 	
 	public User(String alias,String name,String email, String password) {

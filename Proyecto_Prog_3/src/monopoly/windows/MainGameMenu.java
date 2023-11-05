@@ -47,9 +47,6 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 
 	
 	private List<Token> tokenList = new ArrayList<>();
-
-	public static void main(String[] args) {
-	}
 	
 	public MainGameMenu() {
 		
@@ -66,10 +63,6 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 		// PANEL FOR BOARD
 		
 		JPanel boardPanel = new PanelImageBuilder(boardPath, 0.7, 1, true) {
-
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -77,12 +70,9 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 				super.paintComponent(g);
 				for (Token token : tokenList) {
 					token.paintComponent(g);
-					repaint();
 				}
-				
-				
+				repaint();
 			}
-			
 		};
 //		boardPanel.setBackground(Color.BLACK);
 		boardPanel.setBackground(Color.BLACK);

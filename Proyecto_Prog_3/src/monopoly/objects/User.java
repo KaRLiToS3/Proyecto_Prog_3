@@ -21,7 +21,7 @@ public class User{
 		this.Password = "password";
 	}
 	
-	public User(String alias,String name,String email, String password) {
+	public User(String name,String email, String password, String alias) {
 		setAlias(alias);
 		setName(name);
 		setEmail(email);

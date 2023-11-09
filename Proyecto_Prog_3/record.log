@@ -1,22 +1,2 @@
-nov 05, 2023 4:35:18 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: java.lang.Class   Data from User: Paco was properly obtained
-nov 05, 2023 4:35:18 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: java.lang.Class   Data from User: Juan was properly obtained
-nov 05, 2023 4:35:18 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: java.lang.Class   Data from User: Damian was properly obtained
-nov 05, 2023 4:35:18 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.MatchRecordMenu   Match Test Match selected
-nov 05, 2023 4:35:18 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: java.lang.Class   Data from User: Paco was properly obtained
-nov 05, 2023 4:35:18 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: java.lang.Class   Data from User: Juan was properly obtained
-nov 05, 2023 4:35:18 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: java.lang.Class   Data from User: Damian was properly obtained
-nov 05, 2023 4:35:18 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.MatchRecordMenu   Match Test Match selected
-nov 05, 2023 4:35:22 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.MatchRecordMenu   Saved key monopoly.windows.MatchRecordMenu with value monopoly.windows.MatchRecordMenu[frame1,368,108,800x600,invalid,hidden,layout=java.awt.BorderLayout,title=MATCH RECORD,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,786x563,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@7467c015,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-nov 05, 2023 4:35:22 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.MatchRecordMenu   Window monopoly.windows.MainMenu is visible
-nov 05, 2023 4:35:22 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.MatchRecordMenu   Window monopoly.windows.MatchRecordMenu is not visible
+nov 08, 2023 8:41:42 P. M. monopoly.objects.LogRecorder log
+INFORMACIÓN: monopoly.objects.Match   Match ' Test Match ' was created succesfully

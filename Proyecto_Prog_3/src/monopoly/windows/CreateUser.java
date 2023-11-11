@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -79,7 +80,7 @@ public class CreateUser extends MasterFrame{
 	            if (result == JFileChooser.APPROVE_OPTION) {
 	               File ImageFile = ImageChooser.getSelectedFile();
 	               //In the future we will save file for the user in the database
-	               System.out.println("Fichero seleccionado: " + ImageFile.toString());
+	               logger.log(Level.INFO, "Fichero seleccionado: " + ImageFile.toString());
 	            }
 			}
 			
@@ -181,7 +182,7 @@ public class CreateUser extends MasterFrame{
 				String Email = textFieldMap.get("EMAIL:").getText();
 				String Password = textFieldMap.get("PASSWORD:").getText();
 				User NewUser = new User(Alias,Name,Email,Password,ImageUser);
-				System.out.println("New User created");
+				logger.log(Level.INFO, "New User created");
 				NewUser.saveUser();
 			}
 		});

@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.logging.Level;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
+import monopoly.objects.LogRecorder;
 import monopoly.objects.User;
 
 
@@ -62,7 +65,7 @@ public class UsersMenu extends MasterFrame{
 		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:"};
 		for (String values:HEADERSNAMES) {
 			tableModel.addColumn(values);
-			System.out.println("added");
+			logger.log(Level.INFO, "added");
 		}
 		//SEARCHING USERS
 		//When the windows reactivates, the users are updated

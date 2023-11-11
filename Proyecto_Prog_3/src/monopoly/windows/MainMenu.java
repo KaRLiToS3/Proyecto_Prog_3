@@ -145,7 +145,6 @@ public class MainMenu extends MasterFrame {
 		});
 		setVisible(true);
 		logger.log(Level.INFO, "Window building ended");
-		logger.readReadLogger();
 	}
 	
 	class ButtonActionListener implements ActionListener{

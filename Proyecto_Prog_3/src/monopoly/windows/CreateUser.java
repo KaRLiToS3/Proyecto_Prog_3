@@ -28,6 +28,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import monopoly.data.DataManager;
 import monopoly.objects.User;
 
 public class CreateUser extends MasterFrame{
@@ -183,7 +184,7 @@ public class CreateUser extends MasterFrame{
 				String Password = textFieldMap.get("PASSWORD:").getText();
 				User NewUser = new User(Alias,Name,Email,Password,ImageUser);
 				logger.log(Level.INFO, "New User created");
-				NewUser.saveUser();
+				DataManager.getManager().saveUser(NewUser);
 			}
 		});
 		
@@ -194,6 +195,9 @@ public class CreateUser extends MasterFrame{
 				int option = JOptionPane.showConfirmDialog(CreateUser.this, "Are you sure you want to cancel?","Confirmation",JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
 					switchToNextWindow(MasterFrame.UsersMenu);
+					for (JTextField removeField: textFieldMap.values()) {
+						removeField.setText("");
+					}
 				} 
 			}
 		});

@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
+import monopoly.data.DataManager;
 import monopoly.objects.LogRecorder;
 import monopoly.objects.User;
 
@@ -101,12 +102,10 @@ public class UsersMenu extends MasterFrame{
 			
 			@Override
 	        public void windowActivated(WindowEvent e) {
-				//Update Users
-				listUser = new User().loadUsers();
 				//Remove previous rows
 				tableModel.setRowCount(0);
 				//AddUsers
-				for (User user: listUser) {
+				for (User user: DataManager.getManager().getRegisteredUsers()) {
 					Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
 					tableModel.addRow(UserRow);
 				}

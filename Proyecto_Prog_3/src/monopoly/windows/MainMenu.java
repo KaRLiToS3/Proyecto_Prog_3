@@ -16,6 +16,8 @@ import java.util.logging.Level;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import monopoly.data.DataManager;
+
 public class MainMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
 	private static Font buttonFont = new Font("Dubai", Font.BOLD,  18);
@@ -140,6 +142,7 @@ public class MainMenu extends MasterFrame {
 			public void windowClosed(WindowEvent e) {
 				for(JFrame frame : getAllWindows()) {
 					frame.dispose();
+					DataManager.getManager().saveAllDataToFile();
 				}
 			}
 		});

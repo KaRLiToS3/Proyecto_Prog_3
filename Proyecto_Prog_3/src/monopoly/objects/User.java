@@ -12,9 +12,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class User implements Serializable{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	String Alias;
 	String Name;

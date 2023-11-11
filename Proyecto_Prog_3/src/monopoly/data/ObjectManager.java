@@ -1,13 +1,17 @@
 package monopoly.data;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class ObjectManager <T> {
+public class ObjectManager <T> implements Iterable<T>, Serializable{
+	private static final long serialVersionUID = 2488139304577784175L;
+	
 	private Set<T> registeredData = new HashSet<>();
 
 	public void addObject(T object) throws InvalidParameterException{
@@ -24,5 +28,10 @@ public class ObjectManager <T> {
 	
 	public void addDataCollection(Collection<T> dataCollection) {
 		registeredData.addAll(dataCollection);
+	}
+	
+	@Override
+	public Iterator<T> iterator() {
+		return registeredData.iterator();
 	}
 }

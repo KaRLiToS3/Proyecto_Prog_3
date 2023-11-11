@@ -1,14 +1,6 @@
-nov 11, 2023 4:25:14 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   added
-nov 11, 2023 4:25:14 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   added
-nov 11, 2023 4:25:14 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   added
-nov 11, 2023 4:25:14 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.UsersMenu was created
-nov 11, 2023 4:25:17 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Saved key monopoly.windows.UsersMenu with value monopoly.windows.UsersMenu[frame1,368,108,800x600,invalid,hidden,layout=java.awt.BorderLayout,title=USERS,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,786x563,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@40ca68fe,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-nov 11, 2023 4:25:17 P. M. monopoly.objects.LogRecorder log
+nov 11, 2023 10:27:25 P. M. monopoly.objects.LogRecorder log
+INFORMACIÓN: monopoly.windows.UsersMenu   Saved key monopoly.windows.UsersMenu with value monopoly.windows.UsersMenu[frame1,368,108,800x600,invalid,hidden,layout=java.awt.BorderLayout,title=USERS,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,786x563,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@2a8dec0f,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+nov 11, 2023 10:27:25 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.MainMenu is visible
-nov 11, 2023 4:25:17 P. M. monopoly.objects.LogRecorder log
+nov 11, 2023 10:27:25 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.UsersMenu is not visible

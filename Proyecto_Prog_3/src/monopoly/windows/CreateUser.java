@@ -31,6 +31,7 @@ import monopoly.objects.User;
 
 public class CreateUser extends MasterFrame{
 	private static final long serialVersionUID = 1L;
+	private File ImageUser;
 
 	public CreateUser() {
 		//FONTS
@@ -179,6 +180,9 @@ public class CreateUser extends MasterFrame{
 				String Name = textFieldMap.get("NAME:").getText();
 				String Email = textFieldMap.get("EMAIL:").getText();
 				String Password = textFieldMap.get("PASSWORD:").getText();
+				User NewUser = new User(Alias,Name,Email,Password,ImageUser);
+				System.out.println("New User created");
+				NewUser.saveUser();
 			}
 		});
 		
@@ -197,6 +201,9 @@ public class CreateUser extends MasterFrame{
 			@Override
 			public void windowClosing(WindowEvent e) {
 				switchToNextWindow(MasterFrame.UsersMenu);
+				for (JTextField removeField: textFieldMap.values()) {
+					removeField.setText("");
+				}
 			}
 		});
 	}

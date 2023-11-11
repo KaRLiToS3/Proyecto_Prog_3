@@ -10,7 +10,12 @@ public class UserAchievementsMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
 	public UserAchievementsMenu() {
 		setSize(1000,800);
+		setLocationRelativeTo(null);
+		setDefaultWindowIcon();
+		setTitle("USER ACHIEVEMENTS MENU");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		
 		
 		this.addWindowListener(new WindowAdapter() {
 			@Override

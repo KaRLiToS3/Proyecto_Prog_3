@@ -48,6 +48,7 @@ public class HelpMenu extends MasterFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1100,700);
 		setMinimumSize(frameMinSize);
+		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
 		setTitle("HELP WINDOW");
 		

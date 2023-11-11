@@ -43,6 +43,7 @@ public class MainMenu extends MasterFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1000,700);
 		setMinimumSize(frameMinSize);
+		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
 		

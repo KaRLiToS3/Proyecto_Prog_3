@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import monopoly.objects.DataManager;
+import monopoly.data.DataManager;
 import monopoly.objects.User;
 
 public class DataManagerTest {

@@ -11,6 +11,7 @@ public class CreditsMenu extends MasterFrame {
 	public CreditsMenu() {
 		setSize(1000,800);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultWindowIcon();
 		
 		this.addWindowListener(new WindowAdapter() {
 			@Override

@@ -29,6 +29,7 @@ public class UsersMenu extends MasterFrame{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(800,600);
 		setLocationRelativeTo(null);
+		setDefaultWindowIcon();
 		setTitle("USERS");
 		setLayout(new BorderLayout());
 		setVisible(true);

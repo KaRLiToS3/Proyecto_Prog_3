@@ -41,6 +41,7 @@ public class CreateUser extends MasterFrame{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(600,280);
 		setLocationRelativeTo(null);
+		setDefaultWindowIcon();
 		setTitle("CREATE NEW USER");
 		setLayout(new BorderLayout());
 		setVisible(true);

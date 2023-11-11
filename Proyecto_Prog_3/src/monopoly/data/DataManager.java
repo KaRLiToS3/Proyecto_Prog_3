@@ -1,8 +1,11 @@
-package monopoly.objects;
+package monopoly.data;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import monopoly.objects.Match;
+import monopoly.objects.User;
 
 public class DataManager {
 	private static DataManager dataManager = new DataManager();

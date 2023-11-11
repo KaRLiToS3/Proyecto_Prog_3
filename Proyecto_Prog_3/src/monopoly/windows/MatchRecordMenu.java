@@ -31,6 +31,7 @@ public class MatchRecordMenu extends MasterFrame {
 	public MatchRecordMenu() {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(800,600);
+		setDefaultWindowIcon();
 		setMinimumSize(frameMinSize);
 		setLocationRelativeTo(null);
 		setTitle("MATCH RECORD");

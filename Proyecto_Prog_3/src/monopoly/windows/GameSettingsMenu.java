@@ -10,6 +10,7 @@ public class GameSettingsMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
 	public GameSettingsMenu() {
 		setSize(1000,800);
+		setDefaultWindowIcon();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		this.addWindowListener(new WindowAdapter() {

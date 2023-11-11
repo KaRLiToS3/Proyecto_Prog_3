@@ -53,6 +53,7 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1000,700);
 		setMinimumSize(new Dimension(1000, 700));
+		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
 				

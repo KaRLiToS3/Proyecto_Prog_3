@@ -9,14 +9,16 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 
-import monopoly.objects.LineChart;
+import monopoly.objects.GraphFactory;
 import monopoly.objects.Match;
 
 public class MatchRecordMenu extends MasterFrame {
@@ -27,9 +29,9 @@ public class MatchRecordMenu extends MasterFrame {
 	private JTextField searchBar = new JTextField(12);
 
 	public MatchRecordMenu() {
-		saveWindowReference("MatchRecordMenu", this);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(800,600);
+		setDefaultWindowIcon();
 		setMinimumSize(frameMinSize);
 		setLocationRelativeTo(null);
 		setTitle("MATCH RECORD");
@@ -83,9 +85,10 @@ public class MatchRecordMenu extends MasterFrame {
 		list.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				LineChart chart = new LineChart("Currency Statistics",list.getSelectedValue());
+				JFreeChart chart = GraphFactory.createLineChart("Currency Statistics", "Turn", "Currency", list.getSelectedValue());
+				logger.log(Level.INFO, "Match " + list.getSelectedValue() + " selected");
 				C.removeAll();
-				ChartPanel panel = new ChartPanel(chart.getChart()) {
+				ChartPanel panel = new ChartPanel(chart) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -119,18 +122,16 @@ public class MatchRecordMenu extends MasterFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					if(!isReferenceInMemory("MainMenu")) {						
-						new MainMenu();
-						setVisible(false);
-					}else {
-						JFrame w = returnWindow("MainMenu");
-						w.setVisible(true);
-						setVisible(false);
-					}
-				});
+				switchToNextWindow(MasterFrame.MainMenu);
 			}
 		});
 		setVisible(true);
 	}
+
+	@Override
+	public String windowName() {
+		return MasterFrame.MatchRecordMenu;
+	}
+	
+	
 }

@@ -11,13 +11,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.logging.Level;
 
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import monopoly.data.DataManager;
+
 public class MainMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
-	protected static final String[] windowNames = {"MainGameMenu", "GameSettingsMenu", "UserAchievementsMenu", "MatchRecordMenu", "UsersMenu", "HelpMenu", "CreditsMenu"};
 	private static Font buttonFont = new Font("Dubai", Font.BOLD,  18);
 	private static final Color gold = new Color(212, 175, 55);
 	private static final Dimension frameMinSize = new Dimension(700,600);
@@ -35,6 +37,7 @@ public class MainMenu extends MasterFrame {
 	}
 	
 	public MainMenu() {
+		logger.log(Level.INFO, "MainMenu running");
 		//LOOK AND FEEL SETUP
 		setUpLookAndFeel();
 		
@@ -42,9 +45,9 @@ public class MainMenu extends MasterFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1000,700);
 		setMinimumSize(frameMinSize);
+		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
-		saveWindowReference("MainMenu", this);
 		
         // ADD PANEL FOR BACKGROUND IMAGE
 		JPanel backgroundPanel = new PanelImageBuilder(path4, 1);
@@ -109,7 +112,7 @@ public class MainMenu extends MasterFrame {
 				C.add(buttons[i]);
 				buttons[i].setAlignmentX(Component.CENTER_ALIGNMENT);
 				buttons[i].setBackground(gold);
-				buttons[i].addActionListener(new ButtonActionListener(windowNames[i]));
+				buttons[i].addActionListener(new ButtonActionListener(MasterFrame.windowArray[i]));
 			}else {
 				buttons[i] = new JButton(bText[i]);
 				S.add(buttons[i]);
@@ -117,7 +120,7 @@ public class MainMenu extends MasterFrame {
 				buttons[i].setBackground(Color.GREEN);
 				if(i == 6) {
 					S.add(Box.createHorizontalGlue());
-					buttons[i].addActionListener(new ButtonActionListener(windowNames[i]));
+					buttons[i].addActionListener(new ButtonActionListener(MasterFrame.windowArray[i]));
 				}
 			}
 			buttons[i].setFont(buttonFont);
@@ -125,7 +128,7 @@ public class MainMenu extends MasterFrame {
 		
 		
 		//EVENTS
-		
+
 		buttons[7].addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -137,12 +140,14 @@ public class MainMenu extends MasterFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				for(JFrame frame : windowRefs.values()) {
+				for(JFrame frame : getAllWindows()) {
 					frame.dispose();
+					DataManager.getManager().saveAllDataToFile();
 				}
 			}
 		});
 		setVisible(true);
+		logger.log(Level.INFO, "Window building ended");
 	}
 	
 	class ButtonActionListener implements ActionListener{
@@ -152,22 +157,14 @@ public class MainMenu extends MasterFrame {
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(!isReferenceInMemory(className)) {						
-				try {
-					Class<?> clazz = Class.forName("monopoly.windows."+className);
-					clazz.getDeclaredConstructor().newInstance();
-				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException | SecurityException  e1) {
-					e1.printStackTrace();
-				}
-				setVisible(false);
-			}else {
-				JFrame w = returnWindow(className);
-				w.setVisible(true);
-				setVisible(false);
-			}
+			switchToNextWindow(className);
 		}
 		
+	}
+
+	@Override
+	public String windowName() {
+		return MasterFrame.MainMenu;
 	}
 
 	/**
@@ -181,6 +178,9 @@ public class MainMenu extends MasterFrame {
 		            return;
 		        }
 		    }
-		} catch (Exception e) {e.printStackTrace();}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.log(Level.SEVERE, "LookAndFeel was not found");
+			}
 	}
 }

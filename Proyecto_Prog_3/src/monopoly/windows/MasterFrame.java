@@ -1,25 +1,55 @@
 package monopoly.windows;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
+import monopoly.objects.LogRecorder;
+
+/**This is a JFrame that is to provide other JFrames subclasses with methods to improve their overall efficiency and coordination
+ * Also provides some tools to draw images into {@code Component} and {@code JPanel} with the inner class PanelImageBuilder
+ * @author KaRLiToS3
+ *
+ */
 public abstract class MasterFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
-	protected static Map<String, JFrame> windowRefs = new HashMap<>();
+	
+	private static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
+	protected final URL windowIcon = getClass().getResource("/monopoly/images/windowIcon.png");
+	
+	protected static final String MainMenu = "monopoly.windows.MainMenu";
+	protected static final String MainGameMenu = "monopoly.windows.MainGameMenu";
+	protected static final String GameSettingsMenu = "monopoly.windows.GameSettingsMenu";
+	protected static final String UserAchievementsMenu = "monopoly.windows.UserAchievementsMenu";
+	protected static final String MatchRecordMenu = "monopoly.windows.MatchRecordMenu";
+	protected static final String UsersMenu = "monopoly.windows.UsersMenu";
+	protected static final String HelpMenu = "monopoly.windows.HelpMenu";
+	protected static final String CreditsMenu = "monopoly.windows.CreditsMenu";
+	protected static final String CreateUser = "monopoly.windows.CreateUser";
+	//DO NOT TOUCH
+	protected static final String[] windowArray = {MainGameMenu, GameSettingsMenu, UserAchievementsMenu, MatchRecordMenu, UsersMenu,
+			HelpMenu, CreditsMenu };
+	
+	protected LogRecorder logger = new LogRecorder(this.getClass());
 	
 	/**
-	 * @author KaRLiToS3
+	 * @author KaRLiToS3 and rekix
 	 *Class specially designed to draw images into panels
 	 */
 	class PanelImageBuilder extends JPanel{
@@ -106,18 +136,81 @@ public abstract class MasterFrame extends JFrame{
 		}
 	}
 	
-	protected void saveWindowReference(String name, JFrame frame) {
-		if(!isReferenceInMemory(name))windowRefs.put(name, frame);
+	private void saveWindowReference(String name, JFrame frame) {
+		if(!isReferenceInMemory(name)) {
+			windowRefs.put(name, frame);
+			logger.log(Level.INFO, String.format("Saved key %s with value %s",name, frame.toString()));
+		}else {
+			logger.log(Level.WARNING, String.format("Window with %s was already saved", name ));
+		}
 	}
 	
-	protected JFrame returnWindow(String name) {
+	private JFrame returnWindow(String name) {
 		return windowRefs.get(name);
 	}
 	
-	protected boolean isReferenceInMemory(String name) {
+	private boolean isReferenceInMemory(String name) {
 		return windowRefs.containsKey(name);
 	}
 	
+	/**Returns a collection of JFrame that contains all the windows that are still running
+	 * @return
+	 */
+	protected Collection<JFrame> getAllWindows() {
+		return windowRefs.values();
+	}
+	
+	/**This method should return one of the static paths to any window recorded in the MasterFrame class otherwise
+	 * the linking between windows will cause coordination and optimization issues.
+	 * @return
+	 */
+	public abstract String windowName();
+	
+	/**
+	 * Sets a default icon for the window
+	 */
+	protected void setDefaultWindowIcon() {
+		ImageIcon img = new ImageIcon(windowIcon);
+		setIconImage(img.getImage());
+	}
+	
+	/**Sets the desired Image as the window icon
+	 * @param path the path should start with /firstFolder inside src
+	 */
+	protected void setWindowIcon(String path) {
+		ImageIcon img = new ImageIcon(getClass().getResource(path));
+		setIconImage(img.getImage());
+	}
+	
+	/**This method links the windows that extend MasterFrame, is sets the current window to {@link #setVisible(false)} while creates the next window if
+	 * wasn't already and sets the stage of the window to {@link #setVisible(true)}
+	 * @param nextWindowName Should be one of the constant String from the class MasterFrame that refers the class with the package name ensuring
+	 * no mistakes while converting to .jar file. This should be the next window to display
+	 */
+	protected void switchToNextWindow(String nextWindowName) {
+		SwingUtilities.invokeLater(() -> {
+			saveWindowReference(windowName(), this);
+			
+			if(!isReferenceInMemory(nextWindowName)) {
+				try {
+					Class<?> clazz = Class.forName(nextWindowName);
+					clazz.getDeclaredConstructor().newInstance();
+					logger.log(Level.INFO, "Window " + nextWindowName + " was created");
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException  e1) {
+					e1.printStackTrace();
+				}
+				setVisible(false);
+			}else {
+				JFrame w = returnWindow(nextWindowName);
+				w.setVisible(true);
+				logger.log(Level.INFO, "Window " + nextWindowName + " is visible");
+				setVisible(false);
+				logger.log(Level.INFO, "Window " + windowName() + " is not visible");
+			}
+		});
+	};
+
 	/**
 	 * Loads the image resource form the memory into the ImageIcon object
 	 * @param path A relative path to the file
@@ -128,7 +221,6 @@ public abstract class MasterFrame extends JFrame{
 		if (imageCache.containsKey(path)) {
 			return imageCache.get(path);
 		}
-//		URL url = getClass().getResource(path); //Obtains the image directory
 		
         if (path != null) {
         	ImageIcon img = new ImageIcon(path);

@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -27,17 +28,14 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import monopoly.data.DataManager;
 import monopoly.objects.User;
 
 public class CreateUser extends MasterFrame{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private File ImageUser;
-	
+
 	public CreateUser() {
-		saveWindowReference("CreateUser", this);
 		//FONTS
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
 		Font TextFont = new Font("Arial Black", Font.ITALIC, 12);
@@ -46,6 +44,7 @@ public class CreateUser extends MasterFrame{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(600,280);
 		setLocationRelativeTo(null);
+		setDefaultWindowIcon();
 		setTitle("CREATE NEW USER");
 		setLayout(new BorderLayout());
 		setVisible(true);
@@ -80,9 +79,9 @@ public class CreateUser extends MasterFrame{
 	            ImageChooser.setFileFilter(ImageFilter);
 	            int result = ImageChooser.showSaveDialog(CreateUser.this);
 	            if (result == JFileChooser.APPROVE_OPTION) {
-	               ImageUser = ImageChooser.getSelectedFile();
+	               File ImageFile = ImageChooser.getSelectedFile();
 	               //In the future we will save file for the user in the database
-	               System.out.println("Fichero seleccionado: " + ImageUser.toString());
+	               logger.log(Level.INFO, "Fichero seleccionado: " + ImageFile.toString());
 	            }
 			}
 			
@@ -184,8 +183,8 @@ public class CreateUser extends MasterFrame{
 				String Email = textFieldMap.get("EMAIL:").getText();
 				String Password = textFieldMap.get("PASSWORD:").getText();
 				User NewUser = new User(Alias,Name,Email,Password,ImageUser);
-				System.out.println("New User created");
-				NewUser.saveUser();
+				logger.log(Level.INFO, "New User created");
+				DataManager.getManager().saveUser(NewUser);
 			}
 		});
 		
@@ -195,16 +194,10 @@ public class CreateUser extends MasterFrame{
 			public void actionPerformed(ActionEvent e) {
 				int option = JOptionPane.showConfirmDialog(CreateUser.this, "Are you sure you want to cancel?","Confirmation",JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
-					SwingUtilities.invokeLater(() -> {
-						if(!isReferenceInMemory("UsersMenu")) {						
-							new UsersMenu();
-							setVisible(false);
-						}else {
-							JFrame w = returnWindow("UsersMenu");
-							w.setVisible(true);
-							setVisible(false);
-						}
-					});
+					switchToNextWindow(MasterFrame.UsersMenu);
+					for (JTextField removeField: textFieldMap.values()) {
+						removeField.setText("");
+					}
 				} 
 			}
 		});
@@ -212,22 +205,16 @@ public class CreateUser extends MasterFrame{
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				SwingUtilities.invokeLater(() -> {
-					if(!isReferenceInMemory("UsersMenu")) {	
-						System.out.println("ClosedWindowUsersIF");
-						new UsersMenu();
-						setVisible(false);
- 					}else {
-						JFrame w = returnWindow("UsersMenu");
-						System.out.println("ClosedWindowUsersELSE");
-						w.setVisible(true);
-						setVisible(false);
-						for (JTextField removeField: textFieldMap.values()) {
-							removeField.setText("");
-						}
-					}
-				});
+				switchToNextWindow(MasterFrame.UsersMenu);
+				for (JTextField removeField: textFieldMap.values()) {
+					removeField.setText("");
+				}
 			}
 		});
+	}
+	
+	@Override
+	public String windowName() {
+		return MasterFrame.CreateUser;
 	}
 }

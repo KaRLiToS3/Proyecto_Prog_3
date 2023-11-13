@@ -126,7 +126,7 @@ public class Token extends JComponent{
 
 	@Override
 	public String toString() {
-		return "x = " + getX() + ", y = " + getY() + "perx = " + getPerX() + ", pery = " + getPerY();
+		return "x = " + getX() + ", y = " + getY() + ", perx = " + getPerX() + ", pery = " + getPerY();
 	}
 
 	

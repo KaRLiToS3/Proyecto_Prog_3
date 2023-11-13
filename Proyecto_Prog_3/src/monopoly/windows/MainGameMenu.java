@@ -96,7 +96,6 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 					token.paintComponent(g);
 				}
 				
-				g.drawLine(0, 10, 400, 10);
 				repaint();
 			}
 		};

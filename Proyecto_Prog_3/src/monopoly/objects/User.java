@@ -1,6 +1,7 @@
 package monopoly.objects;
 
 
+import java.awt.Window.Type;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -10,16 +11,18 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
-	String Alias;
-	String Name;
-	String Email; //ID
-	String Password;
-	File Image;
-	private final String path1 = "/monopoly/data/UserFile.dat";
-	private final URL UserURL = getClass().getResource(path1);
+	private String Alias;
+	private String Name;
+	private String Email; //ID
+	private String Password;
+	private File Image;
+	private Set<Achievement> achievements;
+//	private final String path1 = "/monopoly/data/UserFile.dat";
+//	private final URL UserURL = getClass().getResource(path1);
 	
 	public User() {
 		setAlias("alias");
@@ -36,18 +39,24 @@ public class User implements Serializable{
 	}
 	
 	public User(String name,String email, String password, String alias) {
-		setAlias(alias);
-		setName(name);
-		setEmail(email);
-		setPassword(password);
+		this(name, email);
+		this.Email = email;
+		this.Password = password;
 	}
 	
 	public User(String name,String email, String password, String alias, File ImageUser) {
-		setAlias(alias);
-		setName(name);
-		setEmail(email);
-		setPassword(password);
-		setImage(ImageUser);
+		this(name, email, password, alias);
+		this.Image = ImageUser;
+	}
+	
+	public User(String name,String email, String password, String alias, File ImageUser, Set<Achievement> achievements) {
+		this(name, email, password, alias, ImageUser);
+		this.achievements = achievements;
+	}
+	
+	public User(String name,String email, String password, String alias, Set<Achievement> achievements) {
+		this(name, email, password, alias);
+		this.achievements = achievements;
 	}
 
 	public String getAlias() {
@@ -108,42 +117,42 @@ public class User implements Serializable{
 		return this.getEmail().hashCode();
 	}
 	
-	/**
-	 * Save User method
-	 * @return ArrayList<User>
-	 */
-	public void saveUser() {
-		ArrayList<User> UserList = loadUsers();
-		UserList.add(User.this);
-		try {
-			ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(UserURL.getPath()));
-			forFile.writeObject(UserList);
-			System.out.println("New User saved");
-			forFile.close();
-		} catch (IOException e) {
-			System.err.println("The address to add the file was not found");
-			e.printStackTrace();
-		}	
-	}
+//	/**
+//	 * Save User method
+//	 * @return ArrayList<User>
+//	 */
+//	public void saveUser() {
+//		ArrayList<User> UserList = loadUsers();
+//		UserList.add(User.this);
+//		try {
+//			ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(UserURL.getPath()));
+//			forFile.writeObject(UserList);
+//			System.out.println("New User saved");
+//			forFile.close();
+//		} catch (IOException e) {
+//			System.err.println("The address to add the file was not found");
+//			e.printStackTrace();
+//		}	
+//	}
 	
-	/**
-	 * User loading method
-	 * @return ArrayList<User>
-	 */
-	@SuppressWarnings("unchecked")
-	public ArrayList<User> loadUsers(){
-		try (ObjectInputStream UsersInput = new ObjectInputStream(getClass().getResourceAsStream(path1))) {
-			return (ArrayList<User>) UsersInput.readObject();
-		} catch (FileNotFoundException e) {
-			System.err.println("File for load users not found");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.err.println("User loading failed");
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			System.err.println("Incorrect cast to User");
-			e.printStackTrace();
-		}
-		return new ArrayList<>();
-	}
+//	/**
+//	 * User loading method
+//	 * @return ArrayList<User>
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public ArrayList<User> loadUsers(){
+//		try (ObjectInputStream UsersInput = new ObjectInputStream(getClass().getResourceAsStream(path1))) {
+//			return (ArrayList<User>) UsersInput.readObject();
+//		} catch (FileNotFoundException e) {
+//			System.err.println("File for load users not found");
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			System.err.println("User loading failed");
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			System.err.println("Incorrect cast to User");
+//			e.printStackTrace();
+//		}
+//		return new ArrayList<>();
+//	}
 }

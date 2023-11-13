@@ -72,9 +72,9 @@ public class DataManager {
 		try (ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(fPath.getPath()))) {
 			forFile.reset();
 			forFile.writeObject(registeredUsers);
-			System.out.println("New User saved");
+			logger.log(Level.INFO, "Users saved");
 		} catch (IOException e) {
-			System.err.println("The address to add the file was not found");
+			logger.log(Level.WARNING, "The address to add the file was not found");
 			e.printStackTrace();
 		}	
 	}

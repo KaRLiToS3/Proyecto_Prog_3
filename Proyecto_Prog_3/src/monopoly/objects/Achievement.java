@@ -1,13 +1,17 @@
 package monopoly.objects;
 
-public class Achievement {
+import java.io.Serializable;
+
+public class Achievement implements Serializable{
+	private static final long serialVersionUID = -4777254735179279044L;
 	
 	private int times;
 	private Type type;
 
 	public enum Type {
-		MBP("Always there to be the champ"),
-		CHEAPSKATE("I wouldn't ask this guy for a loan");
+		MVP("Always there to be the champ"),
+		CHEAPSKATE("This player had the highest amount of money at the end "),
+		FLAT_BROKE("");
 		
 		private String desc;
 		private Type(String desc) {

@@ -1,13 +1,13 @@
 package monopoly.objects;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class User implements Serializable{
@@ -20,8 +20,7 @@ public class User implements Serializable{
 	String Email; //ID
 	String Password;
 	File Image;
-	private final String path1 = "/monopoly/data/UserFile.dat";
-	private final URL UserURL = getClass().getResource(path1);
+	private final String path1 = "data/UserFile.dat";
 	public User() {
 		setAlias("");
 		setName("");
@@ -109,7 +108,7 @@ public class User implements Serializable{
 		ArrayList<User> UserList = loadUsers();
 		UserList.add(User.this);
 		try {
-			ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(UserURL.getPath()));
+			ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(path1));
 			forFile.writeObject(UserList);
 			System.out.println("New User saved");
 			forFile.close();
@@ -125,14 +124,15 @@ public class User implements Serializable{
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<User> loadUsers(){
-		try (ObjectInputStream UsersInput = new ObjectInputStream(getClass().getResourceAsStream(path1))) {
+		try (ObjectInputStream UsersInput = new ObjectInputStream(new FileInputStream(path1))) {
 			return (ArrayList<User>) UsersInput.readObject();
 		} catch (FileNotFoundException e) {
 			System.err.println("File for load users not found");
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("User loading failed");
-			e.printStackTrace();
+			//System.err.println("User loading failed");
+			//e.printStackTrace();
+			System.out.println("No user registered yet");
 		} catch (ClassNotFoundException e) {
 			System.err.println("Incorrect cast to User");
 			e.printStackTrace();

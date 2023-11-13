@@ -15,9 +15,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import monopoly.objects.User;
@@ -69,7 +71,8 @@ public class UsersMenu extends MasterFrame{
 		
 		//JTable
 		JTable table = new JTable(tableModel);
-		C.add(table);
+		JScrollPane scrollTable = new JScrollPane(table); 
+		C.add(scrollTable);
 		
 		//DOWN
 		S.setLayout(new FlowLayout());
@@ -116,6 +119,7 @@ public class UsersMenu extends MasterFrame{
 					Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
 					tableModel.addRow(UserRow);
 				}
+				System.out.println(listUser);
 			}
 		});
 		
@@ -135,5 +139,32 @@ public class UsersMenu extends MasterFrame{
 				});	
 			}
 		});
+	}
+	
+	class UsersTableModel extends AbstractTableModel{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public int getRowCount() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public int getColumnCount() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
 	}
 }

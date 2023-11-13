@@ -1,5 +1,6 @@
 package monopoly.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +8,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
 
-public class Match {
+public class Match implements Serializable{
+	private static final long serialVersionUID = 3317059767741645648L;
 	//												Turn - Amount of cash
 	private Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser; //Used for statistics
 	private List<User> users;
@@ -86,6 +88,11 @@ public class Match {
 			Match match = (Match) obj;
 			return this.getName().equals(match.getName());
 		} else return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode();
 	}
 
 	@Override

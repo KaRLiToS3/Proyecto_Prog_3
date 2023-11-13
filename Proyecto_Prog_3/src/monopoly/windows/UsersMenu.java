@@ -9,17 +9,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
+import monopoly.data.DataManager;
+import monopoly.objects.LogRecorder;
+import monopoly.objects.User;
 
 
 public class UsersMenu extends MasterFrame{
 	private static final long serialVersionUID = 1L;
+	public ArrayList<User> listUser;
 	
 	public UsersMenu(){
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
@@ -29,6 +38,7 @@ public class UsersMenu extends MasterFrame{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(800,600);
 		setLocationRelativeTo(null);
+		setDefaultWindowIcon();
 		setTitle("USERS");
 		setLayout(new BorderLayout());
 		setVisible(true);
@@ -51,6 +61,19 @@ public class UsersMenu extends MasterFrame{
 		N.add(TextUser);
 		
 		//CENTER
+		//JTable model
+		DefaultTableModel tableModel = new DefaultTableModel();
+		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:"};
+		for (String values:HEADERSNAMES) {
+			tableModel.addColumn(values);
+			logger.log(Level.INFO, "added");
+		}
+		//SEARCHING USERS
+		//When the windows reactivates, the users are updated
+		
+		//JTable
+		JTable table = new JTable(tableModel);
+		C.add(table);
 		
 		//DOWN
 		S.setLayout(new FlowLayout());
@@ -75,6 +98,17 @@ public class UsersMenu extends MasterFrame{
 			@Override
 			public void windowClosed(WindowEvent e) {
 				switchToNextWindow(MasterFrame.MainMenu);
+			}
+			
+			@Override
+	        public void windowActivated(WindowEvent e) {
+				//Remove previous rows
+				tableModel.setRowCount(0);
+				//AddUsers
+				for (User user: DataManager.getManager().getRegisteredUsers()) {
+					Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
+					tableModel.addRow(UserRow);
+				}
 			}
 		});
 		

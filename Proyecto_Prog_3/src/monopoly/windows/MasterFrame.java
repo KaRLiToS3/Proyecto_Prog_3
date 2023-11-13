@@ -31,6 +31,7 @@ public abstract class MasterFrame extends JFrame{
 	
 	private static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
+	protected final URL windowIcon = getClass().getResource("/monopoly/images/windowIcon.png");
 	
 	protected static final String MainMenu = "monopoly.windows.MainMenu";
 	protected static final String MainGameMenu = "monopoly.windows.MainGameMenu";
@@ -164,6 +165,22 @@ public abstract class MasterFrame extends JFrame{
 	 * @return
 	 */
 	public abstract String windowName();
+	
+	/**
+	 * Sets a default icon for the window
+	 */
+	protected void setDefaultWindowIcon() {
+		ImageIcon img = new ImageIcon(windowIcon);
+		setIconImage(img.getImage());
+	}
+	
+	/**Sets the desired Image as the window icon
+	 * @param path the path should start with /firstFolder inside src
+	 */
+	protected void setWindowIcon(String path) {
+		ImageIcon img = new ImageIcon(getClass().getResource(path));
+		setIconImage(img.getImage());
+	}
 	
 	/**This method links the windows that extend MasterFrame, is sets the current window to {@link #setVisible(false)} while creates the next window if
 	 * wasn't already and sets the stage of the window to {@link #setVisible(true)}

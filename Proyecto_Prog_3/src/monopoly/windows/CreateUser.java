@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -27,10 +28,12 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import monopoly.data.DataManager;
 import monopoly.objects.User;
 
 public class CreateUser extends MasterFrame{
 	private static final long serialVersionUID = 1L;
+	private File ImageUser;
 
 	public CreateUser() {
 		//FONTS
@@ -41,6 +44,7 @@ public class CreateUser extends MasterFrame{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(600,280);
 		setLocationRelativeTo(null);
+		setDefaultWindowIcon();
 		setTitle("CREATE NEW USER");
 		setLayout(new BorderLayout());
 		setVisible(true);
@@ -77,7 +81,7 @@ public class CreateUser extends MasterFrame{
 	            if (result == JFileChooser.APPROVE_OPTION) {
 	               File ImageFile = ImageChooser.getSelectedFile();
 	               //In the future we will save file for the user in the database
-	               System.out.println("Fichero seleccionado: " + ImageFile.toString());
+	               logger.log(Level.INFO, "Fichero seleccionado: " + ImageFile.toString());
 	            }
 			}
 			
@@ -178,6 +182,9 @@ public class CreateUser extends MasterFrame{
 				String Name = textFieldMap.get("NAME:").getText();
 				String Email = textFieldMap.get("EMAIL:").getText();
 				String Password = textFieldMap.get("PASSWORD:").getText();
+				User NewUser = new User(Alias,Name,Email,Password,ImageUser);
+				logger.log(Level.INFO, "New User created");
+				DataManager.getManager().saveUser(NewUser);
 			}
 		});
 		
@@ -188,6 +195,9 @@ public class CreateUser extends MasterFrame{
 				int option = JOptionPane.showConfirmDialog(CreateUser.this, "Are you sure you want to cancel?","Confirmation",JOptionPane.YES_NO_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
 					switchToNextWindow(MasterFrame.UsersMenu);
+					for (JTextField removeField: textFieldMap.values()) {
+						removeField.setText("");
+					}
 				} 
 			}
 		});
@@ -196,6 +206,9 @@ public class CreateUser extends MasterFrame{
 			@Override
 			public void windowClosing(WindowEvent e) {
 				switchToNextWindow(MasterFrame.UsersMenu);
+				for (JTextField removeField: textFieldMap.values()) {
+					removeField.setText("");
+				}
 			}
 		});
 	}

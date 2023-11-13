@@ -16,6 +16,8 @@ import java.util.logging.Level;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import monopoly.data.DataManager;
+
 public class MainMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
 	private static Font buttonFont = new Font("Dubai", Font.BOLD,  18);
@@ -43,6 +45,7 @@ public class MainMenu extends MasterFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1000,700);
 		setMinimumSize(frameMinSize);
+		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
 		
@@ -139,12 +142,12 @@ public class MainMenu extends MasterFrame {
 			public void windowClosed(WindowEvent e) {
 				for(JFrame frame : getAllWindows()) {
 					frame.dispose();
+					DataManager.getManager().saveAllDataToFile();
 				}
 			}
 		});
 		setVisible(true);
 		logger.log(Level.INFO, "Window building ended");
-		logger.readReadLogger();
 	}
 	
 	class ButtonActionListener implements ActionListener{

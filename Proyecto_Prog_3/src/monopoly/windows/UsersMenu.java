@@ -64,7 +64,7 @@ public class UsersMenu extends MasterFrame{
 		//JTable model
 		DefaultTableModel tableModel = new DefaultTableModel();
 		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:"};
-		for (String values:HEADERSNAMES) {
+		for (String values : HEADERSNAMES) {
 			tableModel.addColumn(values);
 			logger.log(Level.INFO, "added");
 		}

@@ -101,7 +101,7 @@ public class CreateUser extends MasterFrame{
 		RightSide.setLayout(new GridLayout(1,2));
 		RightSide.add(HEADERS, BorderLayout.WEST);
 		RightSide.add(FIELDS, BorderLayout.EAST);
-		HEADERS.setLayout(new GridLayout(HEADERSNAMES.length,2));
+		HEADERS.setLayout(new GridLayout(HEADERSNAMES.length,1));
 		FIELDS.setLayout(new GridLayout(HEADERSNAMES.length,1));
 				
 		for (String elem: HEADERSNAMES) {
@@ -182,9 +182,12 @@ public class CreateUser extends MasterFrame{
 				String Name = textFieldMap.get("NAME:").getText();
 				String Email = textFieldMap.get("EMAIL:").getText();
 				String Password = textFieldMap.get("PASSWORD:").getText();
-				User NewUser = new User(Alias,Name,Email,Password,ImageUser);
+				User NewUser = new User(Name,Email,Password,Alias,ImageUser);
 				logger.log(Level.INFO, "New User created");
 				DataManager.getManager().saveUser(NewUser);
+				for (JTextField removeField: textFieldMap.values()) {
+					removeField.setText("");
+				}
 			}
 		});
 		

@@ -32,6 +32,7 @@ public class User implements Serializable{
 	
 	public User(String name,String email, String password, String alias) {
 		this(name, email);
+		this.Alias = alias;
 		this.Email = email;
 		this.Password = password;
 	}

@@ -30,7 +30,6 @@ import monopoly.objects.User;
 
 public class UsersMenu extends MasterFrame{
 	private static final long serialVersionUID = 1L;
-	public ArrayList<User> listUser;
 
 	public UsersMenu(){
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
@@ -77,7 +76,7 @@ public class UsersMenu extends MasterFrame{
 		JTable table = new JTable(tableModel);
 		JScrollPane scrollTable = new JScrollPane(table); 
 		C.add(scrollTable);
-		C.add(table);
+		
 
 		//DOWN
 		S.setLayout(new FlowLayout());
@@ -113,7 +112,6 @@ public class UsersMenu extends MasterFrame{
 					Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
 					tableModel.addRow(UserRow);
 				}
-				System.out.println(listUser);
 			}
 		});
 
@@ -122,6 +120,18 @@ public class UsersMenu extends MasterFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				switchToNextWindow(MasterFrame.CreateUser);
+			}
+		});
+		
+		SearchUser.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (User user: DataManager.getManager().getRegisteredUsers()) {
+					Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
+					tableModel.addRow(UserRow);
+				}
+//				repaint();
 			}
 		});
 	}

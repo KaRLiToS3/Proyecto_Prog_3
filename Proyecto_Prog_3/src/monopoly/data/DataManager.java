@@ -29,7 +29,7 @@ public class DataManager {
 	private ObjectManager<Match> registeredMatches = new ObjectManager<>();
 	private LogRecorder logger = new LogRecorder(this.getClass());
 	
-	private String filePath = "/monopoly/data/UserFile.dat";
+	private String filePath = "/monopoly/data/Data.dat";
 	private URL fPath = getClass().getResource(filePath);
 	
 	private DataManager() {
@@ -82,9 +82,9 @@ public class DataManager {
 						} else if(objectManager.iterator().next() instanceof Match) {
 							registeredMatches = (ObjectManager<Match>) objectManager;
 							logger.log(Level.INFO, "All matches were properly loaded");
-						}
+						}else logger.log(Level.WARNING, "Failed to load part of the data, beacuse it doesn't match the type");
 					}
-				}
+				} else logger.log(Level.WARNING, "Failed to load the data, beacuse it doesn't match the type");
 			}
 		} catch (FileNotFoundException e) {
 			logger.log(Level.WARNING, "File for load users not found");
@@ -101,6 +101,14 @@ public class DataManager {
 	public void saveAllDataToFile() {
 		try (ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(fPath.getPath()))) {
 			forFile.reset();
+			if(allData.isEmpty()) {
+				try {			//REMOVE THIS PART
+					allData.addObject(registeredUsers);
+					allData.addObject(registeredMatches);
+					System.out.println("The file was configured, the next time it should work perfectly fine");
+				} catch (InvalidParameterException e) {
+				}
+			}
 			forFile.writeObject(allData);
 			logger.log(Level.INFO, "Users saved");
 		} catch (IOException e) {

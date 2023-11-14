@@ -9,22 +9,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import monopoly.data.DataManager;
-import monopoly.objects.LogRecorder;
 import monopoly.objects.User;
 
 
@@ -65,7 +61,7 @@ public class UsersMenu extends MasterFrame{
 		//JTable model
 		DefaultTableModel tableModel = new DefaultTableModel();
 		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:"};
-		for (String values:HEADERSNAMES) {
+		for (String values : HEADERSNAMES) {
 			tableModel.addColumn(values);
 			logger.log(Level.INFO, "added");
 		}
@@ -127,11 +123,21 @@ public class UsersMenu extends MasterFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for (User user: DataManager.getManager().getRegisteredUsers()) {
-					Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
-					tableModel.addRow(UserRow);
+				if (!SearchUser.getText().isEmpty()) {
+					tableModel.setRowCount(0);
+					for (User user: DataManager.getManager().getRegisteredUsers()) {
+						if (user.getAlias().toLowerCase().startsWith(SearchUser.getText().toLowerCase())) {
+							Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
+							tableModel.addRow(UserRow);
+						}
+					}
+				} else {
+					tableModel.setRowCount(0);
+					for (User user: DataManager.getManager().getRegisteredUsers()) {
+						Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
+						tableModel.addRow(UserRow);
+					}
 				}
-//				repaint();
 			}
 		});
 	}

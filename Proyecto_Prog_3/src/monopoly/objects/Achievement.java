@@ -6,12 +6,13 @@ public class Achievement implements Serializable{
 	private static final long serialVersionUID = -4777254735179279044L;
 	
 	private int times;
-	private Type type;
+	public Type type;
 
-	public enum Type {
-		MVP("Always there to be the champ"),
-		CHEAPSKATE("This player had the highest amount of money at the end "),
-		FLAT_BROKE("");
+	public enum Type{
+		MVP("Feels good to win every match, but even more to remind it to everybody"),
+		CHEAPSKATE("This player had the highest amount of money at the end of the game, he doesn't like sharing cash at all"),
+		BEGGINER("The first match is always tough, however you made it through, Congrats!!!! :)"),
+		FLAT_BROKE("This player risked too much with his investments and could not get the best out of them, so ended behind the other players in cash");
 		
 		private String desc;
 		private Type(String desc) {
@@ -38,6 +39,10 @@ public class Achievement implements Serializable{
 
 	public void setTimes(int times) {
 		this.times = times;
+	}
+	
+	public void incrementTimes() {
+		times++;
 	}
 
 	public Type getType() {

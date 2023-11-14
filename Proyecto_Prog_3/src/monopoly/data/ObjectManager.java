@@ -8,7 +8,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * Designed to handle any kind data of type T, similar to a HashSet
+ * @author KaRLiToS3.0
+ */
 public class ObjectManager <T> implements Iterable<T>, Serializable{
 	private static final long serialVersionUID = 2488139304577784175L;
 	
@@ -28,6 +31,10 @@ public class ObjectManager <T> implements Iterable<T>, Serializable{
 	
 	public void addDataCollection(Collection<T> dataCollection) {
 		registeredData.addAll(dataCollection);
+	}
+	
+	public boolean isEmpty() {
+		return registeredData.isEmpty();
 	}
 	
 	@Override

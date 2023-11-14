@@ -1,16 +1,20 @@
 import static org.junit.Assert.*;
 
+import java.awt.Window.Type;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import org.junit.Test;
 
+import monopoly.objects.Achievement;
 import monopoly.objects.User;
 
 public class UserTest {
 
 	@Test
 	public void test() {
-		User[] users = {new User(), new User("name", "email 1"), new User("alias", "name", "email 2", "password")};
+		User[] users = {new User(), new User("name", "email 1"), new User("name", "email2", "password", "alias")};
 		
 		for (int i = 0; i < users.length; i++) {
 			assertEquals("name", users[i].getName());
@@ -29,5 +33,4 @@ public class UserTest {
 			assertEquals("testEmail", users[i].getEmail());
 		}
 	}
-
 }

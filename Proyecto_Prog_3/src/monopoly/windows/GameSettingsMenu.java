@@ -13,6 +13,7 @@ public class GameSettingsMenu extends MasterFrame {
 		setDefaultWindowIcon();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
+		
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

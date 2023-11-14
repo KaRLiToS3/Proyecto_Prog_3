@@ -40,7 +40,7 @@ public class MainMenu extends MasterFrame {
 		logger.log(Level.INFO, "MainMenu running");
 		//LOOK AND FEEL SETUP
 		setUpLookAndFeel();
-		
+		DataManager.getManager();
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1000,700);

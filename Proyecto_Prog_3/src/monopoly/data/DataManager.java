@@ -1,6 +1,7 @@
 package monopoly.data;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,8 +30,9 @@ public class DataManager {
 	private ObjectManager<Match> registeredMatches = new ObjectManager<>();
 	private LogRecorder logger = new LogRecorder(this.getClass());
 	
-	private String filePath = "/monopoly/data/Data.dat";
-	private URL fPath = getClass().getResource(filePath);
+//	private String filePath = "/monopoly/data/Data.dat";
+	private String filePath = Paths.get("data/Data.dat").toAbsolutePath().toString();
+//	private URL fPath = getClass().getResource(filePath);
 	
 	private DataManager() {
 		//TODO Load all data from Database
@@ -70,7 +72,7 @@ public class DataManager {
 	
 	@SuppressWarnings("unchecked")
 	private void loadAllData() {
-		try (ObjectInputStream UsersInput = new ObjectInputStream(getClass().getResourceAsStream(filePath))) {
+		try (ObjectInputStream UsersInput = new ObjectInputStream(new FileInputStream(filePath))) {
 			allData = (ObjectManager<ObjectManager<?>>) UsersInput.readObject();
 			for(ObjectManager<?> obj : allData) {
 				if(obj instanceof ObjectManager) {
@@ -99,7 +101,7 @@ public class DataManager {
 	}
 	
 	public void saveAllDataToFile() {
-		try (ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(fPath.getPath()))) {
+		try (ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(filePath))) {
 			forFile.reset();
 			if(allData.isEmpty()) {
 				try {			//REMOVE THIS PART

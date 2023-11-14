@@ -1,18 +1,18 @@
-nov 14, 2023 6:10:30 P. M. monopoly.objects.LogRecorder log
+nov 14, 2023 6:32:28 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.windows.UsersMenu   added
-nov 14, 2023 6:10:30 P. M. monopoly.objects.LogRecorder log
+nov 14, 2023 6:32:28 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.windows.UsersMenu   added
-nov 14, 2023 6:10:30 P. M. monopoly.objects.LogRecorder log
+nov 14, 2023 6:32:28 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.windows.UsersMenu   added
-nov 14, 2023 6:10:30 P. M. monopoly.objects.LogRecorder log
+nov 14, 2023 6:32:29 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.UsersMenu was created
-nov 14, 2023 6:10:34 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Saved key monopoly.windows.UsersMenu with value monopoly.windows.UsersMenu[frame1,368,108,800x600,invalid,hidden,layout=java.awt.BorderLayout,title=USERS,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,786x563,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@569a573a,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-nov 14, 2023 6:10:34 P. M. monopoly.objects.LogRecorder log
+nov 14, 2023 6:32:30 P. M. monopoly.objects.LogRecorder log
+INFORMACIÓN: monopoly.windows.UsersMenu   Saved key monopoly.windows.UsersMenu with value monopoly.windows.UsersMenu[frame1,368,108,800x600,invalid,hidden,layout=java.awt.BorderLayout,title=USERS,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,786x563,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@4125a5cf,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+nov 14, 2023 6:32:30 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.MainMenu is visible
-nov 14, 2023 6:10:34 P. M. monopoly.objects.LogRecorder log
+nov 14, 2023 6:32:30 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.UsersMenu is not visible
-nov 14, 2023 6:10:35 P. M. monopoly.objects.LogRecorder log
+nov 14, 2023 6:32:30 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.data.DataManager   Users saved
-nov 14, 2023 6:10:35 P. M. monopoly.objects.LogRecorder log
+nov 14, 2023 6:32:30 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.data.DataManager   Users saved

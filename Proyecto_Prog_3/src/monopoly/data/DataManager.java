@@ -78,8 +78,10 @@ public class DataManager {
 					if(!objectManager.isEmpty()) {						
 						if(objectManager.iterator().next() instanceof User) { //iterator is an objects that iterates over the data, with the next method we get the first object and we use instanceof User to check it
 							registeredUsers = (ObjectManager<User>) objectManager;
+							logger.log(Level.INFO, "All users were properly loaded");
 						} else if(objectManager.iterator().next() instanceof Match) {
 							registeredMatches = (ObjectManager<Match>) objectManager;
+							logger.log(Level.INFO, "All matches were properly loaded");
 						}
 					}
 				}
@@ -97,7 +99,6 @@ public class DataManager {
 	}
 	
 	public void saveAllDataToFile() {
-		//Users
 		try (ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(fPath.getPath()))) {
 			forFile.reset();
 			forFile.writeObject(allData);

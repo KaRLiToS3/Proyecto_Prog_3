@@ -88,6 +88,11 @@ public class UserAchievementsMenu extends MasterFrame {
 		N1.add(imgTrophy2);
 		N1.setBackground(bg);
 		
+		//COMBO BOX
+		for(User usr : DataManager.getManager().getRegisteredUsers()) {
+			usersCombo.addItem(usr);
+			usersCombo.setMaximumRowCount(10);
+		}
 		
 		getContentPane().add(N, BorderLayout.NORTH);
 		getContentPane().add(C, BorderLayout.CENTER);

@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -17,8 +18,13 @@ import monopoly.objects.LogRecorder;
 import monopoly.objects.Match;
 import monopoly.objects.User;
 
+/**
+ * Designed to manage all the data of the application
+ * @author KaRLiToS3.0
+ */
 public class DataManager {
 	private static DataManager dataManager = null;
+	private ObjectManager<ObjectManager<?>> allData= new ObjectManager<>();
 	private ObjectManager<User> registeredUsers = new ObjectManager<>();
 	private ObjectManager<Match> registeredMatches = new ObjectManager<>();
 	private LogRecorder logger = new LogRecorder(this.getClass());
@@ -28,7 +34,7 @@ public class DataManager {
 	
 	private DataManager() {
 		//TODO Load all data from Database
-		loadUsers();
+		loadAllData();
 	}
 	
 	public static DataManager getManager() {
@@ -39,7 +45,19 @@ public class DataManager {
 	}
 	
 	public void saveUser(User usr){
-		registeredUsers.addObject(usr);
+		try {
+			registeredUsers.addObject(usr);			
+		} catch (InvalidParameterException e) {
+			logger.log(Level.WARNING, "The user " + usr.getName() + " was already on the list");
+		}
+	}
+	
+	public void saveMatch(Match match) {
+		try {
+			registeredMatches.addObject(match);			
+		} catch (InvalidParameterException e) {
+			logger.log(Level.WARNING, "The match " + match.getName() + " was already on the list");
+		}
 	}
 	
 	public ObjectManager<User> getRegisteredUsers() {
@@ -51,10 +69,21 @@ public class DataManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void loadUsers() {
+	private void loadAllData() {
 		try (ObjectInputStream UsersInput = new ObjectInputStream(getClass().getResourceAsStream(filePath))) {
-			ObjectManager<User> list = (ObjectManager<User>) UsersInput.readObject();
-			registeredUsers = list;
+			allData = (ObjectManager<ObjectManager<?>>) UsersInput.readObject();
+			for(ObjectManager<?> obj : allData) {
+				if(obj instanceof ObjectManager) {
+					ObjectManager<?> objectManager = (ObjectManager<?>) obj;
+					if(!objectManager.isEmpty()) {						
+						if(objectManager.iterator().next() instanceof User) { //iterator is an objects that iterates over the data, with the next method we get the first object and we use instanceof User to check it
+							registeredUsers = (ObjectManager<User>) objectManager;
+						} else if(objectManager.iterator().next() instanceof Match) {
+							registeredMatches = (ObjectManager<Match>) objectManager;
+						}
+					}
+				}
+			}
 		} catch (FileNotFoundException e) {
 			logger.log(Level.WARNING, "File for load users not found");
 			e.printStackTrace();
@@ -71,7 +100,7 @@ public class DataManager {
 		//Users
 		try (ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(fPath.getPath()))) {
 			forFile.reset();
-			forFile.writeObject(registeredUsers);
+			forFile.writeObject(allData);
 			logger.log(Level.INFO, "Users saved");
 		} catch (IOException e) {
 			logger.log(Level.WARNING, "The address to add the file was not found");

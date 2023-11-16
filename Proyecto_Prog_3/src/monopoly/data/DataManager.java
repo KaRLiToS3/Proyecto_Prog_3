@@ -26,10 +26,7 @@ public class DataManager {
 	private LogRecorder logger = new LogRecorder(this.getClass());
 	
 	private static String driver = "org.sqlite.JDBC";
-	
-//	private String filePath = "/monopoly/data/Data.dat";
 	private String filePath = Paths.get("data/Data.dat").toAbsolutePath().toString();
-//	private URL fPath = getClass().getResource(filePath);
 	
 	private DataManager() {
 		//TODO Load all data from Database

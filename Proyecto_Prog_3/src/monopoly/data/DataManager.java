@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 import java.util.logging.Level;
 
-import monopoly.objects.LogRecorder;
 import monopoly.objects.Match;
 import monopoly.objects.User;
 

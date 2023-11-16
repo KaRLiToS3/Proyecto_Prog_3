@@ -1,4 +1,4 @@
-package monopoly.objects;
+package monopoly.data;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -14,12 +15,12 @@ import java.util.logging.Logger;
 
 public class LogRecorder {
 	public Logger logger;
-	private InputStream setup = getClass().getResourceAsStream("/monopoly/files/loggerSetup.properties");
-	private Path loggerLocation = Paths.get("record.log").toAbsolutePath();
+	private Path setupPath = Paths.get("data/loggerSetup.properties").toAbsolutePath();
+	private Path loggerLocation = Paths.get("data/record.log").toAbsolutePath();
 	
 	public LogRecorder(Class<?> clazz) {
 		logger = Logger.getLogger(clazz.getName());
-		try (InputStream file = setup){
+		try (InputStream file = Files.newInputStream(setupPath)){
 			LogManager.getLogManager().readConfiguration(file);
 		} catch (IOException e) {
 			e.printStackTrace();

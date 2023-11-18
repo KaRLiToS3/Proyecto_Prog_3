@@ -41,4 +41,8 @@ public class ObjectManager <T> implements Iterable<T>, Serializable{
 	public Iterator<T> iterator() {
 		return registeredData.iterator();
 	}
+
+	public Set<T> getRegisteredData() {
+		return registeredData;
+	}
 }

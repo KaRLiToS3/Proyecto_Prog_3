@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
 
+import monopoly.data.LogRecorder;
+
 public class Match implements Serializable{
 	private static final long serialVersionUID = 3317059767741645648L;
 	//												Turn - Amount of cash

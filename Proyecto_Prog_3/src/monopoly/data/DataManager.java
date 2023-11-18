@@ -1,21 +1,16 @@
 package monopoly.data;
 
-import java.io.File;
+import java.sql.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Paths;
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 
-import monopoly.objects.LogRecorder;
 import monopoly.objects.Match;
 import monopoly.objects.User;
 
@@ -30,13 +25,12 @@ public class DataManager {
 	private ObjectManager<Match> registeredMatches = new ObjectManager<>();
 	private LogRecorder logger = new LogRecorder(this.getClass());
 	
-//	private String filePath = "/monopoly/data/Data.dat";
+	private static String driver = "org.sqlite.JDBC";
 	private String filePath = Paths.get("data/Data.dat").toAbsolutePath().toString();
-//	private URL fPath = getClass().getResource(filePath);
 	
 	private DataManager() {
 		//TODO Load all data from Database
-		loadAllData();
+		loadAllDataFromFile();
 	}
 	
 	public static DataManager getManager() {
@@ -70,8 +64,20 @@ public class DataManager {
 		return registeredMatches;
 	}
 	
+	//DATA BASE
+	private void uploadDataFromDB() {
+		//Load the driver
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			logger.log(Level.SEVERE, "Unable to load the driver " + driver);
+		}
+		//TODO
+	}
+	
+	//IN CASE A FILE IS USED
 	@SuppressWarnings("unchecked")
-	private void loadAllData() {
+	private void loadAllDataFromFile() {
 		try (ObjectInputStream UsersInput = new ObjectInputStream(new FileInputStream(filePath))) {
 			allData = (ObjectManager<ObjectManager<?>>) UsersInput.readObject();
 			for(ObjectManager<?> obj : allData) {

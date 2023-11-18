@@ -11,7 +11,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
@@ -27,6 +31,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import monopoly.data.DataManager;
+import monopoly.objects.Achievement;
 import monopoly.objects.User;
 
 public class CreateUser extends MasterFrame{
@@ -176,11 +181,16 @@ public class CreateUser extends MasterFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Set<Achievement> list = new LinkedHashSet<>();
+				list.add(new Achievement(Achievement.Type.MVP, 2));
+				list.add(new Achievement(Achievement.Type.BEGGINER, 3));
+				list.add(new Achievement(Achievement.Type.CHEAPSKATE, 4));
+//				list.add(new Achievement(Achievement.Type.FLAT_BROKE, 1));
 				String Alias = textFieldMap.get("ALIAS:").getText();
 				String Name = textFieldMap.get("NAME:").getText();
 				String Email = textFieldMap.get("EMAIL:").getText();
 				String Password = textFieldMap.get("PASSWORD:").getText();
-				User NewUser = new User(Name,Email,Password,Alias,ImageUser);
+				User NewUser = new User(Name,Email,Password,Alias,ImageUser, list);
 				logger.log(Level.INFO, "New User created");
 				DataManager.getManager().saveUser(NewUser);
 				for (JTextField removeField: textFieldMap.values()) {

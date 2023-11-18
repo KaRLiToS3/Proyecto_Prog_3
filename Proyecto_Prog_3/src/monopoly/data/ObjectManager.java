@@ -3,10 +3,8 @@ package monopoly.data;
 import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 /**
  * Designed to handle any kind data of type T, similar to a HashSet
@@ -37,6 +35,10 @@ public class ObjectManager <T> implements Iterable<T>, Serializable{
 		return registeredData.isEmpty();
 	}
 	
+	public int size() {
+		return registeredData.size();
+	}
+
 	@Override
 	public Iterator<T> iterator() {
 		return registeredData.iterator();

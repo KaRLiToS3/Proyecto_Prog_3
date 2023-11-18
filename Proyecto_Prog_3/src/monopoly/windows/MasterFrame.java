@@ -19,7 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import monopoly.objects.LogRecorder;
+import monopoly.data.LogRecorder;
 
 /**This is a JFrame that is to provide other JFrames subclasses with methods to improve their overall efficiency and coordination
  * Also provides some tools to draw images into {@code Component} and {@code JPanel} with the inner class PanelImageBuilder

@@ -71,7 +71,6 @@ public class UsersMenu extends MasterFrame{
 		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:"};
 		for (String values : HEADERSNAMES) {
 			tableModel.addColumn(values);
-			logger.log(Level.INFO, "added");
 		}
 		//SEARCHING USERS
 		//When the windows reactivates, the users are updated

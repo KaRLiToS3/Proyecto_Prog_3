@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.EventObject;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -67,14 +68,28 @@ public class UsersMenu extends MasterFrame{
 
 		//CENTER
 		//JTable model
-		DefaultTableModel tableModel = new DefaultTableModel();
+		class MyTableModel extends DefaultTableModel { 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+		}
+		
+		DefaultTableModel tableModel = new MyTableModel();
 		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:"};
 		for (String values : HEADERSNAMES) {
 			tableModel.addColumn(values);
 		}
 		//SEARCHING USERS
 		//When the windows reactivates, the users are updated
-
+		
 		//JTable
 		JTable table = new JTable(tableModel);
 		JScrollPane scrollTable = new JScrollPane(table);
@@ -101,7 +116,10 @@ public class UsersMenu extends MasterFrame{
 						setBackground(Color.WHITE);
 						setFont(new Font("Arial", Font.PLAIN, 12));
 					}
-				}	
+				}
+				if (hasFocus) {
+					setBackground(Color.LIGHT_GRAY);		
+				}
 				setOpaque(true);
 				return this;
 			}
@@ -177,6 +195,7 @@ public class UsersMenu extends MasterFrame{
 				}
 			}
 		});
+		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			
 			@Override

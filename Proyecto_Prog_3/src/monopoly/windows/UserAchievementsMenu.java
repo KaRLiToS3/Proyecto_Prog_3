@@ -39,7 +39,9 @@ public class UserAchievementsMenu extends MasterFrame {
 	private static final Color gold = new Color(212, 175, 55);
 	private static final Color bg = new Color(27, 27, 27);
 	private static final String infoText = "Information about the achievements will appear here as soon as you click on the images!";
-	private static final int achievementSize = 150;
+	private static int achievementSize = 150;
+	private static final int numPossibleAchievements = Achievement.Type.values().length;
+	private static final int numGridSize = calculateGridSize();
 	private JLabel info;
 	private URL backgroundImage = getClass().getResource("/monopoly/images/backgroundAchievements.jpg");
 	private URL trophy = getClass().getResource("/monopoly/images/trophy.png");
@@ -98,7 +100,7 @@ public class UserAchievementsMenu extends MasterFrame {
 		//LAYOUTS
 		N.setLayout(new BoxLayout(N, BoxLayout.Y_AXIS));
 		N1.setLayout(new FlowLayout());
-		C1.setLayout(new GridLayout(2,2, 20, 20));
+		C1.setLayout(new GridLayout(numGridSize, numGridSize, 20, 20));
 		C.setLayout(new FlowLayout(FlowLayout.CENTER, 1, (int) (C.getHeight()*0.25)));
 		
 		//CENTER
@@ -168,6 +170,11 @@ public class UserAchievementsMenu extends MasterFrame {
 						label.addMouseListener(new ImageSwitchActionListener(label, ach.getTimes(), logoAch, textAch));
 						C1.add(label);
 					}
+					for(int i = selUser.getAchievements().size(); i < numPossibleAchievements; i++) {
+						URL questionBlock = getClass().getResource("/monopoly/images/Question_Block.png");
+						JLabel labQB = new JLabel(getIconifiedImage(questionBlock, achievementSize, achievementSize));
+						C1.add(labQB);
+					}
 					revalidate();
 					repaint();
 				}
@@ -183,6 +190,15 @@ public class UserAchievementsMenu extends MasterFrame {
 	
 	private void killThreads() {
 		for(Thread thr : threadList) thr.interrupt();
+	}
+	
+	private static int calculateGridSize() {
+		double i = 1;
+		while(Math.pow(i, i) < numPossibleAchievements ) {
+			achievementSize = achievementSize /(int) i;
+			i++;
+		}
+		return (int) i; 
 	}
 	
 	class ImageSwitchActionListener extends MouseAdapter{

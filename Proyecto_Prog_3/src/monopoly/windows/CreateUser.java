@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -180,10 +181,10 @@ public class CreateUser extends MasterFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Set<Achievement> list = new HashSet<>();
-//				list.add(new Achievement(Achievement.Type.MVP, 2));
-//				list.add(new Achievement(Achievement.Type.BEGGINER, 3));
-//				list.add(new Achievement(Achievement.Type.CHEAPSKATE, 4));
+				Set<Achievement> list = new LinkedHashSet<>();
+				list.add(new Achievement(Achievement.Type.MVP, 2));
+				list.add(new Achievement(Achievement.Type.BEGGINER, 3));
+				list.add(new Achievement(Achievement.Type.CHEAPSKATE, 4));
 //				list.add(new Achievement(Achievement.Type.FLAT_BROKE, 1));
 				String Alias = textFieldMap.get("ALIAS:").getText();
 				String Name = textFieldMap.get("NAME:").getText();

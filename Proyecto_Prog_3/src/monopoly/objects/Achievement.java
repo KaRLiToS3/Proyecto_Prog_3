@@ -7,13 +7,14 @@ import javax.swing.ImageIcon;
 public class Achievement implements Serializable{
 	private static final long serialVersionUID = -4777254735179279044L;
 	private static final String[] mvp = {"/monopoly/images/MVP.jpg", "/monopoly/images/textMVP.jpg"};
+	private static final String[] chpsk = {"/monopoly/images/cheapSkate.jpg", "/monopoly/images/cheapSkateText.jpg"};
 	
 	private int times;
 	public Type type;
 
 	public enum Type{
 		MVP("Most Valuable Player", mvp),
-		CHEAPSKATE("This player had the highest amount of money at the end of the game, he doesn't like sharing cash at all", mvp),
+		CHEAPSKATE("This player had the highest amount of money at the end of the game, he doesn't like sharing cash at all", chpsk),
 		BEGGINER("The first match is always tough, however you made it through, Congrats!!!! :)", mvp),
 		FLAT_BROKE("This player risked too much with his investments and could not get the best out of them, so ended behind the other players in cash", mvp);
 		

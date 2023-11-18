@@ -39,6 +39,10 @@ public class ObjectManager <T> implements Iterable<T>, Serializable{
 		return registeredData.size();
 	}
 	
+	public Set<T> getRegisteredData() {
+		return registeredData;
+	}
+
 	@Override
 	public Iterator<T> iterator() {
 		return registeredData.iterator();

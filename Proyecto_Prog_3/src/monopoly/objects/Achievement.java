@@ -16,7 +16,8 @@ public class Achievement implements Serializable{
 		MVP("Most Valuable Player", mvp),
 		CHEAPSKATE("This player had the highest amount of money at the end of the game, he doesn't like sharing cash at all", chpsk),
 		BEGGINER("The first match is always tough, however you made it through, Congrats!!!! :)", mvp),
-		FLAT_BROKE("This player risked too much with his investments and could not get the best out of them, so ended behind the other players in cash", mvp);
+		FLAT_BROKE("This player risked too much with his investments and could not get the best out of them, so ended behind the other players in cash", mvp),
+		VETERAN("Veteran", mvp);
 		
 		private String desc;
 		private String[] img;

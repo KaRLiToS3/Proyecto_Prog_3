@@ -56,6 +56,7 @@ public class PasswordVerification extends MasterFrame{
 				if(user.getPassword().equals(new String(passwordField.getPassword()))) {
 					DataManager.getManager().getRegisteredUsers().removeObject(user);
 					JOptionPane.showMessageDialog(PasswordVerification.this, "User deleted");
+					DataManager.getManager().saveDataInDB();
 					dispose();
 				} else {
 					JOptionPane.showMessageDialog(PasswordVerification.this, "Incorrect password");
@@ -67,7 +68,7 @@ public class PasswordVerification extends MasterFrame{
         PasswordVerification.this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				switchToNextWindow(MasterFrame.UsersMenu);
+				//switchToNextWindow(MasterFrame.UsersMenu);
 				dispose();
 				}
 			});

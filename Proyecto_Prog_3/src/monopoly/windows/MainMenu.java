@@ -142,7 +142,8 @@ public class MainMenu extends MasterFrame {
 			public void windowClosed(WindowEvent e) {
 				for(JFrame frame : getAllWindows()) {
 					frame.dispose();
-					DataManager.getManager().saveAllDataToFile();
+					//DataManager.getManager().saveAllDataToFile();
+					DataManager.getManager().saveDataInDB();
 				}
 			}
 		});

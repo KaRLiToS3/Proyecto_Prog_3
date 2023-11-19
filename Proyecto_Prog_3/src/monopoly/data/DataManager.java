@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 import java.util.logging.Level;
 
+import org.apache.pdfbox.pdmodel.interactive.viewerpreferences.PDViewerPreferences.PRINT_SCALING;
+
 import monopoly.objects.Match;
 import monopoly.objects.User;
 
@@ -24,13 +26,14 @@ public class DataManager {
 	private ObjectManager<User> registeredUsers = new ObjectManager<>();
 	private ObjectManager<Match> registeredMatches = new ObjectManager<>();
 	private LogRecorder logger = new LogRecorder(this.getClass());
-	
+		
 	private static String driver = "org.sqlite.JDBC";
 	private String filePath = Paths.get("data/Data.dat").toAbsolutePath().toString();
 	
 	private DataManager() {
 		//TODO Load all data from Database
-		loadAllDataFromFile();
+		uploadDataFromDB();
+		//loadAllDataFromFile();
 	}
 	
 	public static DataManager getManager() {
@@ -65,7 +68,7 @@ public class DataManager {
 	}
 	
 	//DATA BASE
-	private void uploadDataFromDB() {
+	public void uploadDataFromDB() {
 		//Load the driver
 		try {
 			Class.forName(driver);
@@ -73,8 +76,58 @@ public class DataManager {
 			logger.log(Level.SEVERE, "Unable to load the driver " + driver);
 		}
 		//TODO
+		try {
+			registeredUsers = new ObjectManager<>();
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:data/GeneralDatabase.bd");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM User");
+			while(rs.next()) {
+				String Alias = rs.getString("Alias");
+				String Name = rs.getString("Name");
+				String Email = rs.getString("Email");
+				String Password = rs.getString("Password");
+				registeredUsers.addObject(new User(Name, Email, Password, Alias));
+			}
+			rs.close();
+			conn.close();
+		}catch (SQLException e) {
+			// TODO: handle exception
+			logger.log(Level.SEVERE, "Error uploading data");
+			e.printStackTrace();
+		};
 	}
 	
+	public void saveDataInDB() {
+		//Load the driver
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			logger.log(Level.SEVERE, "Unable to load the driver " + driver);
+		}
+		//TODO
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:data/GeneralDatabase.bd");
+			String sqlDelete = "DELETE FROM User";
+			PreparedStatement deleteStmt = conn.prepareStatement(sqlDelete);
+			deleteStmt.executeUpdate();
+			for (User user:registeredUsers) {
+				String sqlInsert = "INSERT INTO User(Alias, Name, Email, Password) VALUES (?, ?, ?, ?)";
+				PreparedStatement prepStmt = conn.prepareStatement(sqlInsert);
+				prepStmt.setString(1,user.getAlias());
+				prepStmt.setString(2,user.getName());
+				prepStmt.setString(3,user.getEmail());
+				prepStmt.setString(4,user.getPassword());
+				int rows = prepStmt.executeUpdate();
+				System.out.println("Updated: " + rows);
+			}
+			conn.close();
+		}catch (SQLException e) {
+			// TODO: handle exception
+			logger.log(Level.SEVERE, "Error saving data");
+			e.printStackTrace();
+		}
+		
+	}
 	//IN CASE A FILE IS USED
 	@SuppressWarnings("unchecked")
 	private void loadAllDataFromFile() {

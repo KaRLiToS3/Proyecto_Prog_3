@@ -157,7 +157,7 @@ public class UsersMenu extends MasterFrame{
 			@Override
 			public void windowActivated(WindowEvent e) {
 				//Remove previous rows
-				DataManager.getManager().uploadDataFromDB();
+//				DataManager.getManager().uploadDataFromDB();
 				tableModel.setRowCount(0);
 				//AddUsers
 				for (User user: DataManager.getManager().getRegisteredUsers()) {

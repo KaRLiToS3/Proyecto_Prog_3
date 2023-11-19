@@ -32,7 +32,8 @@ public class DataManager {
 	
 	private DataManager() {
 		//TODO Load all data from Database
-		loadAllDataFromFile();
+		uploadDataFromDB();
+		//loadAllDataFromFile();
 	}
 	
 	public static DataManager getManager() {

@@ -51,6 +51,7 @@ public class UserAchievementsMenu extends MasterFrame {
 		setSize(1000,800);
 		setLocationRelativeTo(null);
 		setDefaultWindowIcon();
+		setMinimumSize(new Dimension(600,700));
 		setTitle("USER ACHIEVEMENTS MENU");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
@@ -194,8 +195,8 @@ public class UserAchievementsMenu extends MasterFrame {
 	
 	private static int calculateGridSize() {
 		double i = 1;
-		while(Math.pow(i, i) < numPossibleAchievements ) {
-			achievementSize = achievementSize /(int) i;
+		while(Math.pow(i, 2) < numPossibleAchievements ) {
+			if(i != 1) achievementSize = (int) (achievementSize - i*10);
 			i++;
 		}
 		return (int) i; 

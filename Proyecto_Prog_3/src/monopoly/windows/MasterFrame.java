@@ -199,6 +199,16 @@ public abstract class MasterFrame extends JFrame{
 			}
 		});
 	};
+	
+	protected void triggerDataUpdate() {
+		for(JFrame jfr : windowRefs.values()) {			
+			if( jfr instanceof Updatable) {
+				Updatable upd = (Updatable) jfr;
+				upd.updateAllData();
+				logger.log(Level.INFO, "Data updated in " + jfr.getName());
+			}
+		}
+	}
 
 	/**
 	 * Loads the image resource form the memory into the ImageIcon object

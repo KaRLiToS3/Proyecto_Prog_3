@@ -152,7 +152,7 @@ public class UsersMenu extends MasterFrame{
 
 			@Override
 			public void windowClosed(WindowEvent e) {
-				updateDataReferences();
+				triggerDataUpdate();
 				switchToNextWindow(MasterFrame.MainMenu);
 			}
 
@@ -227,26 +227,6 @@ public class UsersMenu extends MasterFrame{
 				}
 			}
 		});
-	}
-	
-	private void updateDataReferences() {
-		if(returnWindow(MasterFrame.UserAchievementsMenu) != null) {
-			JFrame jfr = returnWindow(MasterFrame.UserAchievementsMenu);
-			if( jfr instanceof Updatable) {
-				Updatable upd = (Updatable) jfr;
-				upd.updateAllData();
-				logger.log(Level.INFO, "Data updated for " + jfr.getName());
-			}
-		}
-		
-		if(returnWindow(MasterFrame.GameSettingsMenu) != null) {
-			JFrame jfr = returnWindow(MasterFrame.GameSettingsMenu);
-			if( jfr instanceof Updatable) {
-				Updatable upd = (Updatable) jfr;
-				upd.updateAllData();
-				logger.log(Level.INFO, "Data updated for " + jfr.getName());
-			}
-		}
 	}
 	
 	@Override

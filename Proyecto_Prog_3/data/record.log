@@ -1,8 +1,8 @@
-nov 21, 2023 6:49:01 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainGameMenu was created
-nov 21, 2023 6:49:07 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainGameMenu   Saved key monopoly.windows.MainGameMenu with value monopoly.windows.MainGameMenu[frame1,460,166,1000x700,invalid,hidden,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,8,31,984x661,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@3547bf72,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-nov 21, 2023 6:49:07 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainMenu is visible
-nov 21, 2023 6:49:07 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainGameMenu is not visible
+nov 21, 2023 11:16:39 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.UserAchievementsMenu was created
+nov 21, 2023 11:17:12 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.UserAchievementsMenu   Saved key monopoly.windows.UserAchievementsMenu with value monopoly.windows.UserAchievementsMenu[frame6,268,8,1058x724,invalid,hidden,layout=java.awt.BorderLayout,title=USER ACHIEVEMENTS MENU,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,1044x687,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@9dff949,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+nov 21, 2023 11:17:12 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.UserAchievementsMenu   Window monopoly.windows.MainMenu is visible
+nov 21, 2023 11:17:12 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.UserAchievementsMenu   Window monopoly.windows.UserAchievementsMenu is not visible

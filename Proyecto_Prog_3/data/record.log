@@ -1,18 +1,8 @@
-nov 21, 2023 5:47:42 P. M. monopoly.data.LogRecorder log
-ADVERTENCIA: monopoly.windows.UsersMenu   Window with monopoly.windows.UsersMenu was already saved
-nov 21, 2023 5:47:42 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.MainMenu is visible
-nov 21, 2023 5:47:42 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.UsersMenu is not visible
-nov 21, 2023 5:47:43 P. M. monopoly.data.LogRecorder log
-ADVERTENCIA: monopoly.windows.MainMenu   Window with monopoly.windows.MainMenu was already saved
-nov 21, 2023 5:47:43 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.GameSettingsMenu is visible
-nov 21, 2023 5:47:43 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainMenu is not visible
-nov 21, 2023 5:47:47 P. M. monopoly.data.LogRecorder log
-ADVERTENCIA: monopoly.windows.GameSettingsMenu   Window with monopoly.windows.GameSettingsMenu was already saved
-nov 21, 2023 5:47:47 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.GameSettingsMenu   Window monopoly.windows.MainMenu is visible
-nov 21, 2023 5:47:47 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.GameSettingsMenu   Window monopoly.windows.GameSettingsMenu is not visible
+nov 21, 2023 6:49:01 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainGameMenu was created
+nov 21, 2023 6:49:07 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainGameMenu   Saved key monopoly.windows.MainGameMenu with value monopoly.windows.MainGameMenu[frame1,460,166,1000x700,invalid,hidden,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,8,31,984x661,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@3547bf72,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+nov 21, 2023 6:49:07 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainMenu is visible
+nov 21, 2023 6:49:07 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainGameMenu is not visible

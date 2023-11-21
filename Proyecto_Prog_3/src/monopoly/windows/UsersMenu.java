@@ -235,6 +235,7 @@ public class UsersMenu extends MasterFrame{
 			if( jfr instanceof Updatable) {
 				Updatable upd = (Updatable) jfr;
 				upd.updateAllData();
+				logger.log(Level.INFO, "Data updated for " + jfr.getName());
 			}
 		}
 		
@@ -243,6 +244,7 @@ public class UsersMenu extends MasterFrame{
 			if( jfr instanceof Updatable) {
 				Updatable upd = (Updatable) jfr;
 				upd.updateAllData();
+				logger.log(Level.INFO, "Data updated for " + jfr.getName());
 			}
 		}
 	}

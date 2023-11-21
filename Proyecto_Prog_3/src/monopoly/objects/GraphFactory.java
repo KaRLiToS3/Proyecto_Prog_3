@@ -11,6 +11,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.junit.Test;
 
+import monopoly.data.LogRecorder;
+
 public class GraphFactory {
 	private static LogRecorder logger = new LogRecorder(GraphFactory.class.getClass());
 	

@@ -1,0 +1,18 @@
+nov 21, 2023 5:47:42 P. M. monopoly.data.LogRecorder log
+ADVERTENCIA: monopoly.windows.UsersMenu   Window with monopoly.windows.UsersMenu was already saved
+nov 21, 2023 5:47:42 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.MainMenu is visible
+nov 21, 2023 5:47:42 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.UsersMenu is not visible
+nov 21, 2023 5:47:43 P. M. monopoly.data.LogRecorder log
+ADVERTENCIA: monopoly.windows.MainMenu   Window with monopoly.windows.MainMenu was already saved
+nov 21, 2023 5:47:43 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.GameSettingsMenu is visible
+nov 21, 2023 5:47:43 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainMenu is not visible
+nov 21, 2023 5:47:47 P. M. monopoly.data.LogRecorder log
+ADVERTENCIA: monopoly.windows.GameSettingsMenu   Window with monopoly.windows.GameSettingsMenu was already saved
+nov 21, 2023 5:47:47 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.GameSettingsMenu   Window monopoly.windows.MainMenu is visible
+nov 21, 2023 5:47:47 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.GameSettingsMenu   Window monopoly.windows.GameSettingsMenu is not visible

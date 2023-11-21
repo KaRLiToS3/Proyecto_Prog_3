@@ -19,7 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import monopoly.objects.LogRecorder;
+import monopoly.data.LogRecorder;
 
 /**This is a JFrame that is to provide other JFrames subclasses with methods to improve their overall efficiency and coordination
  * Also provides some tools to draw images into {@code Component} and {@code JPanel} with the inner class PanelImageBuilder
@@ -109,7 +109,6 @@ public abstract class MasterFrame extends JFrame{
 			Dimension windowDim;
 
 			if(proportionalDimensions) {
-				try {
 					windowDim = new Dimension(getMainWindowDimension());
 					panelDim = new Dimension(this.getWidth(), this.getHeight());
 
@@ -119,19 +118,9 @@ public abstract class MasterFrame extends JFrame{
 						return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth),(int)(this.getHeight()*percentagePanelsHeight));			//Resolves the panel according to the width of the window
 						//Height here is irrelevant
 					}
-					
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-					return null;
-				}
 			} else {
-				try {
 					windowDim = new Dimension(getMainWindowDimension());
 					return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth), (int) (windowDim.getHeight()*percentagePanelsHeight));
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-					return null;
-				}
 			}
 		}
 	}
@@ -145,7 +134,7 @@ public abstract class MasterFrame extends JFrame{
 		}
 	}
 	
-	private JFrame returnWindow(String name) {
+	public JFrame returnWindow(String name) {
 		return windowRefs.get(name);
 	}
 	
@@ -273,11 +262,7 @@ public abstract class MasterFrame extends JFrame{
 	 * @return	The dimension of the JFrame
 	 * @throws ClassNotFoundException	In case it is used in a class that is not a JFrame
 	 */
-	protected Dimension getMainWindowDimension() throws ClassNotFoundException{
-		if(this instanceof JFrame) {
-			return new Dimension(this.getWidth(), this.getHeight());			
-		}else {
-			throw new ClassNotFoundException("This method cannot be implemented if the class doesn't extend JFrame");
-		}
+	protected Dimension getMainWindowDimension(){
+			return new Dimension(this.getWidth(), this.getHeight());	
 	}
 }

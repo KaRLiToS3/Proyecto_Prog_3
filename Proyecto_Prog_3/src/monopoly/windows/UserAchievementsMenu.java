@@ -12,6 +12,8 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -32,7 +34,7 @@ import monopoly.data.DataManager;
 import monopoly.objects.Achievement;
 import monopoly.objects.User;
 
-public class UserAchievementsMenu extends MasterFrame {
+public class UserAchievementsMenu extends MasterFrame implements Updatable{
 	private static final long serialVersionUID = 1L;
 	private static final Font font1 = new Font("Arial Rounded MT Bold", Font.BOLD, 24);
 	private static final Font font2 = new Font("Arial Rounded MT Bold", Font.PLAIN, 15);
@@ -46,6 +48,7 @@ public class UserAchievementsMenu extends MasterFrame {
 	private URL backgroundImage = getClass().getResource("/monopoly/images/backgroundAchievements.jpg");
 	private URL trophy = getClass().getResource("/monopoly/images/trophy.png");
 	private Set<Thread> threadList = new HashSet<>();
+	private JComboBox<User> usersCombo;
 	
 	public UserAchievementsMenu() {
 		setSize(1000,800);
@@ -64,7 +67,7 @@ public class UserAchievementsMenu extends MasterFrame {
 		JLabel plainText = new JLabel("Select the user to check his achievements!");
 		plainText.setFont(font2);
 		plainText.setForeground(gold);
-		JComboBox<User> usersCombo = new JComboBox<>();
+		usersCombo = new JComboBox<>();
 		
 		JPanel N = new JPanel();
 		JPanel N1 = new JPanel();
@@ -163,19 +166,21 @@ public class UserAchievementsMenu extends MasterFrame {
 				C1.repaint();
 				info.setText(infoText);
 				User selUser = (User) usersCombo.getSelectedItem();
-				if(selUser.getAchievements() != null && !selUser.getAchievements().isEmpty()) {			
-					for(Achievement ach : selUser.getAchievements()) {
-						URL logoAch = getClass().getResource(ach.getType().getImg()[0]);
-						URL textAch = getClass().getResource(ach.getType().getImg()[1]);
-						JLabel label = new JLabel(getIconifiedImage(logoAch, achievementSize, achievementSize));
-						label.addMouseListener(new ImageSwitchActionListener(label, ach.getTimes(), logoAch, textAch));
-						C1.add(label);
-					}
-					for(int i = selUser.getAchievements().size(); i < numPossibleAchievements; i++) {
-						URL questionBlock = getClass().getResource("/monopoly/images/Question_Block.png");
-						JLabel labQB = new JLabel(getIconifiedImage(questionBlock, achievementSize, achievementSize));
-						C1.add(labQB);
-					}
+				if(selUser != null) {
+					if(selUser.getAchievements() != null && !selUser.getAchievements().isEmpty()) {			
+						for(Achievement ach : selUser.getAchievements()) {
+							URL logoAch = getClass().getResource(ach.getType().getImg()[0]);
+							URL textAch = getClass().getResource(ach.getType().getImg()[1]);
+							JLabel label = new JLabel(getIconifiedImage(logoAch, achievementSize, achievementSize));
+							label.addMouseListener(new ImageSwitchActionListener(label, ach.getTimes(), logoAch, textAch));
+							C1.add(label);
+						}
+						for(int i = selUser.getAchievements().size(); i < numPossibleAchievements; i++) {
+							URL questionBlock = getClass().getResource("/monopoly/images/Question_Block.png");
+							JLabel labQB = new JLabel(getIconifiedImage(questionBlock, achievementSize, achievementSize));
+							C1.add(labQB);
+						}
+				}
 					revalidate();
 					repaint();
 				}
@@ -191,6 +196,14 @@ public class UserAchievementsMenu extends MasterFrame {
 	
 	private void killThreads() {
 		for(Thread thr : threadList) thr.interrupt();
+	}
+	
+	@Override
+	public void updateAllData() {
+		usersCombo.removeAllItems();
+		for(User usr : DataManager.getManager().getRegisteredUsers()) {
+			usersCombo.addItem(usr);
+		}
 	}
 	
 	private static int calculateGridSize() {

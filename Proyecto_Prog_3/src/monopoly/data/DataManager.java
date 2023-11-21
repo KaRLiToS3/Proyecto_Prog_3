@@ -118,7 +118,6 @@ public class DataManager {
 				prepStmt.setString(3,user.getEmail());
 				prepStmt.setString(4,user.getPassword());
 				int rows = prepStmt.executeUpdate();
-				System.out.println("Updated: " + rows);
 			}
 			conn.close();
 		}catch (SQLException e) {

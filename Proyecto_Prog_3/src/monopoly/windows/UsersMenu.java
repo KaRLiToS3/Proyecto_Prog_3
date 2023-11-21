@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -151,6 +152,7 @@ public class UsersMenu extends MasterFrame{
 
 			@Override
 			public void windowClosed(WindowEvent e) {
+				updateDataReferences();
 				switchToNextWindow(MasterFrame.MainMenu);
 			}
 
@@ -225,6 +227,24 @@ public class UsersMenu extends MasterFrame{
 				}
 			}
 		});
+	}
+	
+	private void updateDataReferences() {
+		if(returnWindow(MasterFrame.UserAchievementsMenu) != null) {
+			JFrame jfr = returnWindow(MasterFrame.UserAchievementsMenu);
+			if( jfr instanceof Updatable) {
+				Updatable upd = (Updatable) jfr;
+				upd.updateAllData();
+			}
+		}
+		
+		if(returnWindow(MasterFrame.GameSettingsMenu) != null) {
+			JFrame jfr = returnWindow(MasterFrame.GameSettingsMenu);
+			if( jfr instanceof Updatable) {
+				Updatable upd = (Updatable) jfr;
+				upd.updateAllData();
+			}
+		}
 	}
 	
 	@Override

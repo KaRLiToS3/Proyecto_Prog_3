@@ -187,7 +187,7 @@ public class CreateUser extends MasterFrame{
 				list.add(new Achievement(Achievement.Type.BEGGINER, 3));
 				list.add(new Achievement(Achievement.Type.CHEAPSKATE, 4));
 				list.add(new Achievement(Achievement.Type.FLAT_BROKE, 1));
-				list.add(new Achievement(Achievement.Type.VETERAN, 1));
+//				list.add(new Achievement(Achievement.Type.VETERAN, 1));
 				String Alias = textFieldMap.get("ALIAS:").getText();
 				String Name = textFieldMap.get("NAME:").getText();
 				String Email = textFieldMap.get("EMAIL:").getText();

@@ -1,32 +1,12 @@
-<<<<<<< HEAD
-nov 14, 2023 8:23:46 P. M. monopoly.objects.LogRecorder log
-=======
-nov 14, 2023 7:17:13 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.CreateUser was created
-nov 14, 2023 7:17:22 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   New User created
-nov 14, 2023 7:17:28 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   New User created
-nov 14, 2023 7:17:29 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   Saved key monopoly.windows.CreateUser with value monopoly.windows.CreateUser[frame2,468,268,600x280,invalid,hidden,layout=java.awt.BorderLayout,title=CREATE NEW USER,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,586x243,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@27d6f02a,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-nov 14, 2023 7:17:29 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   Window monopoly.windows.UsersMenu is visible
-nov 14, 2023 7:17:29 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   Window monopoly.windows.CreateUser is not visible
-nov 14, 2023 7:17:40 P. M. monopoly.objects.LogRecorder log
-ADVERTENCIA: monopoly.windows.UsersMenu   Window with monopoly.windows.UsersMenu was already saved
-nov 14, 2023 7:17:40 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.MainMenu is visible
-nov 14, 2023 7:17:40 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.UsersMenu is not visible
-nov 14, 2023 7:17:41 P. M. monopoly.objects.LogRecorder log
->>>>>>> branch 'master' of https://github.com/KaRLiToS3/Proyecto_Prog_3
+nov 21, 2023 6:28:18 P. M. monopoly.objects.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainGameMenu was created
+nov 21, 2023 6:28:50 P. M. monopoly.objects.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainGameMenu   Saved key monopoly.windows.MainGameMenu with value monopoly.windows.MainGameMenu[frame1,-8,-8,1936x1048,invalid,hidden,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,maximized,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,8,31,1920x1009,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@42426346,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+nov 21, 2023 6:28:50 P. M. monopoly.objects.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainMenu is visible
+nov 21, 2023 6:28:50 P. M. monopoly.objects.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainGameMenu is not visible
+nov 21, 2023 6:28:51 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.data.DataManager   Users saved
-<<<<<<< HEAD
-nov 14, 2023 8:23:46 P. M. monopoly.objects.LogRecorder log
-=======
-nov 14, 2023 7:17:41 P. M. monopoly.objects.LogRecorder log
-INFORMACIÓN: monopoly.data.DataManager   Users saved
-nov 14, 2023 7:17:41 P. M. monopoly.objects.LogRecorder log
->>>>>>> branch 'master' of https://github.com/KaRLiToS3/Proyecto_Prog_3
+nov 21, 2023 6:28:51 P. M. monopoly.objects.LogRecorder log
 INFORMACIÓN: monopoly.data.DataManager   Users saved

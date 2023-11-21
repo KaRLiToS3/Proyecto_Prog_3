@@ -18,6 +18,7 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -45,13 +46,13 @@ public class MainGameMenu extends MasterFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-private final URL boardPath = getClass().getResource("/monopoly/images/board_monopoly.png");
-private final URL dicePath = getClass().getResource("/monopoly/images/dice.png");
-//	private static final String boardPath = "../images/board_monopoly.png";
-//	private static final String dicePath = "../images/dice.png";
-//	private static final Point[] positionList = {new Point(599,626),new Point(543,643),new Point(487,631),new Point(434,645),new Point(377,635),new Point(322,637),new Point(267,649),new Point(212,638),new Point(162,653),new Point(109,644),new Point(18,622),new Point(21,568),new Point(22,514),new Point(24,461),new Point(22,405),new Point(21,351),new Point(24,295),new Point(27,239),new Point(25,184),new Point(28,137),new Point(32,57),new Point(107,52),new Point(162,59),new Point(216,56),new Point(269,55),new Point(323,60),new Point(379,60),new Point(433,62),new Point(484,59),new Point(543,58),new Point(599,52),new Point(616,134),new Point(614,186),new Point(597,239),new Point(618,291),new Point(600,349),new Point(596,405),new Point(620,458),new Point(618,565)};
-	private static final double[] posdoubleX = {0.9167927382753404,0.8184568835098336,0.7367624810892587,0.028744326777609682,0.03479576399394856,0.030257186081694403,0.039334341906202726,0.16036308623298035,0.23903177004538578,0.9334341906202723,0.8986384266263238,};
-	private static final double[] posdoubleY = {0.9515885022692889,0.9757942511346445,0.9652042360060514,0.9440242057488654,0.8608169440242057,0.7776096822995462,0.08169440242057488,0.08018154311649017,0.08925869894099848,0.2087745839636914,0.3661119515885023,};
+	private final URL boardPath = getClass().getResource("/monopoly/images/board_monopoly.png");
+	private final URL dicePath = getClass().getResource("/monopoly/images/dice.png");
+	public static final Dimension defaultWindowDimension = new Dimension(1000, 700);
+	//	private static final String boardPath = "../images/board_monopoly.png";
+	//	private static final String dicePath = "../images/dice.png";
+	//	private static final Point[] positionList = {new Point(599,626),new Point(543,643),new Point(487,631),new Point(434,645),new Point(377,635),new Point(322,637),new Point(267,649),new Point(212,638),new Point(162,653),new Point(109,644),new Point(18,622),new Point(21,568),new Point(22,514),new Point(24,461),new Point(22,405),new Point(21,351),new Point(24,295),new Point(27,239),new Point(25,184),new Point(28,137),new Point(32,57),new Point(107,52),new Point(162,59),new Point(216,56),new Point(269,55),new Point(323,60),new Point(379,60),new Point(433,62),new Point(484,59),new Point(543,58),new Point(599,52),new Point(616,134),new Point(614,186),new Point(597,239),new Point(618,291),new Point(600,349),new Point(596,405),new Point(620,458),new Point(618,565)};
+	private static List<Point> cellPosList = new ArrayList<>();
 	private static final List<double[]> posdoublelist = new ArrayList<>() {
 		/**
 		 * 
@@ -75,18 +76,24 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 	// Token position setter
 	private static List<Point> posList = new ArrayList<>();
 
-	
+	private List<Cell> cellList = new ArrayList<>();
 	private List<Token> tokenList = new ArrayList<>();
 	
 	public MainGameMenu() {
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1000,700);
-		setMinimumSize(new Dimension(1000, 700));
+		setMinimumSize(defaultWindowDimension);
 		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
-
+		
+		
+		
+		cellPosList.add( new Point(100, 300));
+		cellPosList.add( new Point(200, 200));
+		cellPosList.add( new Point(200, 100));
+		
 		// PANEL FOR MAIN DISTRIBUTION
 		 
 		setLayout(new BorderLayout());
@@ -99,6 +106,18 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
+				for (Cell c : cellList) {
+					c.updateCell();
+					for (Token t : tokenList) {
+						if (t.getCellNumber()==c.getCellNumber()) {
+							t.updateToken(c);
+						}
+					}
+				}
+				for (Cell c : cellList) {
+					c.paintComponent(g);
+				}
+				
 				for (Token token : tokenList) {
 					token.paintComponent(g);
 				}
@@ -129,6 +148,29 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 		eventPanel.add(diceButton);
 		setComponentDimension(diceButton, 100, 80);
 		
+
+		addMouseListener( new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+//				 Token position setter
+				posList.add(getMousePosition());
+			}
+		});
+
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				switchToNextWindow(MasterFrame.MainMenu);
+			}
+		});
+		
+		// CELL CREATION
+		// TODO crear una manera para que se actualizen los valores x,y cuando haya resize (mandando los jpanels o asi)
+//		for ( Point p : cellPosList) {
+//			cellList.add(new Cell((int)p.getX(), (int)p.getY(), defaultWindowDimension, this.getSize()));
+//		}
+		setVisible(true);
+		Insets insets = getInsets();
 		diceButton.addActionListener( new ActionListener() {
 			
 			@Override
@@ -141,9 +183,9 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 				//				System.out.println(str);
 				PrintStream stream = null;
 				try {
-					stream = new PrintStream(new FileOutputStream("cellPositions.txt")); 
+					stream = new PrintStream(new FileOutputStream("src/monopoly/files/cellPositions.txt")); 
 					for (Point p : posList) {
-						stream.println((int)p.getX()/boardPanel.getSize().getWidth()+"_"+(int)p.getY()/boardPanel.getSize().getHeight());
+						stream.println(((p.getX()-insets.left)/boardPanel.getSize().getWidth())+"_"+((p.getY()-insets.top)/boardPanel.getSize().getHeight()));
 					}
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
@@ -177,44 +219,58 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 //				System.out.println(str);
 //				
 //				System.out.println(getInsets());
-
-			}
-		});
-
-		addMouseListener( new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-//				 Token position setter
-				posList.add(getMousePosition());
-			}
-		});
-
-		this.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				switchToNextWindow(MasterFrame.MainMenu);
+				
 			}
 		});
 		
-		setVisible(true);
+		
+		loadCellPositions(boardPanel);
+		
+		// tryin token in each cell
+		for (Cell c : cellList) {
+			System.out.println(c.getTopLeft()+", "+c.getTopRight()+", "+c.getBottomLeft()+", "+c.getBottomRight());
+			tokenList.add(new Token(c.getTopLeft(), Color.RED, boardPanel, c.getCellNumber()));
+			tokenList.add(new Token(c.getTopRight(), Color.GREEN, boardPanel, c.getCellNumber()));
+			tokenList.add(new Token(c.getBottomLeft(), Color.BLUE, boardPanel, c.getCellNumber()));
+			tokenList.add(new Token(c.getBottomRight(), Color.YELLOW, boardPanel, c.getCellNumber()));
+		}
+		
+//		System.out.println(boardPanel.getWidth());
+//		System.out.println(cellList);
+		
+		
+		
+		
+		// trying tokens on cells
+		
+//		cellList.add(new Cell(0.3, 0.3, boardPanel));
+//		cellList.add(new Cell(0.2, 0.4, boardPanel));
+//		for (Cell c : cellList) {
+//			tokenList.add(new Token(c.getX(), c.getY(), Color.RED, boardPanel));
+//		}
+
+		
+		
+		
+		
+//		System.out.println(tokenList);
 		
 		//try tokens	
-//		Insets insets = getInsets();
 //		for (Point p : positionList) {
 //			tokenList.add(new Token((int)p.getX()-insets.left, (int)p.getY()-insets.top, Color.RED));
 //		}
-		Insets insets = getInsets();
+//		Insets insets = getInsets();
 //		loadCellPositions();
 //		for (double[] p : posdoublelist) {
 ////			tokenList.add(new Token((int)(p[0]*boardPanel.getSize().getWidth()-insets.left-insets.right), (int)(p[1]*boardPanel.getSize().getWidth()-insets.top-insets.bottom), Color.RED));
 //			tokenList.add(new Token(p[0], p[1], Color.RED,boardPanel,insets));
 //		}
-		loadCellPositions();
-		for (double[] p : Cell.cellPositionList) {
+//		loadCellPositions();
+//		for (double[] p : Cell.cellPositionList) {
 //			tokenList.add(new Token((int)(p[0]*boardPanel.getSize().getWidth()-insets.left-insets.right), (int)(p[1]*boardPanel.getSize().getWidth()-insets.top-insets.bottom), Color.RED));
 			
-			tokenList.add(new Token(p[0], p[1], Color.RED,boardPanel,insets));
-		}
+//			tokenList.add(new Token(p[0], p[1], Color.RED,boardPanel,insets));
+//		}
 	}
 	// TODO revisar que si cogemos la proporcion de la posicion de los tokens respecto a las dimensiones del board panel o main window (teniendo en cuenta insets)
 	@Override
@@ -222,21 +278,25 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 		return MasterFrame.MainGameMenu;
 	}
 	
-	public void loadCellPositions() {
-		File file = new File("/monopoly/files/cellPositions.txt");
+	public void loadCellPositions(JPanel panel) {
+		File file = new File("src/monopoly/files/cellPositions.txt");
+//		InputStream is = new i/
+//		this.getClass().getResource("src/monopoly/files/cellPositions.txt")
+		// TODO probar a crear un input stream en vez de un file para utilizar el this.geclas... y tener el fichero fuera de src
 		try (Scanner scanner = new Scanner(file)) {
 			while (scanner.hasNextLine()) {
-//				String line = scanner.nextLine();
+				String line = scanner.nextLine();
 //				System.out.println(scanner.nextLine());
-//				int separation = line.indexOf("_");
+				int separation = line.indexOf("_");
 //				double[] tuple = { Double.parseDouble( line.substring(0, separation)), Double.parseDouble(line.substring(separation+1)) };
 //				Cell.cellPositionList.add(tuple);
-				System.out.println(scanner.nextLine());
+				cellList.add(new Cell(Double.parseDouble( line.substring(0, separation)), Double.parseDouble(line.substring(separation+1)), panel));
+//				System.out.println(scanner.nextLine());
 			}
 			scanner.close();
-			System.out.println("list: "+Cell.cellPositionList);
+//			System.out.println("list: "+Cell.cellPositionList);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			System.out.println("no hay");
 		}	
 	}

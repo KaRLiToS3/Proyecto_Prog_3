@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Point;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import monopoly.windows.MainGameMenu;
 
 public class Token extends JComponent{
 	/**
@@ -21,7 +24,7 @@ public class Token extends JComponent{
 	JPanel panel;
 	Color color;
 	Insets insets;
-	int cell;
+	int cellNumber;
 	
 	
 	static int counter = 0;
@@ -47,7 +50,6 @@ public class Token extends JComponent{
 		this.y = y;
 	}
 	
-
 	public double getPerX() {
 		return perX;
 	}
@@ -80,35 +82,51 @@ public class Token extends JComponent{
 		this.color = color;
 	}
 
-	public int getCell() {
-		return cell;
+	public int getCellNumber() {
+		return cellNumber;
 	}
 
-	public void setCell(int cell) {
-		this.cell = cell;
-	}
-
-	public Token(int x, int y, Color color) {
-		this.x = x;
-		this.y = y;
-		this.color = color;
-		counter++;
+	public void setCellNumber(int cell) {
+		this.cellNumber = cell;
 	}
 	
-	public Token(double perX, double perY, Color color, JPanel panel,Insets insets) {
-		this.perX = perX;
-		this.perY = perY;
+	public void setCoordinates(Point point) {
+		setX((int)point.getX());
+		setY((int)point.getY());
+	}
+
+//	public Token(int x, int y, Color color, JPanel panel) {
+//		this.x = x;
+//		this.y = y;
+//		this.color = color;
+//		this.panel = panel;
+//		this.cellNumber = counter;
+//		counter++;
+//	}
+	
+	public Token(Point p, Color color, JPanel panel, int cellNumber) {
+		this.x = (int)p.getX();
+		this.y = (int)p.getY();
 		this.color = color;
 		this.panel = panel;
-		this.insets = insets;
-		counter++;
+		this.cellNumber = cellNumber;
 	}
 	
+//	public Token(double perX, double perY, Color color, JPanel panel,Insets insets) {
+//		this.perX = perX;
+//		this.perY = perY;
+//		this.color = color;
+//		this.panel = panel;
+//		this.insets = insets;
+//		this.cellNumber = counter;
+//		counter++;
+//	}
 	
 	
-	public Token() {
-		this (100*(counter+1),100*(counter+1),TOKEN_COLORS[counter]);
-	}
+	
+//	public Token() {
+//		this (100*(counter+1),100*(counter+1),TOKEN_COLORS[counter]);
+//	}
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -118,10 +136,24 @@ public class Token extends JComponent{
 		
 		graphics2D.setPaint(color);
 //		graphics2D.fillOval(x, y, radius*2, radius*2);
-		double panelWidth = panel.getSize().getWidth();
-		int radiusCalc = (int)(perRadius*panelWidth);
-		graphics2D.fillOval((int)(perX*panelWidth-insets.left-radiusCalc), (int)(perY*panelWidth-insets.top-radiusCalc), radiusCalc*2, radiusCalc*2);
+//		double panelWidth = panel.getSize().getWidth();
+		int radiusCalc = (int)(radius*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
+		
+//		graphics2D.fillOval((int)(perX*panelWidth-insets.left-radiusCalc), (int)(perY*panelWidth-insets.top-radiusCalc), radiusCalc*2, radiusCalc*2);
+		graphics2D.fillOval(getX()-radiusCalc, getY()-radiusCalc, 2*radiusCalc, 2*radiusCalc);
+	}
 	
+	public void updateToken(Cell cell) {
+		System.out.println(this.getColor().toString());
+		if (this.getColor().equals(Color.RED)) {
+			this.setCoordinates(cell.getTopLeft());
+		} else if (this.getColor().equals(Color.GREEN)) {
+			this.setCoordinates(cell.getTopRight());
+		} else if (this.getColor().equals(Color.BLUE)) {
+			this.setCoordinates(cell.getBottomLeft());
+		} else if (this.getColor().equals(Color.YELLOW)) {
+			this.setCoordinates(cell.getBottomRight());
+		}
 	}
 
 	@Override

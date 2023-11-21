@@ -1,28 +1,18 @@
-nov 21, 2023 5:39:55 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.CreateUser was created
-nov 21, 2023 5:40:00 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   New User created
-nov 21, 2023 5:40:02 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   Saved key monopoly.windows.CreateUser with value monopoly.windows.CreateUser[frame3,468,268,600x280,invalid,hidden,layout=java.awt.BorderLayout,title=CREATE NEW USER,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,586x243,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@75b84f54,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-nov 21, 2023 5:40:02 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   Window monopoly.windows.UsersMenu is visible
-nov 21, 2023 5:40:02 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   Window monopoly.windows.CreateUser is not visible
-nov 21, 2023 5:40:04 P. M. monopoly.data.LogRecorder log
+nov 21, 2023 5:47:42 P. M. monopoly.data.LogRecorder log
 ADVERTENCIA: monopoly.windows.UsersMenu   Window with monopoly.windows.UsersMenu was already saved
-nov 21, 2023 5:40:04 P. M. monopoly.data.LogRecorder log
+nov 21, 2023 5:47:42 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.MainMenu is visible
-nov 21, 2023 5:40:04 P. M. monopoly.data.LogRecorder log
+nov 21, 2023 5:47:42 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.UsersMenu is not visible
-nov 21, 2023 5:40:06 P. M. monopoly.data.LogRecorder log
+nov 21, 2023 5:47:43 P. M. monopoly.data.LogRecorder log
 ADVERTENCIA: monopoly.windows.MainMenu   Window with monopoly.windows.MainMenu was already saved
-nov 21, 2023 5:40:06 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.UserAchievementsMenu is visible
-nov 21, 2023 5:40:06 P. M. monopoly.data.LogRecorder log
+nov 21, 2023 5:47:43 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.GameSettingsMenu is visible
+nov 21, 2023 5:47:43 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainMenu is not visible
-nov 21, 2023 5:40:31 P. M. monopoly.data.LogRecorder log
-ADVERTENCIA: monopoly.windows.UserAchievementsMenu   Window with monopoly.windows.UserAchievementsMenu was already saved
-nov 21, 2023 5:40:31 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UserAchievementsMenu   Window monopoly.windows.MainMenu is visible
-nov 21, 2023 5:40:31 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UserAchievementsMenu   Window monopoly.windows.UserAchievementsMenu is not visible
+nov 21, 2023 5:47:47 P. M. monopoly.data.LogRecorder log
+ADVERTENCIA: monopoly.windows.GameSettingsMenu   Window with monopoly.windows.GameSettingsMenu was already saved
+nov 21, 2023 5:47:47 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.GameSettingsMenu   Window monopoly.windows.MainMenu is visible
+nov 21, 2023 5:47:47 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.GameSettingsMenu   Window monopoly.windows.GameSettingsMenu is not visible

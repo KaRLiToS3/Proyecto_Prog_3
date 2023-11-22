@@ -12,7 +12,7 @@ public class Achievement implements Serializable{
 	private int times;
 	public Type type;
 
-	public enum Type{
+	public enum Type {
 		MVP("Most Valuable Player", mvp),
 		CHEAPSKATE("This player had the highest amount of money at the end of the game, he doesn't like sharing cash at all", chpsk),
 		BEGGINER("The first match is always tough, however you made it through, Congrats!!!! :)", mvp),

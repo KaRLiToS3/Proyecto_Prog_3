@@ -15,13 +15,20 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+import java.util.Scanner;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
-
+import java.nio.file.Paths;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -29,7 +36,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.CellEditorListener;
 
+import monopoly.objects.Cell;
 import monopoly.objects.Token;
 
 public class MainGameMenu extends MasterFrame {
@@ -37,26 +46,28 @@ public class MainGameMenu extends MasterFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-private final URL boardPath = getClass().getResource("/monopoly/images/board_monopoly.png");
-private final URL dicePath = getClass().getResource("/monopoly/images/dice.png");
-//	private static final String boardPath = "../images/board_monopoly.png";
-//	private static final String dicePath = "../images/dice.png";
-	private static final Point[] positionList = {new Point(599,626),new Point(543,643),new Point(487,631),new Point(434,645),new Point(377,635),new Point(322,637),new Point(267,649),new Point(212,638),new Point(162,653),new Point(109,644),new Point(18,622),new Point(21,568),new Point(22,514),new Point(24,461),new Point(22,405),new Point(21,351),new Point(24,295),new Point(27,239),new Point(25,184),new Point(28,137),new Point(32,57),new Point(107,52),new Point(162,59),new Point(216,56),new Point(269,55),new Point(323,60),new Point(379,60),new Point(433,62),new Point(484,59),new Point(543,58),new Point(599,52),new Point(616,134),new Point(614,186),new Point(597,239),new Point(618,291),new Point(600,349),new Point(596,405),new Point(620,458),new Point(618,565)};
-	// Token position setter
-//	private static List<Point> posList = new ArrayList<>();
+	private final URL boardPath = getClass().getResource("/monopoly/images/board_monopoly.png");
+	private final URL dicePath = getClass().getResource("/monopoly/images/dice.png");
+	public static final Dimension defaultWindowDimension = new Dimension(1000, 700);
+	private static String cellPositionsPath = Paths.get("data/cellPositions.txt").toAbsolutePath().toString();
 
 	
+	// Token position setter
+	private static List<Point> posList = new ArrayList<>();
+
+	private List<Cell> cellList = new ArrayList<>();
 	private List<Token> tokenList = new ArrayList<>();
 	
 	public MainGameMenu() {
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(1000,700);
-		setMinimumSize(new Dimension(1000, 700));
+		setMinimumSize(defaultWindowDimension);
 		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
-				
+		
+		
 		// PANEL FOR MAIN DISTRIBUTION
 		 
 		setLayout(new BorderLayout());
@@ -69,13 +80,25 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
+				for (Cell c : cellList) {
+					c.updateCell();
+					for (Token t : tokenList) {
+						if (t.getCellNumber()==c.getCellNumber()) {
+							t.updateToken(c);
+						}
+					}
+				}
+				for (Cell c : cellList) {
+					c.paintComponent(g);
+				}
+				
 				for (Token token : tokenList) {
 					token.paintComponent(g);
 				}
+				
 				repaint();
 			}
 		};
-//		boardPanel.setBackground(Color.BLACK);
 		boardPanel.setBackground(Color.BLACK);
 		add(boardPanel, BorderLayout.WEST);
 		
@@ -98,28 +121,12 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 		eventPanel.add(diceButton);
 		setComponentDimension(diceButton, 100, 80);
 		
-		diceButton.addActionListener( new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-//				tokenList.get(0).setX(tokenList.get(0).getX()+100);
-				// Token position setter
-//				String str = "{";
-//				for (Point p : posList) {
-//					str = str + "new Point("+(int)p.getX()+","+(int)p.getY()+"),";
-//				}
-//				str=str+"}";
-//			
-//				System.out.println(str);
-			}
-		});
 
 		addMouseListener( new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// Token position setter
-//				posList.add(getMousePosition());
-				System.out.println(getMousePosition());
+//				 Token position setter
+				posList.add(getMousePosition());
 			}
 		});
 
@@ -130,16 +137,61 @@ private final URL dicePath = getClass().getResource("/monopoly/images/dice.png")
 			}
 		});
 		
+
 		setVisible(true);
-		
-		//try tokens	
 		Insets insets = getInsets();
-		for (Point p : positionList) {
-			tokenList.add(new Token((int)p.getX()-insets.left, (int)p.getY()-insets.top, Color.RED));
+		diceButton.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				PrintStream stream = null;
+				try {
+					stream = new PrintStream(new FileOutputStream(cellPositionsPath)); 
+					for (Point p : posList) {
+						stream.println(((p.getX()-insets.left)/boardPanel.getSize().getWidth())+"_"+((p.getY()-insets.top)/boardPanel.getSize().getHeight()));
+					}
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} finally {
+					if (stream!=null) {
+						stream.close();
+					}
+				}
+			}
+		});
+		
+		
+		loadCellPositions(boardPanel);
+		
+		// tryin token in each cell
+		for (Cell c : cellList) {
+			System.out.println(c.getTopLeft()+", "+c.getTopRight()+", "+c.getBottomLeft()+", "+c.getBottomRight());
+			tokenList.add(new Token(c.getTopLeft(), Color.RED, boardPanel, c.getCellNumber()));
+			tokenList.add(new Token(c.getTopRight(), Color.GREEN, boardPanel, c.getCellNumber()));
+			tokenList.add(new Token(c.getBottomLeft(), Color.BLUE, boardPanel, c.getCellNumber()));
+			tokenList.add(new Token(c.getBottomRight(), Color.YELLOW, boardPanel, c.getCellNumber()));
 		}
+
 	}
+	// TODO revisar que si cogemos la proporcion de la posicion de los tokens respecto a las dimensiones del board panel o main window (teniendo en cuenta insets)
 	@Override
 	public String windowName() {
 		return MasterFrame.MainGameMenu;
+	}
+	
+	public void loadCellPositions(JPanel panel) {
+		File file = new File(cellPositionsPath);
+		// TODO probar a crear un input stream en vez de un file para utilizar el this.geclas... y tener el fichero fuera de src
+		try (Scanner scanner = new Scanner(file)) {
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				int separation = line.indexOf("_");
+				cellList.add(new Cell(Double.parseDouble( line.substring(0, separation)), Double.parseDouble(line.substring(separation+1)), panel));
+			}
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("no hay");
+		}	
 	}
 }

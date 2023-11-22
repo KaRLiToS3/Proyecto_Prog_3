@@ -1,26 +1,4 @@
-nov 22, 2023 8:36:41 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.PasswordVerification   Window monopoly.windows.UsersMenu was created
-nov 22, 2023 8:36:42 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Saved key monopoly.windows.UsersMenu with value monopoly.windows.UsersMenu[frame4,368,108,800x600,invalid,hidden,layout=java.awt.BorderLayout,title=USERS,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,786x563,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@7d5d87fe,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-nov 22, 2023 8:36:42 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.MainMenu is visible
-nov 22, 2023 8:36:42 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.UsersMenu is not visible
-nov 22, 2023 8:36:45 A. M. monopoly.data.LogRecorder log
-ADVERTENCIA: monopoly.windows.PasswordVerification   Window with monopoly.windows.PasswordVerification was already saved
-nov 22, 2023 8:36:45 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.PasswordVerification   Window monopoly.windows.UsersMenu is visible
-nov 22, 2023 8:36:45 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.PasswordVerification   Window monopoly.windows.PasswordVerification is not visible
-nov 22, 2023 8:36:46 A. M. monopoly.data.LogRecorder log
-ADVERTENCIA: monopoly.windows.UsersMenu   Window with monopoly.windows.UsersMenu was already saved
-nov 22, 2023 8:36:46 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.MainMenu is visible
-nov 22, 2023 8:36:46 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.UsersMenu is not visible
-nov 22, 2023 8:36:48 A. M. monopoly.data.LogRecorder log
-ADVERTENCIA: monopoly.windows.UsersMenu   Window with monopoly.windows.UsersMenu was already saved
-nov 22, 2023 8:36:48 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.MainMenu is visible
-nov 22, 2023 8:36:48 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.UsersMenu is not visible
+nov 22, 2023 9:38:02 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.PasswordVerification was created
+nov 22, 2023 9:38:07 A. M. monopoly.data.LogRecorder log
+GRAVE: monopoly.data.DataManager   Error saving data

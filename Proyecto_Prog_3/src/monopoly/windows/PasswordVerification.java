@@ -23,7 +23,7 @@ public class PasswordVerification extends MasterFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	public PasswordVerification(){
-		User user = new User();
+		User user = ((UsersMenu) returnWindow(MasterFrame.UsersMenu)).getSelectedUser();
         // Configuración de la ventana principal
         setTitle("Password Verification");
         setSize(300, 110);
@@ -70,8 +70,7 @@ public class PasswordVerification extends MasterFrame{
 			@Override
 			public void windowClosing(WindowEvent e) {
 				switchToNextWindow(MasterFrame.UsersMenu);
-				passwordField.setText("");
-				
+				passwordField.setText("");		
 				}
 			});
 	}

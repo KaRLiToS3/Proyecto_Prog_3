@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -151,6 +152,7 @@ public class UsersMenu extends MasterFrame{
 
 			@Override
 			public void windowClosed(WindowEvent e) {
+				triggerDataUpdate();
 				switchToNextWindow(MasterFrame.MainMenu);
 			}
 

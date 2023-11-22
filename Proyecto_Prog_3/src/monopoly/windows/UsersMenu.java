@@ -221,7 +221,7 @@ public class UsersMenu extends MasterFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (selectedUser != null){
-					new PasswordVerification(selectedUser);
+					switchToNextWindow(MasterFrame.PasswordVerification);
 				}
 			}
 		});
@@ -231,4 +231,14 @@ public class UsersMenu extends MasterFrame{
 	public String windowName() {
 		return MasterFrame.UsersMenu;
 	}
+
+	public User getSelectedUser() {
+		return selectedUser;
+	}
+
+	public void setSelectedUser(User selectedUser) {
+		this.selectedUser = selectedUser;
+	}
+	
+	
 }

@@ -42,9 +42,10 @@ public abstract class MasterFrame extends JFrame{
 	protected static final String HelpMenu = "monopoly.windows.HelpMenu";
 	protected static final String CreditsMenu = "monopoly.windows.CreditsMenu";
 	protected static final String CreateUser = "monopoly.windows.CreateUser";
+	protected static final String PasswordVerification = "monopoly.windows.PasswordVerification";
 	//DO NOT TOUCH
 	protected static final String[] windowArray = {MainGameMenu, GameSettingsMenu, UserAchievementsMenu, MatchRecordMenu, UsersMenu,
-			HelpMenu, CreditsMenu };
+			HelpMenu, CreditsMenu, PasswordVerification};
 	
 	protected LogRecorder logger = new LogRecorder(this.getClass());
 	

@@ -41,6 +41,7 @@ public class GameSettingsMenu extends MasterFrame implements Updatable{
 	
 	public GameSettingsMenu() {
 		setSize(500,250);
+		setResizable(false);
 		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
 		setTitle(windowTitle);

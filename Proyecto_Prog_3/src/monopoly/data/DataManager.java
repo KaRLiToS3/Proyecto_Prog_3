@@ -1,6 +1,7 @@
 package monopoly.data;
 
 import java.sql.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,12 +10,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Paths;
 import java.security.InvalidParameterException;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import org.apache.pdfbox.pdmodel.interactive.viewerpreferences.PDViewerPreferences.PRINT_SCALING;
 
 import monopoly.objects.Match;
 import monopoly.objects.User;
+import monopoly.windows.MainMenu;
+import monopoly.windows.WarningPanel;
 
 /**
  * Designed to manage all the data of the application
@@ -22,16 +26,17 @@ import monopoly.objects.User;
  */
 public class DataManager {
 	private static DataManager dataManager = null;
+	private static Properties initializer ;
+	private static final String propertyFile = Paths.get("data/configuration.properties").toAbsolutePath().toString();
 	private ObjectManager<ObjectManager<?>> allData= new ObjectManager<>();
 	private ObjectManager<User> registeredUsers = new ObjectManager<>();
 	private ObjectManager<Match> registeredMatches = new ObjectManager<>();
-	private LogRecorder logger = new LogRecorder(this.getClass());
+	private static LogRecorder logger = new LogRecorder(DataManager.class);
 		
 	private static String driver = "org.sqlite.JDBC";
 	private String filePath = Paths.get("data/Data.dat").toAbsolutePath().toString();
 	
 	private DataManager() {
-		//TODO Load all data from Database
 		uploadDataFromDB();
 		//loadAllDataFromFile();
 	}
@@ -42,7 +47,7 @@ public class DataManager {
 		} 
 		return DataManager.dataManager;			
 	}
-	
+
 	public void saveUser(User usr){
 		try {
 			registeredUsers.addObject(usr);			
@@ -67,6 +72,25 @@ public class DataManager {
 		return registeredMatches;
 	}
 	
+	//JAVA PROPERTY FILE
+	public static Properties getInitializer() {
+		if(initializer == null) {
+			initializer = new Properties();
+		}
+		try{
+			initializer.load(new FileInputStream(new File(propertyFile)));
+		} catch (FileNotFoundException e) {
+			new WarningPanel("We were unable to find the file connection.properties\nplease make sure it's in the folder 'data' ");
+			logger.log(Level.SEVERE, "Unable to find the .properties file in the location");
+			e.printStackTrace();
+		} catch (IOException e) {
+			new WarningPanel("A major problem occured while loading, please restart");
+			logger.log(Level.SEVERE, "A major problem occured while loading");
+			e.printStackTrace();
+		}
+		return DataManager.initializer;
+	}
+	
 	//DATA BASE
 	public void uploadDataFromDB() {
 		//Load the driver
@@ -77,7 +101,6 @@ public class DataManager {
 		}
 		//TODO
 		try {
-			registeredUsers = new ObjectManager<>();
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:data/GeneralDatabase.bd");
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM User");
@@ -89,9 +112,11 @@ public class DataManager {
 				registeredUsers.addObject(new User(Name, Email, Password, Alias));
 			}
 			rs.close();
+			stmt.close();
 			conn.close();
 		}catch (SQLException e) {
 			// TODO: handle exception
+			new WarningPanel("There was a problem while loading the data, please \nmake sure all files remain in their corresponding folder");
 			logger.log(Level.SEVERE, "Error uploading data");
 			e.printStackTrace();
 		};
@@ -119,9 +144,11 @@ public class DataManager {
 				prepStmt.setString(4,user.getPassword());
 				int rows = prepStmt.executeUpdate();
 			}
+			deleteStmt.close();
 			conn.close();
 		}catch (SQLException e) {
 			// TODO: handle exception
+			new WarningPanel("The conection with the local database is not working\nplease restart the program, if the problem persists \nthere might be a problem with the file directory");
 			logger.log(Level.SEVERE, "Error saving data");
 			e.printStackTrace();
 		}
@@ -148,6 +175,7 @@ public class DataManager {
 			}
 		} catch (FileNotFoundException e) {
 			logger.log(Level.WARNING, "File for load users not found");
+			new WarningPanel("The data file is missing in the location "+ filePath);
 			e.printStackTrace();
 		} catch (IOException e) {
 			logger.log(Level.WARNING, "User loading failed");

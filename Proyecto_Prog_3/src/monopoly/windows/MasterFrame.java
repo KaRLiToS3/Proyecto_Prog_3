@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import monopoly.data.DataManager;
 import monopoly.data.LogRecorder;
 
 /**This is a JFrame that is to provide other JFrames subclasses with methods to improve their overall efficiency and coordination
@@ -31,7 +32,7 @@ public abstract class MasterFrame extends JFrame{
 	
 	private static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
-	protected final URL windowIcon = getClass().getResource("/monopoly/images/windowIcon.png");
+	protected final URL windowIcon = getClass().getResource(DataManager.getInitializer().getProperty("appIcon"));
 	
 	protected static final String MainMenu = "monopoly.windows.MainMenu";
 	protected static final String MainGameMenu = "monopoly.windows.MainGameMenu";

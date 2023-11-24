@@ -42,13 +42,13 @@ public class User implements Serializable{
 		this.Image = ImageUser;
 	}
 	
-	public User(String name,String email, String password, String alias, File ImageUser, Set<Achievement> achievements) {
-		this(name, email, password, alias, ImageUser);
+	public User(String name,String email, String password, String alias, Set<Achievement> achievements) {
+		this(name, email, password, alias);
 		this.achievements = achievements;
 	}
 	
-	public User(String name,String email, String password, String alias, Set<Achievement> achievements) {
-		this(name, email, password, alias);
+	public User(String name,String email, String password, String alias, File ImageUser, Set<Achievement> achievements) {
+		this(name, email, password, alias, ImageUser);
 		this.achievements = achievements;
 	}
 

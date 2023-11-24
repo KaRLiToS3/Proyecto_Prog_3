@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +33,7 @@ public abstract class MasterFrame extends JFrame{
 	
 	private static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
+	protected static Properties initializer = DataManager.getInitializer();
 	protected final URL windowIcon = getClass().getResource(DataManager.getInitializer().getProperty("appIcon"));
 	
 	protected static final String MainMenu = "monopoly.windows.MainMenu";
@@ -124,6 +126,16 @@ public abstract class MasterFrame extends JFrame{
 					return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth), (int) (windowDim.getHeight()*percentagePanelsHeight));
 			}
 		}
+	}
+	
+	protected static Dimension getDimensionProperty(String X, String Y) {
+		int x = Integer.parseInt(initializer.getProperty(X));
+		int y = Integer.parseInt(initializer.getProperty(Y));
+		return new Dimension(x, y);
+	}
+	
+	protected static int getIntegerProperty(String integer) {
+		return Integer.parseInt(integer);
 	}
 	
 	private void saveWindowReference(String name, JFrame frame) {

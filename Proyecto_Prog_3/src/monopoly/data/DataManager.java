@@ -36,7 +36,7 @@ public class DataManager {
 	private ObjectManager<Match> registeredMatches = new ObjectManager<>();
 	private static LogRecorder logger = new LogRecorder(DataManager.class);
 		
-	private static String driver = "org.sqlite.JDBC";
+	private static String driver = getInitializer().getProperty("driver");
 	private String filePath = Paths.get("data/Data.dat").toAbsolutePath().toString();
 	
 	private DataManager() {

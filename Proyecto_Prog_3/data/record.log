@@ -1,16 +1,2 @@
-nov 24, 2023 6:39:32 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.CreateUser was created
-nov 24, 2023 6:39:37 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   New User created
-nov 24, 2023 6:39:38 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   Saved key monopoly.windows.CreateUser with value monopoly.windows.CreateUser[frame2,468,268,600x280,invalid,hidden,layout=java.awt.BorderLayout,title=CREATE NEW USER,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,586x243,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@13b4d796,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-nov 24, 2023 6:39:38 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   Window monopoly.windows.UsersMenu is visible
-nov 24, 2023 6:39:38 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.CreateUser   Window monopoly.windows.CreateUser is not visible
-nov 24, 2023 6:39:41 P. M. monopoly.data.LogRecorder log
-ADVERTENCIA: monopoly.windows.UsersMenu   Window with monopoly.windows.UsersMenu was already saved
-nov 24, 2023 6:39:41 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.MainMenu is visible
-nov 24, 2023 6:39:41 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.UsersMenu is not visible
+nov 24, 2023 7:04:00 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.objects.Match   Match ' Test Match ' was created succesfully

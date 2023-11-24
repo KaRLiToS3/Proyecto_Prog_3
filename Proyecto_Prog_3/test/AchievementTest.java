@@ -37,9 +37,12 @@ public class AchievementTest {
 		assertEquals(1, ach.getTimes());
 		ach.incrementTimes();
 		assertEquals(2, ach.getTimes());
-		assertEquals("The first match is always tough, however you made it through, Congrats!!!! :)", Achievement.Type.BEGGINER.getDesc());
+		assertEquals("BEGGINER", Achievement.Type.BEGGINER.getDesc());
+		assertEquals("MVP/2", ach.toString());
 		
+		String[] answ = {"/monopoly/images/MVP.jpg", "/monopoly/images/textMVP.jpg"};
+		assertArrayEquals(answ, ach.getType().getImg());
 		
-		new User("alias", "name", "email", "password", achievements);
+		assertFalse(ach.equals(new User()));
 	}
 }

@@ -159,6 +159,12 @@ public class DataManager {
 		}
 	}
 	
+	/**The input convention should have this example format: <strong>"MVP/2;CHEAPSKATE/4;BEGGINER/1"</strong>
+	 * The <strong>slash /</strong> divides the {@code Type} selection and the {@code times} from the {@code Achievement} class.
+	 * The <strong> ;</strong> divides the Achievements
+	 * @param input
+	 * @return {@code Set<Achievement>} object
+	 */
 	private static Set<Achievement> convertStringToAchievementSet(String input){
 		Set<Achievement> res = new HashSet<>();
 		if(input == null) return res;
@@ -175,6 +181,12 @@ public class DataManager {
 		return res;
 	}
 	
+	/**The output convention will have this example format: <strong>"MVP/2;CHEAPSKATE/4;BEGGINER/1"</strong>
+	 * The <strong>slash /</strong> divides the {@code Type} selection and the {@code times} from the {@code Achievement} class.
+	 * The <strong> ;</strong> divides the Achievements
+	 * @param data
+	 * @return {@code String} with the proper format before described
+	 */
 	private static String convertAchievementSetToString(Set<Achievement> data) {
 		String str = "";
 		int count = 0;

@@ -22,14 +22,14 @@ public class MainMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
 	private static Font buttonFont = new Font("Dubai", Font.BOLD,  18);
 	private static final Color gold = new Color(212, 175, 55);
-	private static final Dimension frameMinSize = new Dimension(Integer.parseInt(initializer.getProperty("frameMinSizeX")),Integer.parseInt(initializer.getProperty("frameMinSizeY")));
+	private static final Dimension frameMinSize = getDimensionProperty("frameMinSizeX", "frameMinSizeY");
 	private static final int buttonSize = 250;
 	private static final int buttonMargin = 50;
 	private static final double percentagePanelsWE = 0.25;
-	private final URL path1 = getClass().getResource(initializer.getProperty("monopoly_title"));
-	private final URL path2 = getClass().getResource(initializer.getProperty("left_image_menu"));
-	private final URL path3 = getClass().getResource(initializer.getProperty("right_image_menu"));
-	private final URL path4 = getClass().getResource(initializer.getProperty("cash_bg"));
+	private final URL path1 = getClass().getResource(getStringProperty("monopoly_title"));
+	private final URL path2 = getClass().getResource(getStringProperty("left_image_menu"));
+	private final URL path3 = getClass().getResource(getStringProperty("right_image_menu"));
+	private final URL path4 = getClass().getResource(getStringProperty("cash_bg"));
 	
 	//TEST MAIN
 	public static void main(String[] args) {
@@ -43,7 +43,7 @@ public class MainMenu extends MasterFrame {
 		DataManager.getManager();
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setSize(1000,700);
+		setSize(getDimensionProperty("frameDefaultSizeX", "frameDefaultSizeY"));
 		setMinimumSize(frameMinSize);
 		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
@@ -142,7 +142,6 @@ public class MainMenu extends MasterFrame {
 			public void windowClosed(WindowEvent e) {
 				for(JFrame frame : getAllWindows()) {
 					frame.dispose();
-					//DataManager.getManager().saveAllDataToFile();
 					DataManager.getManager().saveDataInDB();
 				}
 			}

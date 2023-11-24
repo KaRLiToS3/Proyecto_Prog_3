@@ -153,6 +153,7 @@ public class UsersMenu extends MasterFrame{
 			@Override
 			public void windowClosed(WindowEvent e) {
 				triggerDataUpdate();
+				DataManager.getManager().saveDataInDB();
 				switchToNextWindow(MasterFrame.MainMenu);
 			}
 

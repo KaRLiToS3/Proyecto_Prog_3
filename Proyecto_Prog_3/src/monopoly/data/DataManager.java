@@ -10,11 +10,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Paths;
 import java.security.InvalidParameterException;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.apache.pdfbox.pdmodel.interactive.viewerpreferences.PDViewerPreferences.PRINT_SCALING;
 
+import monopoly.objects.Achievement;
 import monopoly.objects.Match;
 import monopoly.objects.User;
 import monopoly.windows.MainMenu;
@@ -26,7 +29,7 @@ import monopoly.windows.WarningPanel;
  */
 public class DataManager {
 	private static DataManager dataManager = null;
-	private static Properties initializer ;
+	private static Properties initializer = null;
 	private static final String propertyFile = Paths.get("data/configuration.properties").toAbsolutePath().toString();
 	private ObjectManager<ObjectManager<?>> allData= new ObjectManager<>();
 	private ObjectManager<User> registeredUsers = new ObjectManager<>();
@@ -38,7 +41,6 @@ public class DataManager {
 	
 	private DataManager() {
 		uploadDataFromDB();
-		//loadAllDataFromFile();
 	}
 	
 	public static DataManager getManager() {
@@ -103,13 +105,15 @@ public class DataManager {
 		try {
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:data/GeneralDatabase.bd");
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM User");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM USER");
 			while(rs.next()) {
-				String Alias = rs.getString("Alias");
-				String Name = rs.getString("Name");
-				String Email = rs.getString("Email");
-				String Password = rs.getString("Password");
-				registeredUsers.addObject(new User(Name, Email, Password, Alias));
+				String Alias = rs.getString("ALIAS");
+				String Name = rs.getString("NAME");
+				String Email = rs.getString("EMAIL");
+				String Password = rs.getString("PASSWORD");
+				String Achievements = rs.getString("ACHIEVEMENTS");
+				Set<Achievement> setAch = convertStringToAchievementSet(Achievements);
+				registeredUsers.addObject(new User(Name, Email, Password, Alias, setAch));
 			}
 			rs.close();
 			stmt.close();
@@ -132,28 +136,56 @@ public class DataManager {
 		//TODO
 		try {
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:data/GeneralDatabase.bd");
-			String sqlDelete = "DELETE FROM User";
+			String sqlDelete = "DELETE FROM USER";
 			PreparedStatement deleteStmt = conn.prepareStatement(sqlDelete);
 			deleteStmt.executeUpdate();
-			for (User user:registeredUsers) {
-				String sqlInsert = "INSERT INTO User(Alias, Name, Email, Password) VALUES (?, ?, ?, ?)";
+			for (User user : registeredUsers) {
+				//The order in the database is now EMAIL, NAME, ALIAS, PASSWORD, IMAGE, ACHIEVEMENTS
+				String sqlInsert = "INSERT INTO USER (EMAIL, NAME, ALIAS, PASSWORD, ACHIEVEMENTS) VALUES (?, ?, ?, ?, ?)";
 				PreparedStatement prepStmt = conn.prepareStatement(sqlInsert);
-				prepStmt.setString(1,user.getAlias());
+				prepStmt.setString(1,user.getEmail());
 				prepStmt.setString(2,user.getName());
-				prepStmt.setString(3,user.getEmail());
+				prepStmt.setString(3,user.getAlias());
 				prepStmt.setString(4,user.getPassword());
-				int rows = prepStmt.executeUpdate();
+				prepStmt.setString(5, convertAchievementSetToString(user.getAchievements()));
+				prepStmt.executeUpdate();
 			}
 			deleteStmt.close();
 			conn.close();
 		}catch (SQLException e) {
-			// TODO: handle exception
 			new WarningPanel("The conection with the local database is not working\nplease restart the program, if the problem persists \nthere might be a problem with the file directory");
 			logger.log(Level.SEVERE, "Error saving data");
 			e.printStackTrace();
 		}
-		
 	}
+	
+	private static Set<Achievement> convertStringToAchievementSet(String input){
+		Set<Achievement> res = new HashSet<>();
+		if(input == null) return res;
+		
+		String[] line = input.split(";");
+		for(int i = 0; i < line.length; i++) {
+			String[] achievement = line[i].split("/");
+			for(Achievement.Type type : Achievement.Type.values()){
+				if(type.getDesc().equals(achievement[0])) {
+					res.add(new Achievement(type, Integer.parseInt(achievement[1])));
+				}
+			}
+		}
+		return res;
+	}
+	
+	private static String convertAchievementSetToString(Set<Achievement> data) {
+		String str = "";
+		int count = 0;
+		for(Achievement ach : data) {
+			count++;
+			if(count != data.size()) str = str + ach.toString() + ";";
+			else str = str + ach.toString();
+		}
+		return str;
+	}
+	
 	//IN CASE A FILE IS USED
 	@SuppressWarnings("unchecked")
 	private void loadAllDataFromFile() {

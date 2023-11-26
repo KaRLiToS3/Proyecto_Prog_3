@@ -26,6 +26,7 @@ import monopoly.objects.User;
 
 public class GameSettingsMenu extends MasterFrame implements Updatable{
 	private static final long serialVersionUID = 1L;
+	private static final Dimension frameSize = getDimensionProperty("gameSettingsMenuSizeX", "gameSettingsMenuSizeY");
 	private static final String[] tabNames = {"Select Users", "Cash Modifications", "Dices"};
 	private static final String windowTitle = "GAME SETTINGS MENU";
 	private static final Font font1 = new Font("Arial Rounded MT Bold", Font.BOLD, 24);
@@ -40,7 +41,7 @@ public class GameSettingsMenu extends MasterFrame implements Updatable{
 	private static int cashMultiplier;
 	
 	public GameSettingsMenu() {
-		setSize(500,250);
+		setSize(frameSize);
 		setResizable(false);
 		setDefaultWindowIcon();
 		setLocationRelativeTo(null);

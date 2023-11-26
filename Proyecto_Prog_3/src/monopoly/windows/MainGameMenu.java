@@ -46,10 +46,10 @@ public class MainGameMenu extends MasterFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final URL boardPath = getClass().getResource("/monopoly/images/board_monopoly.png");
-	private final URL dicePath = getClass().getResource("/monopoly/images/dice.png");
-	public static final Dimension defaultWindowDimension = new Dimension(1000, 700);
-	private static String cellPositionsPath = Paths.get("data/cellPositions.txt").toAbsolutePath().toString();
+	private final URL boardPath = getClass().getResource(getStringProperty("board_img"));
+	private final URL dicePath = getClass().getResource(getStringProperty("dice_img"));
+	public static final Dimension defaultWindowDimension = getDimensionProperty("mainGameMenuSizeX", "mainGameMenuSizeY");
+	private static String cellPositionsPath = Paths.get(getStringProperty("cellPositions")).toAbsolutePath().toString();
 
 	
 	// Token position setter
@@ -61,7 +61,7 @@ public class MainGameMenu extends MasterFrame {
 	public MainGameMenu() {
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setSize(1000,700);
+		setSize(defaultWindowDimension);
 		setMinimumSize(defaultWindowDimension);
 		setDefaultWindowIcon();
 		setLocationRelativeTo(null);

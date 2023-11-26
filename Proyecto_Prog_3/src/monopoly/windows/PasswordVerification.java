@@ -1,5 +1,6 @@
 package monopoly.windows;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -19,10 +20,11 @@ import monopoly.objects.User;
 
 public class PasswordVerification extends MasterFrame{
 	private static final long serialVersionUID = 1L;
+	private static final Dimension frameSize = getDimensionProperty("passwordVerificationSizeX", "passwordVerificationSizeY");
 	public PasswordVerification(User user){
         // Configuración de la ventana principal
         setTitle("Password Verification");
-        setSize(300, 110);
+        setSize(frameSize);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);

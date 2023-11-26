@@ -22,7 +22,8 @@ public class MainMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
 	private static Font buttonFont = new Font("Dubai", Font.BOLD,  18);
 	private static final Color gold = new Color(212, 175, 55);
-	private static final Dimension frameMinSize = getDimensionProperty("frameMinSizeX", "frameMinSizeY");
+	private static final Dimension frameMinSize = getDimensionProperty("mainMenuMinSizeX", "mainMenuMinSizeY");
+	private static final Dimension frameSize = getDimensionProperty("mainMenuSizeX", "mainMenuSizeY");
 	private static final int buttonSize = 250;
 	private static final int buttonMargin = 50;
 	private static final double percentagePanelsWE = 0.25;
@@ -43,7 +44,7 @@ public class MainMenu extends MasterFrame {
 		DataManager.getManager();
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setSize(getDimensionProperty("frameDefaultSizeX", "frameDefaultSizeY"));
+		setSize(frameSize);
 		setMinimumSize(frameMinSize);
 		setDefaultWindowIcon();
 		setLocationRelativeTo(null);

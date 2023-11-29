@@ -24,6 +24,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -50,15 +51,19 @@ public class MainGameMenu extends MasterFrame {
 	private final URL dicePath = getClass().getResource("/monopoly/images/dice.png");
 	public static final Dimension defaultWindowDimension = new Dimension(1000, 700);
 	private static String cellPositionsPath = Paths.get("data/cellPositions.txt").toAbsolutePath().toString();
-// TODO preparar un 'enum' de colore rojo, berde, azul, amarillo
+// TODO preparar un 'enum' de colores rojo, berde, azul, amarillo----puede que no haga falta
 	//	private static Enum<Color> Colors;
 
 	
-	// Token position setter
-	private static List<Point> posList = new ArrayList<>();
+	// cell position setter
+	/////////////
+//	private static List<Point> posList = new ArrayList<>();
+	/////////////
 
-	private List<Cell> cellList = new ArrayList<>();
-	private List<Token> tokenList = new ArrayList<>();
+	private static List<Cell> cellList = new ArrayList<>();
+	private static List<Token> tokenList = new ArrayList<>();
+	
+	private static int turn;
 	
 	public MainGameMenu() {
 		
@@ -87,6 +92,7 @@ public class MainGameMenu extends MasterFrame {
 					for (Token t : tokenList) {
 						if (t.getCellNumber()==c.getCellNumber()) {
 							t.updateToken(c);
+							
 						}
 					}
 				}
@@ -127,8 +133,10 @@ public class MainGameMenu extends MasterFrame {
 		addMouseListener( new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				 Token position setter
-				posList.add(getMousePosition());
+				// Token position setter
+				/////////////
+//				posList.add(getMousePosition());
+				/////////////
 			}
 		});
 
@@ -139,17 +147,18 @@ public class MainGameMenu extends MasterFrame {
 			}
 		});
 		
-
+		turn = 0;
 		setVisible(true);
 		
 		
-		// ---------- saving cell posistions-------------
 //		Insets insets = getInsets();
-//		diceButton.addActionListener( new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//
+		diceButton.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				// cell position setter
+				/////////////
 //				PrintStream stream = null;
 //				try {
 //					stream = new PrintStream(new FileOutputStream(cellPositionsPath,true)); 
@@ -163,8 +172,35 @@ public class MainGameMenu extends MasterFrame {
 //						stream.close();
 //					}
 //				}
-//			}
-//		});
+				///////////
+				
+				Random dice = new Random();
+				int hops = dice.nextInt(1, 13);
+				Runnable thread = new Runnable() {
+					
+					@Override
+					public void run() {
+						Token t = tokenList.get(turn);
+						for (int i = 0; i<hops;i++) {
+							System.out.println(t.getCellNumber());
+							t.setCellNumber(t.getCellNumber()+1);
+							if ( t.getCellNumber()==40) t.setCellNumber(0);
+							try {
+								Thread.sleep(500);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				};
+				Thread t =  new Thread(thread);
+				t.start();
+				
+//				Token t = tokenList.get(0);
+//				t.setCellNumber(t.getCellNumber()+1);
+			}
+		});
 		
 		
 		loadCellPositions(boardPanel);

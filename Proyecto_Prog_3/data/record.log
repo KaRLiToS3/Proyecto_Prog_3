@@ -1,17 +1,8 @@
-<<<<<<< HEAD
-nov 29, 2023 8:21:15 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   MainMenu running
-nov 29, 2023 8:21:21 A. M. monopoly.data.LogRecorder log
-GRAVE: monopoly.data.DataManager   Error uploading data
-nov 29, 2023 8:21:21 A. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   Window building ended
-=======
-nov 24, 2023 6:37:12 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.UserAchievementsMenu was created
-nov 24, 2023 6:37:27 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UserAchievementsMenu   Saved key monopoly.windows.UserAchievementsMenu with value monopoly.windows.UserAchievementsMenu[frame6,268,8,1000x800,invalid,hidden,layout=java.awt.BorderLayout,title=USER ACHIEVEMENTS MENU,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,986x763,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@36675cf,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-nov 24, 2023 6:37:27 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UserAchievementsMenu   Window monopoly.windows.MainMenu is visible
-nov 24, 2023 6:37:27 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.UserAchievementsMenu   Window monopoly.windows.UserAchievementsMenu is not visible
->>>>>>> branch 'master' of https://github.com/KaRLiToS3/Proyecto_Prog_3
+nov 29, 2023 9:45:08 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainGameMenu was created
+nov 29, 2023 9:45:42 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainGameMenu   Saved key monopoly.windows.MainGameMenu with value monopoly.windows.MainGameMenu[frame3,340,155,1000x700,invalid,hidden,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,8,31,984x661,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@14d85050,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+nov 29, 2023 9:45:42 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainMenu is visible
+nov 29, 2023 9:45:42 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainGameMenu is not visible

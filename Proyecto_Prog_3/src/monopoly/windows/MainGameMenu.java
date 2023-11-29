@@ -50,6 +50,8 @@ public class MainGameMenu extends MasterFrame {
 	private final URL dicePath = getClass().getResource("/monopoly/images/dice.png");
 	public static final Dimension defaultWindowDimension = new Dimension(1000, 700);
 	private static String cellPositionsPath = Paths.get("data/cellPositions.txt").toAbsolutePath().toString();
+// TODO preparar un 'enum' de colore rojo, berde, azul, amarillo
+	//	private static Enum<Color> Colors;
 
 	
 	// Token position setter
@@ -139,39 +141,45 @@ public class MainGameMenu extends MasterFrame {
 		
 
 		setVisible(true);
-		Insets insets = getInsets();
-		diceButton.addActionListener( new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				PrintStream stream = null;
-				try {
-					stream = new PrintStream(new FileOutputStream(cellPositionsPath)); 
-					for (Point p : posList) {
-						stream.println(((p.getX()-insets.left)/boardPanel.getSize().getWidth())+"_"+((p.getY()-insets.top)/boardPanel.getSize().getHeight()));
-					}
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				} finally {
-					if (stream!=null) {
-						stream.close();
-					}
-				}
-			}
-		});
+		
+		
+		// ---------- saving cell posistions-------------
+//		Insets insets = getInsets();
+//		diceButton.addActionListener( new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//
+//				PrintStream stream = null;
+//				try {
+//					stream = new PrintStream(new FileOutputStream(cellPositionsPath,true)); 
+//					for (Point p : posList) {
+//						stream.println(((p.getX()-insets.left)/boardPanel.getSize().getWidth())+"_"+((p.getY()-insets.top)/boardPanel.getSize().getHeight()));
+//					}
+//				} catch (FileNotFoundException e1) {
+//					e1.printStackTrace();
+//				} finally {
+//					if (stream!=null) {
+//						stream.close();
+//					}
+//				}
+//			}
+//		});
 		
 		
 		loadCellPositions(boardPanel);
+		tokenList.add(new Token(Color.RED, boardPanel, 0));
+		tokenList.add(new Token(Color.GREEN, boardPanel, 0));
+		tokenList.add(new Token(Color.BLUE, boardPanel, 0));
+		tokenList.add(new Token(Color.YELLOW, boardPanel, 0));
 		
-		// tryin token in each cell
-		for (Cell c : cellList) {
-			System.out.println(c.getTopLeft()+", "+c.getTopRight()+", "+c.getBottomLeft()+", "+c.getBottomRight());
-			tokenList.add(new Token(c.getTopLeft(), Color.RED, boardPanel, c.getCellNumber()));
-			tokenList.add(new Token(c.getTopRight(), Color.GREEN, boardPanel, c.getCellNumber()));
-			tokenList.add(new Token(c.getBottomLeft(), Color.BLUE, boardPanel, c.getCellNumber()));
-			tokenList.add(new Token(c.getBottomRight(), Color.YELLOW, boardPanel, c.getCellNumber()));
-		}
+		// -------------tryin token in each cell----------------------
+//		for (Cell c : cellList) {
+//			tokenList.add(new Token(c.getTopLeft(), Color.RED, boardPanel, c.getCellNumber()));
+//			tokenList.add(new Token(c.getTopRight(), Color.GREEN, boardPanel, c.getCellNumber()));
+//			tokenList.add(new Token(c.getBottomLeft(), Color.BLUE, boardPanel, c.getCellNumber()));
+//			tokenList.add(new Token(c.getBottomRight(), Color.YELLOW, boardPanel, c.getCellNumber()));
+//		}
 
 	}
 	// TODO revisar que si cogemos la proporcion de la posicion de los tokens respecto a las dimensiones del board panel o main window (teniendo en cuenta insets)

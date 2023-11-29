@@ -112,6 +112,12 @@ public class Token extends JComponent{
 		this.cellNumber = cellNumber;
 	}
 	
+	public Token(Color color, JPanel panel, int cellNumber) {
+		this.color = color;
+		this.panel = panel;
+		this.cellNumber = cellNumber;
+	}
+	
 //	public Token(double perX, double perY, Color color, JPanel panel,Insets insets) {
 //		this.perX = perX;
 //		this.perY = perY;
@@ -144,7 +150,7 @@ public class Token extends JComponent{
 	}
 	
 	public void updateToken(Cell cell) {
-		System.out.println(this.getColor().toString());
+//		System.out.println(this.getColor().toString());
 		if (this.getColor().equals(Color.RED)) {
 			this.setCoordinates(cell.getTopLeft());
 		} else if (this.getColor().equals(Color.GREEN)) {

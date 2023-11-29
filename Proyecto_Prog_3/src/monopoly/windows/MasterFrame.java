@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +33,7 @@ public abstract class MasterFrame extends JFrame{
 	
 	private static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
+	private static Properties initializer = DataManager.getInitializer();
 	protected final URL windowIcon = getClass().getResource(DataManager.getInitializer().getProperty("appIcon"));
 	
 	protected static final String MainMenu = "monopoly.windows.MainMenu";
@@ -43,9 +45,10 @@ public abstract class MasterFrame extends JFrame{
 	protected static final String HelpMenu = "monopoly.windows.HelpMenu";
 	protected static final String CreditsMenu = "monopoly.windows.CreditsMenu";
 	protected static final String CreateUser = "monopoly.windows.CreateUser";
+	protected static final String PasswordVerification = "monopoly.windows.PasswordVerification";
 	//DO NOT TOUCH
 	protected static final String[] windowArray = {MainGameMenu, GameSettingsMenu, UserAchievementsMenu, MatchRecordMenu, UsersMenu,
-			HelpMenu, CreditsMenu };
+			HelpMenu, CreditsMenu , PasswordVerification};
 	
 	protected LogRecorder logger = new LogRecorder(this.getClass());
 	
@@ -124,6 +127,43 @@ public abstract class MasterFrame extends JFrame{
 					return new Dimension((int)(windowDim.getWidth()*percentagePanelsWidth), (int) (windowDim.getHeight()*percentagePanelsHeight));
 			}
 		}
+	}
+	
+	/**This method is used to get two property values and convert them into a {@code new Dimension()} object and directly assign it to a variable
+	 * If the properties are not found an exception will occur
+	 * @param X
+	 * @param Y
+	 * @return	{@code new Dimension()}
+	 */
+	protected static Dimension getDimensionProperty(String X, String Y) {
+		int x = Integer.parseInt(initializer.getProperty(X));
+		int y = Integer.parseInt(initializer.getProperty(Y));
+		return new Dimension(x, y);
+	}
+	
+	/**Used to get the {@code String} property from a {@code String}
+	 * The purpose of this method is to reduce the amount of typing
+	 * @param integerProp
+	 * @return
+	 */
+	protected static String getStringProperty(String integerProp) {
+		return initializer.getProperty(integerProp);
+	}
+	
+	/**Used to get the {@code int} property from a {@code String}
+	 * @param integerProp
+	 * @return
+	 */
+	protected static int getIntegerProperty(String integerProp) {
+		return Integer.parseInt(integerProp);
+	}
+	
+	/**Used to get the {@code float} property from a {@code String}
+	 * @param floatProp
+	 * @return
+	 */
+	protected static float getFloatProperty(String floatProp) {
+		return Float.parseFloat(floatProp);
 	}
 	
 	private void saveWindowReference(String name, JFrame frame) {

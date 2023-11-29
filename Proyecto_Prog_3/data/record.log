@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 nov 29, 2023 9:45:08 A. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainGameMenu was created
 nov 29, 2023 9:45:42 A. M. monopoly.data.LogRecorder log
@@ -6,3 +7,11 @@ nov 29, 2023 9:45:42 A. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainMenu is visible
 nov 29, 2023 9:45:42 A. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainGameMenu is not visible
+=======
+nov 26, 2023 9:01:55 P. M. monopoly.data.LogRecorder log
+ADVERTENCIA: monopoly.windows.UsersMenu   Window with monopoly.windows.UsersMenu was already saved
+nov 26, 2023 9:01:55 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.MainMenu is visible
+nov 26, 2023 9:01:55 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.UsersMenu   Window monopoly.windows.UsersMenu is not visible
+>>>>>>> branch 'karlitosBranch' of https://github.com/KaRLiToS3/Proyecto_Prog_3

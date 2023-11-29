@@ -23,14 +23,15 @@ import monopoly.objects.Match;
 
 public class MatchRecordMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
-	private static final Dimension frameMinSize = new Dimension(500,300);
-	private final URL path1 = getClass().getResource("/monopoly/images/searchIcon.png");
+	private static final Dimension frameSize = getDimensionProperty("matchRecordMenuSizeX", "matchRecordMenuSizeY");
+	private static final Dimension frameMinSize = getDimensionProperty("matchRecordMenuMinSizeX", "matchRecordMenuMinSizeY");
+	private final URL path1 = getClass().getResource(getStringProperty("search_icon"));
 	
 	private JTextField searchBar = new JTextField(12);
 
 	public MatchRecordMenu() {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setSize(800,600);
+		setSize(frameSize);
 		setDefaultWindowIcon();
 		setMinimumSize(frameMinSize);
 		setLocationRelativeTo(null);

@@ -13,11 +13,11 @@ public class Achievement implements Serializable{
 	public Type type;
 
 	public enum Type {
-		MVP("Most Valuable Player", mvp),
-		CHEAPSKATE("This player had the highest amount of money at the end of the game, he doesn't like sharing cash at all", chpsk),
-		BEGGINER("The first match is always tough, however you made it through, Congrats!!!! :)", mvp),
-		FLAT_BROKE("This player risked too much with his investments and could not get the best out of them, so ended behind the other players in cash", mvp),
-		VETERAN("Veteran", mvp);
+		MVP("MVP", mvp),
+		CHEAPSKATE("CHEAPSKATE", chpsk),
+		BEGGINER("BEGGINER", mvp),
+		FLAT_BROKE("FLAT_BROKE", mvp),
+		VETERAN("VETERAN", mvp);
 		
 		private String desc;
 		private String[] img;
@@ -71,5 +71,9 @@ public class Achievement implements Serializable{
 			return type.equals(ach.getType());
 		} else return false;
 	}
-	
+
+	@Override
+	public String toString() {
+		return getType().getDesc() + "/" + getTimes();
+	}
 }

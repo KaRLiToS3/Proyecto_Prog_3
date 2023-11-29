@@ -218,7 +218,6 @@ public class CreateUser extends MasterFrame{
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				DataManager.getManager().saveDataInDB();
 				switchToNextWindow(MasterFrame.UsersMenu);
 				for (JTextField removeField: textFieldMap.values()) {
 					removeField.setText("");

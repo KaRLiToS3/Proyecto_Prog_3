@@ -146,8 +146,8 @@ public abstract class MasterFrame extends JFrame{
 	 * @param integerProp
 	 * @return
 	 */
-	protected static String getStringProperty(String integerProp) {
-		return initializer.getProperty(integerProp);
+	protected static String getStringProperty(String stringProp) {
+		return initializer.getProperty(stringProp);
 	}
 	
 	/**Used to get the {@code int} property from a {@code String}
@@ -155,7 +155,7 @@ public abstract class MasterFrame extends JFrame{
 	 * @return
 	 */
 	protected static int getIntegerProperty(String integerProp) {
-		return Integer.parseInt(integerProp);
+		return Integer.parseInt(initializer.getProperty(integerProp));
 	}
 	
 	/**Used to get the {@code float} property from a {@code String}

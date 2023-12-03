@@ -1,20 +1,8 @@
-nov 30, 2023 8:59:57 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainGameMenu was created
-nov 30, 2023 9:00:00 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainGameMenu   Saved key monopoly.windows.MainGameMenu with value monopoly.windows.MainGameMenu[frame1,268,58,1000x700,invalid,hidden,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,986x663,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@7f0839cd,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-nov 30, 2023 9:00:00 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainMenu is visible
-nov 30, 2023 9:00:00 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainGameMenu is not visible
-nov 30, 2023 9:00:01 P. M. monopoly.data.LogRecorder log
-ADVERTENCIA: monopoly.windows.MainMenu   Window with monopoly.windows.MainMenu was already saved
-nov 30, 2023 9:00:01 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainGameMenu is visible
-nov 30, 2023 9:00:01 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainMenu is not visible
-nov 30, 2023 9:00:03 P. M. monopoly.data.LogRecorder log
-ADVERTENCIA: monopoly.windows.MainGameMenu   Window with monopoly.windows.MainGameMenu was already saved
-nov 30, 2023 9:00:03 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainMenu is visible
-nov 30, 2023 9:00:03 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainGameMenu is not visible
+dic 03, 2023 4:39:06 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.CreditsMenu was created
+dic 03, 2023 4:39:37 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.CreditsMenu   Saved key monopoly.windows.CreditsMenu with value monopoly.windows.CreditsMenu[frame1,568,188,400x440,invalid,hidden,layout=java.awt.BorderLayout,title=,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,386x403,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@776b5513,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+dic 03, 2023 4:39:37 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.CreditsMenu   Window monopoly.windows.MainMenu is visible
+dic 03, 2023 4:39:37 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.CreditsMenu   Window monopoly.windows.CreditsMenu is not visible

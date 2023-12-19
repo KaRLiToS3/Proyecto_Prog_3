@@ -173,7 +173,7 @@ public class DataManager {
 		for(int i = 0; i < line.length; i++) {
 			String[] achievement = line[i].split("/");
 			for(Achievement.Type type : Achievement.Type.values()){
-				if(type.getDesc().equals(achievement[0])) {
+				if(type.toString().equals(achievement[0])) {
 					res.add(new Achievement(type, Integer.parseInt(achievement[1])));
 				}
 			}

@@ -17,7 +17,9 @@ public class Achievement implements Serializable{
 		CHEAPSKATE(chpsk),
 		BEGGINER(mvp),
 		FLAT_BROKE(mvp),
-		VETERAN(mvp);
+		VETERAN(mvp),
+		IMPERIALIST(mvp),
+		MODEST(mvp);
 		
 		private String[] img;
 		private Type(String[] img) {
@@ -36,7 +38,7 @@ public class Achievement implements Serializable{
 	
 	public Achievement(Type type) {
 		this.type = type;
-		times = 0;
+		times = 1;
 	}
 
 	public int getTimes() {

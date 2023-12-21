@@ -18,9 +18,11 @@ import java.util.logging.Level;
 import org.apache.pdfbox.pdmodel.interactive.viewerpreferences.PDViewerPreferences.PRINT_SCALING;
 
 import monopoly.objects.Achievement;
+import monopoly.objects.Achievement.Type;
 import monopoly.objects.Match;
 import monopoly.objects.User;
 import monopoly.windows.MainMenu;
+import monopoly.windows.MasterFrame;
 import monopoly.windows.WarningPanel;
 
 /**
@@ -72,6 +74,20 @@ public class DataManager {
 	
 	public ObjectManager<Match> getRegisteredMatches() {
 		return registeredMatches;
+	}
+	
+	/**This method adds a {@code Achievement} and a {@code Type} to a {@code User} and in case the type of achievement was already
+	 * added it increments the {@code times} parameter in the {@code Achievement} class.
+	 * @param usr
+	 * @param type
+	 */
+	public void incrementAchivementOrAddIfAbsent(User usr, Type type) {
+		if(!usr.getAchievements().add(new Achievement(type))) {
+			for(Achievement ach : usr.getAchievements()) {
+				if(ach.getType().equals(type)) ach.setTimes(ach.getTimes() + 1);
+			}
+		}
+		MasterFrame.triggerDataUpdate();
 	}
 	
 	//JAVA PROPERTY FILE

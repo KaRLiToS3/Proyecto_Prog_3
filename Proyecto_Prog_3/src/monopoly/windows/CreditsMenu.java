@@ -48,7 +48,8 @@ public class CreditsMenu extends MasterFrame {
 	}
 	
 	private static void showMeme() {
-		String url = "https://www.youtube.com/shorts/4O_DwPlJQvc";
+		//https://www.youtube.com/shorts/4O_DwPlJQvc
+		String url = "https://www.tiktok.com/@dev.c10/video/7306564034113883397?is_from_webapp=1&sender_device=pc";
 
         if(Desktop.isDesktopSupported()){
             Desktop desktop = Desktop.getDesktop();

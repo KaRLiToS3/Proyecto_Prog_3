@@ -238,7 +238,7 @@ public class UserAchievementsMenu extends MasterFrame implements Updatable{
 			shiftImage = new Thread(() -> {
 				if(readyToShift) {
 					readyToShift = false;
-					info.setText("This userreceived this award " + times + " times!!! ");
+					info.setText("This user received this award " + times + " times!!! ");
 					try {
 						for(int width = achievementSize; width > 0 ; width -= 2) {
 							img = resizeIcon(logo, width, achievementSize);

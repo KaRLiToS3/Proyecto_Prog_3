@@ -1,8 +1,32 @@
-dic 19, 2023 6:29:59 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.MainGameMenu was created
-dic 19, 2023 6:30:03 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainGameMenu   Saved key monopoly.windows.MainGameMenu with value monopoly.windows.MainGameMenu[frame1,268,58,1000x700,invalid,hidden,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,986x663,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@4ed0c862,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-dic 19, 2023 6:30:03 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainMenu is visible
-dic 19, 2023 6:30:03 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainGameMenu   Window monopoly.windows.MainGameMenu is not visible
+dic 21, 2023 11:46:16 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainMenu   Window monopoly.windows.HelpMenu was created
+dic 21, 2023 11:46:18 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   Page 0 from file java.io.BufferedInputStream@507d627a is ready
+dic 21, 2023 11:46:18 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   Page 0 from file java.io.BufferedInputStream@db27801 is ready
+dic 21, 2023 11:46:18 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   Page 0 from file java.io.BufferedInputStream@23ba3d84 is ready
+dic 21, 2023 11:46:18 A. M. org.apache.fontbox.ttf.CmapSubtable processSubtype14
+ADVERTENCIA: Format 14 cmap table is not supported and will be ignored
+dic 21, 2023 11:46:18 A. M. org.apache.fontbox.ttf.CmapSubtable processSubtype14
+ADVERTENCIA: Format 14 cmap table is not supported and will be ignored
+dic 21, 2023 11:46:18 A. M. org.apache.fontbox.ttf.CmapSubtable processSubtype14
+ADVERTENCIA: Format 14 cmap table is not supported and will be ignored
+dic 21, 2023 11:46:18 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   Page 1 from file java.io.BufferedInputStream@507d627a is ready
+dic 21, 2023 11:46:18 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   PDF file java.io.BufferedInputStream@507d627a loaded correctly
+dic 21, 2023 11:46:19 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   Page 1 from file java.io.BufferedInputStream@db27801 is ready
+dic 21, 2023 11:46:19 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   PDF file java.io.BufferedInputStream@db27801 loaded correctly
+dic 21, 2023 11:46:19 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   Page 1 from file java.io.BufferedInputStream@23ba3d84 is ready
+dic 21, 2023 11:46:19 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   PDF file java.io.BufferedInputStream@23ba3d84 loaded correctly
+dic 21, 2023 11:46:34 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   Saved key monopoly.windows.HelpMenu with value monopoly.windows.HelpMenu[frame2,218,58,1100x700,invalid,hidden,layout=java.awt.BorderLayout,title=HELP WINDOW,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,1086x663,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@4fcd947e,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+dic 21, 2023 11:46:34 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   Window monopoly.windows.MainMenu is visible
+dic 21, 2023 11:46:34 A. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.HelpMenu   Window monopoly.windows.HelpMenu is not visible

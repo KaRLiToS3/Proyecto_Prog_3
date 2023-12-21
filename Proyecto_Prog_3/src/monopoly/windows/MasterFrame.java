@@ -241,12 +241,13 @@ public abstract class MasterFrame extends JFrame{
 		});
 	};
 	
-	protected void triggerDataUpdate() {
+	public static void triggerDataUpdate() {
 		for(JFrame jfr : windowRefs.values()) {			
 			if( jfr instanceof Updatable) {
 				Updatable upd = (Updatable) jfr;
 				upd.updateAllData();
-				logger.log(Level.INFO, "Data updated in " + jfr.getName());
+				LogRecorder lg = new LogRecorder(jfr.getClass());
+				lg.log(Level.INFO, "Data updated in " + jfr.getName());
 			}
 		}
 	}

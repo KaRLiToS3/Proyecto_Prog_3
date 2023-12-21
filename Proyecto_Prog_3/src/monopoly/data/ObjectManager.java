@@ -27,8 +27,12 @@ public class ObjectManager <T> implements Iterable<T>, Serializable{
 		return registeredData.contains(object);
 	}
 	
-	public void addDataCollection(Collection<T> dataCollection) {
+	public void addDataCollection(Collection <? extends T> dataCollection) {
 		registeredData.addAll(dataCollection);
+	}
+	
+	public void addObjectManager(ObjectManager<T> dataCollection) {
+		registeredData.addAll(dataCollection.getRegisteredData());
 	}
 	
 	public boolean isEmpty() {

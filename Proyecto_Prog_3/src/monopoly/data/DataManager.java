@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Paths;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -32,7 +33,6 @@ public class DataManager {
 	private static DataManager dataManager = null;
 	private static Properties initializer = null;
 	private static final String propertyFile = Paths.get("data/configuration.properties").toAbsolutePath().toString();
-	private ObjectManager<ObjectManager<?>> allData= new ObjectManager<>();
 	private ObjectManager<User> registeredUsers = new ObjectManager<>();
 	private ObjectManager<Match> registeredMatches = new ObjectManager<>();
 	private static LogRecorder logger = new LogRecorder(DataManager.class);
@@ -154,7 +154,9 @@ public class DataManager {
 			logger.log(Level.SEVERE, "Error uploading data, we will atempt to read from a serialized file");
 			if(userChoiceToContinue == JOptionPane.YES_OPTION) loadAllDataFromFile();
 			e.printStackTrace();
-		};
+		} finally {
+			synchronizeFileWithDataBase();
+		}
 	}
 	
 	public void saveDataInDB() {
@@ -227,25 +229,17 @@ public class DataManager {
 	}
 	
 	//IN CASE A FILE IS USED
+	@SuppressWarnings("unchecked")
+	private void synchronizeFileWithDataBase() {
+		ArrayList<ObjectManager<?>> allData = loadAllDataFromFile();
+		registeredUsers.addObjectManager((ObjectManager<User>)allData.get(0));
+		registeredMatches.addObjectManager((ObjectManager<Match>)allData.get(1));
+	}
 	
 	@SuppressWarnings("unchecked")
-	private void loadAllDataFromFile() {
+	private ArrayList<ObjectManager<?>> loadAllDataFromFile() {
 		try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(filePath))) {
-			allData = (ObjectManager<ObjectManager<?>>) input.readObject();
-			for(ObjectManager<?> obj : allData) {
-				if(obj instanceof ObjectManager) {
-					ObjectManager<?> objectManager = (ObjectManager<?>) obj;
-					if(!objectManager.isEmpty()) {						
-						if(objectManager.iterator().next() instanceof User) { //iterator is an objects that iterates over the data, with the next method we get the first object and we use instanceof User to check it
-							registeredUsers = (ObjectManager<User>) objectManager;
-							logger.log(Level.INFO, "All users were properly loaded");
-						} else if(objectManager.iterator().next() instanceof Match) {
-							registeredMatches = (ObjectManager<Match>) objectManager;
-							logger.log(Level.INFO, "All matches were properly loaded");
-						}else logger.log(Level.WARNING, "Failed to load part of the data, beacuse it doesn't match the type");
-					}
-				} else logger.log(Level.WARNING, "Failed to load the data, beacuse it doesn't match the type");
-			}
+			return (ArrayList<ObjectManager<?>>) input.readObject();
 		} catch (FileNotFoundException e) {
 			logger.log(Level.WARNING, "File for load users not found");
 			new WarningPanel("The data file is missing in the location "+ filePath);
@@ -257,19 +251,15 @@ public class DataManager {
 			logger.log(Level.WARNING, "Incorrect cast to User");
 			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	public void saveAllDataToFile() {
 		try (ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(filePath))) {
 			forFile.reset();
-			if(allData.isEmpty()) {
-				try {			//REMOVE THIS PART
-					allData.addObject(registeredUsers);
-					allData.addObject(registeredMatches);
-					System.out.println("The file was configured, the next time it should work perfectly fine");
-				} catch (InvalidParameterException e) {
-				}
-			}
+			ArrayList<ObjectManager<?>> allData = new ArrayList<>();
+			allData.add(registeredUsers);
+			allData.add(registeredMatches);
 			forFile.writeObject(allData);
 			logger.log(Level.INFO, "Users saved");
 		} catch (IOException e) {

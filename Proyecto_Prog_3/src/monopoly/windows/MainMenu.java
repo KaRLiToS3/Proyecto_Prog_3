@@ -32,16 +32,14 @@ public class MainMenu extends MasterFrame {
 	private final URL path3 = getClass().getResource(getStringProperty("right_image_menu"));
 	private final URL path4 = getClass().getResource(getStringProperty("cash_bg"));
 	
-	//TEST MAIN
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> new MainMenu());
-	}
+//	//TEST MAIN
+//	public static void main(String[] args) {
+//		SwingUtilities.invokeLater(() -> new MainMenu());
+//	}
 	
 	public MainMenu() {
 		logger.log(Level.INFO, "MainMenu running");
-		//LOOK AND FEEL SETUP
-		setUpLookAndFeel();
-		DataManager.getManager();
+		
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(frameSize);
@@ -141,10 +139,8 @@ public class MainMenu extends MasterFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				for(JFrame frame : getAllWindows()) {
-					frame.dispose();
-					DataManager.getManager().saveDataInDB();
-				}
+				DataManager.getManager().saveDataInDB();
+				disposeAllFrames();
 			}
 		});
 		setVisible(true);
@@ -160,28 +156,10 @@ public class MainMenu extends MasterFrame {
 		public void actionPerformed(ActionEvent e) {
 			switchToNextWindow(className);
 		}
-		
 	}
 
 	@Override
 	public String windowName() {
 		return MasterFrame.MainMenu;
-	}
-
-	/**
-	 * This method searches for the predefined look and feel "Nimbus" 
-	 */
-	private void setUpLookAndFeel() {
-		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            return;
-		        }
-		    }
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.log(Level.SEVERE, "LookAndFeel was not found");
-			}
 	}
 }

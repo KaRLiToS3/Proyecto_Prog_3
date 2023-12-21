@@ -34,7 +34,7 @@ public abstract class MasterFrame extends JFrame{
 	private static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
 	private static Properties initializer = DataManager.getInitializer();
-	protected final URL windowIcon = getClass().getResource(DataManager.getInitializer().getProperty("appIcon"));
+	protected final URL windowIcon = getClass().getResource(initializer.getProperty("appIcon"));
 	
 	protected static final String MainMenu = "monopoly.windows.MainMenu";
 	protected static final String MainGameMenu = "monopoly.windows.MainGameMenu";
@@ -240,6 +240,14 @@ public abstract class MasterFrame extends JFrame{
 			}
 		});
 	};
+	
+	public static void disposeAllFrames() {
+		for(JFrame jfr : windowRefs.values()) {
+			jfr.dispose();
+			LogRecorder lg = new LogRecorder(jfr.getClass());
+			lg.log(Level.INFO, "All existing JFrames were terminated");
+		}
+	}
 	
 	public static void triggerDataUpdate() {
 		for(JFrame jfr : windowRefs.values()) {			

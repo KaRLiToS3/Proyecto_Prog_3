@@ -15,13 +15,12 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.apache.pdfbox.pdmodel.interactive.viewerpreferences.PDViewerPreferences.PRINT_SCALING;
+import javax.swing.JOptionPane;
 
 import monopoly.objects.Achievement;
 import monopoly.objects.Achievement.Type;
 import monopoly.objects.Match;
 import monopoly.objects.User;
-import monopoly.windows.MainMenu;
 import monopoly.windows.MasterFrame;
 import monopoly.windows.WarningPanel;
 
@@ -38,6 +37,8 @@ public class DataManager {
 	private ObjectManager<Match> registeredMatches = new ObjectManager<>();
 	private static LogRecorder logger = new LogRecorder(DataManager.class);
 		
+	private Connection conn;
+	private static int userChoiceToContinue = JOptionPane.YES_OPTION;
 	private static String driver = getInitializer().getProperty("driver");
 	private String filePath = Paths.get("data/Data.dat").toAbsolutePath().toString();
 	
@@ -110,16 +111,28 @@ public class DataManager {
 	}
 	
 	//DATA BASE
-	public void uploadDataFromDB() {
-		//Load the driver
+	
+	private void connect() {
 		try {
 			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
+			conn = DriverManager.getConnection("jdbc:sqlite:data/GeneralDatabase.bd");
+		} catch (ClassNotFoundException | SQLException e) {
 			logger.log(Level.SEVERE, "Unable to load the driver " + driver);
 		}
-		//TODO
+	}
+	
+	private void disconnect() throws SQLException {
+		conn.close();
+	}
+	
+	public boolean checkForUserChoice() {
+		if(userChoiceToContinue == JOptionPane.NO_OPTION) return false;
+		else return true;
+	}
+	
+	public void uploadDataFromDB() {
+		connect();
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:data/GeneralDatabase.bd");
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM USER");
 			while(rs.next()) {
@@ -131,25 +144,21 @@ public class DataManager {
 				Set<Achievement> setAch = convertStringToAchievementSet(Achievements);
 				registeredUsers.addObject(new User(Name, Email, Password, Alias, setAch));
 			}
-			rs.close();
-			stmt.close();
-			conn.close();
+			disconnect();
 		}catch (SQLException e) {
-			// TODO: handle exception
-			new WarningPanel("There was a problem while loading the data, please \nmake sure all files remain in their corresponding folder");
-			logger.log(Level.SEVERE, "Error uploading data");
+			userChoiceToContinue = JOptionPane.showConfirmDialog(null, "There was a problem while loading the data, please "
+					+ "\nmake sure all files remain in their corresponding folder.\nShould we try other means to retrieve the data?\n"
+					+ "A new sesion will open, with some data, but any progress will\n"
+					+ "not appear if the database is retrieved", "Warning", 
+					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			logger.log(Level.SEVERE, "Error uploading data, we will atempt to read from a serialized file");
+			if(userChoiceToContinue == JOptionPane.YES_OPTION) loadAllDataFromFile();
 			e.printStackTrace();
 		};
 	}
 	
 	public void saveDataInDB() {
-		//Load the driver
-		try {
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			logger.log(Level.SEVERE, "Unable to load the driver " + driver);
-		}
-		//TODO
+		connect();
 		try {
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:data/GeneralDatabase.bd");
 			String sqlDelete = "DELETE FROM USER";
@@ -166,14 +175,17 @@ public class DataManager {
 				prepStmt.setString(5, convertAchievementSetToString(user.getAchievements()));
 				prepStmt.executeUpdate();
 			}
-			deleteStmt.close();
-			conn.close();
+			disconnect();
 		}catch (SQLException e) {
 			new WarningPanel("The conection with the local database is not working\nplease restart the program, if the problem persists \nthere might be a problem with the file directory");
 			logger.log(Level.SEVERE, "Error saving data");
 			e.printStackTrace();
+		} finally {
+			saveAllDataToFile();
 		}
 	}
+	
+	//ACHIEVEMENT DECODIFICATION
 	
 	/**The input convention should have this example format: <strong>"MVP/2;CHEAPSKATE/4;BEGGINER/1"</strong>
 	 * The <strong>slash /</strong> divides the {@code Type} selection and the {@code times} from the {@code Achievement} class.
@@ -215,10 +227,11 @@ public class DataManager {
 	}
 	
 	//IN CASE A FILE IS USED
+	
 	@SuppressWarnings("unchecked")
 	private void loadAllDataFromFile() {
-		try (ObjectInputStream UsersInput = new ObjectInputStream(new FileInputStream(filePath))) {
-			allData = (ObjectManager<ObjectManager<?>>) UsersInput.readObject();
+		try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(filePath))) {
+			allData = (ObjectManager<ObjectManager<?>>) input.readObject();
 			for(ObjectManager<?> obj : allData) {
 				if(obj instanceof ObjectManager) {
 					ObjectManager<?> objectManager = (ObjectManager<?>) obj;

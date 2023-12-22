@@ -137,8 +137,9 @@ public class DataManager {
 	public void uploadDataFromDB() {
 		connect();
 		try {
-			uploadUsers();
-			uploadMatches();
+			Map<String, User> userMap = new HashMap<>();
+			uploadUsers(userMap);
+			uploadMatches(userMap);
 			disconnect();
 		}catch (SQLException e) {
 			userChoiceToContinue = JOptionPane.showConfirmDialog(null, "There was a problem while loading the data, please "
@@ -154,7 +155,7 @@ public class DataManager {
 		}
 	}
 	
-	private void uploadUsers() throws SQLException{
+	private void uploadUsers(Map<String, User> userMap) throws SQLException{
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM USER");
 		while(rs.next()) {
@@ -164,40 +165,38 @@ public class DataManager {
 			String Password = rs.getString("PASSWORD");
 			String Achievements = rs.getString("ACHIEVEMENTS");
 			Set<Achievement> setAch = convertStringToAchievementSet(Achievements);
-			registeredUsers.addObject(new User(Name, Email, Password, Alias, setAch));
+			User usr = new User(Name, Email, Password, Alias, setAch);
+			userMap.put(Email, usr);
+			registeredUsers.addObject(usr);
 		}
 	}
 	
-	private void uploadMatches() throws SQLException{
+	private void uploadMatches(Map<String, User> userMap) throws SQLException{
 		String getMatches = "SELECT * FROM MATCH";
 		String getMap = "SELECT USER_EMAIL, TURN, CURRENCY FROM MATCHMAP WHERE MATCH_DAT = ?";
-		
+
 		Statement stmt = conn.createStatement();
 		ResultSet res = stmt.executeQuery(getMatches);
 		while(res.next()) {
 			String dat = res.getString("DAT");
 			String name = res.getString("NAME");
-			
+
 			PreparedStatement mapStmt = conn.prepareStatement(getMap);
 			mapStmt.setString(1, dat);
 			ResultSet map = mapStmt.executeQuery();
-			
+
 			Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser = new HashMap<>();
 			while (map.next()) {
 				TreeMap<Integer, Integer> turnsPerCurrency = new TreeMap<>();
 				String email = map.getString("USER_EMAIL");
 				Integer turn = map.getInt("TURN");
 				Integer currency = map.getInt("CURRENCY");
-				
-				for(User usr : registeredUsers) {
-					if(usr.getEmail().equals(email)) {
-						if(!turnCurrencyPerUser.containsKey(usr)) {
-							turnsPerCurrency.put(turn, currency);
-							turnCurrencyPerUser.put(usr, turnsPerCurrency);
-						} else {
-							turnCurrencyPerUser.get(usr).put(turn, currency);
-						}
-					}
+				User usr = userMap.get(email);
+				if(!turnCurrencyPerUser.containsKey(usr)) {
+					turnsPerCurrency.put(turn, currency);
+					turnCurrencyPerUser.put(usr, turnsPerCurrency);
+				} else {
+					turnCurrencyPerUser.get(usr).put(turn, currency);
 				}
 			}
 			System.out.println(turnCurrencyPerUser);

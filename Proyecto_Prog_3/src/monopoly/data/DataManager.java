@@ -31,7 +31,7 @@ import monopoly.windows.WarningPanel;
 
 /**
  * Designed to manage all the data of the application
- * @author KaRLiToS3.0
+ * @author KaRLiToS3.0 with some contributions from Fauldave
  */
 public class DataManager {
 	private static DataManager dataManager = null;
@@ -134,6 +134,41 @@ public class DataManager {
 		else return true;
 	}
 	
+	/**This method creates the database from scratch in case the original file is lost
+	 * @throws SQLException
+	 */
+	private void createDataBase() throws SQLException{
+		Statement stmt = conn.createStatement();
+		stmt.executeUpdate("CREATE TABLE USER ("
+				+ "    EMAIL TEXT NOT NULL,"
+				+ "    NAME TEXT NOT NULL,"
+				+ "    ALIAS TEXT,"
+				+ "    PASSWORD TEXT NOT NULL,"
+				+ "    IMAGE TEXT,"
+				+ "    ACHIEVEMENTS TEXT,"
+				+ "    PRIMARY KEY (EMAIL)"
+				+ ");");
+		stmt.executeUpdate("CREATE TABLE MATCH ("
+				+ "	DAT TEXT PRIMARY KEY,"
+				+ "	NAME TEXT NOT NULL"
+				+ ");");
+		stmt.executeUpdate("CREATE TABLE MATCHMAP ("
+				+ "	ID_MAP INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "	MATCH_DAT TEXT,"
+				+ "	USER_EMAIL TEXT,"
+				+ "	TURN INT,"
+				+ "	CURRENCY INT,"
+				+ "	FOREIGN KEY (MATCH_DAT) REFERENCES MATCH(DAT),"
+				+ "	FOREIGN KEY (USER_EMAIL) REFERENCES USER(EMAIL)"
+				+ ");");
+		stmt.close();
+	}
+	
+	/**
+	 * Loads all the data from the database to the lists of objects, in case the database is lost
+	 * there will appear a <strong>WarningPanel</strong> to explain that a new database
+	 * will be created
+	 */
 	public void uploadDataFromDB() {
 		connect();
 		try {
@@ -142,13 +177,25 @@ public class DataManager {
 			uploadMatches(userMap);
 			disconnect();
 		}catch (SQLException e) {
-			userChoiceToContinue = JOptionPane.showConfirmDialog(null, "There was a problem while loading the data, please "
-					+ "\nmake sure all files remain in their corresponding folder.\nShould we try other means to retrieve the data?\n"
-					+ "A new sesion will open, with some data, but any progress will\n"
-					+ "not appear if the database is retrieved", "Warning", 
+			userChoiceToContinue = JOptionPane.showConfirmDialog(null, 
+					"There was a problem while loading the data, please "
+					+ "\nmake sure all files remain in their corresponding folder.\n"
+					+ "Should we try other means to retrieve the data?\n"
+					+ "We will use a local copy of the data, any changes will be\n"
+					+ "saved and we will create a new database, in case you\n"
+					+ "retrieve the old one you can change them, all new changes\n"
+					+ "will prevail", "Warning", 
 					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			logger.log(Level.SEVERE, "Error uploading data, we will atempt to read from a serialized file");
-			if(userChoiceToContinue == JOptionPane.YES_OPTION) loadAllDataFromFile();
+			if(userChoiceToContinue == JOptionPane.YES_OPTION) {
+				try {
+					createDataBase();
+					logger.log(Level.INFO, "A new database has been created");
+				} catch (SQLException e1) {
+					logger.log(Level.WARNING, "Failed to create a new database");
+					e1.printStackTrace();
+				}
+			}
 			e.printStackTrace();
 		} finally {
 			synchronizeFileWithDataBase();
@@ -169,6 +216,8 @@ public class DataManager {
 			userMap.put(Email, usr);
 			registeredUsers.addObject(usr);
 		}
+		stmt.close();
+		rs.close();
 	}
 	
 	private void uploadMatches(Map<String, User> userMap) throws SQLException{
@@ -199,13 +248,16 @@ public class DataManager {
 					turnCurrencyPerUser.get(usr).put(turn, currency);
 				}
 			}
-			System.out.println(turnCurrencyPerUser);
 			try {
 				registeredMatches.addObject(new Match(Match.getFormat().parse(dat), name, turnCurrencyPerUser));
 			} catch (ParseException e) {
-				e.printStackTrace();
+				logger.log(Level.SEVERE, "Wrong date format for the match, conversion not possible");
 			}
+			mapStmt.close();
+			map.close();
 		}
+		stmt.close();
+		res.close();
 	}
 	
 	public void saveDataInDB() {
@@ -242,24 +294,25 @@ public class DataManager {
 			ResultSet check =chkStmt.executeQuery();
 			if(check.next()) {
 				PreparedStatement updateStmt = conn.prepareStatement(updateUser);
-				updateStmt.setString(1,user.getName());
-				updateStmt.setString(2,user.getAlias());
-				updateStmt.setString(3,user.getPassword());
+				updateStmt.setString(1, user.getName());
+				updateStmt.setString(2, user.getAlias());
+				updateStmt.setString(3, user.getPassword());
 				updateStmt.setString(4, convertAchievementSetToString(user.getAchievements()));
-				updateStmt.setString(5,user.getEmail());
+				updateStmt.setString(5, user.getEmail());
 				updateStmt.executeUpdate();
 				updateStmt.close();
 			} else {
 				//The order in the database is now EMAIL, NAME, ALIAS, PASSWORD, IMAGE, ACHIEVEMENTS
 				PreparedStatement prepStmt = conn.prepareStatement(sqlInsert);
-				prepStmt.setString(1,user.getEmail());
-				prepStmt.setString(2,user.getName());
-				prepStmt.setString(3,user.getAlias());
-				prepStmt.setString(4,user.getPassword());
+				prepStmt.setString(1, user.getEmail());
+				prepStmt.setString(2, user.getName());
+				prepStmt.setString(3, user.getAlias());
+				prepStmt.setString(4, user.getPassword());
 				prepStmt.setString(5, convertAchievementSetToString(user.getAchievements()));
 				prepStmt.executeUpdate();
 				prepStmt.close();
 			}
+			chkStmt.close();
 			chkStmt.close();
 		}
 	}
@@ -288,6 +341,8 @@ public class DataManager {
 				insertStmt.close();
 				insertMapAssocieted(match);
 			}
+			chkStmt.close();
+			check.close();
 		}
 	}
 	
@@ -349,7 +404,12 @@ public class DataManager {
 		return str;
 	}
 	
-	//IN CASE A FILE IS USED
+	/**
+	 * This method will <strong>always</strong> synchronize the database
+	 * using the file as a safety measure. The database is the primary source
+	 * when not available a file will be used, and then that data will be loaded
+	 * again into the database. No data will be lost unless they are both lost.
+	 */
 	@SuppressWarnings("unchecked")
 	private void synchronizeFileWithDataBase() {
 		ArrayList<ObjectManager<?>> allData = loadAllDataFromFile();
@@ -363,7 +423,8 @@ public class DataManager {
 			return (ArrayList<ObjectManager<?>>) input.readObject();
 		} catch (FileNotFoundException e) {
 			logger.log(Level.WARNING, "File for load users not found");
-			new WarningPanel("The data file is missing in the location "+ filePath);
+			new WarningPanel("The data file is missing in the location "+ filePath + "\nWe cannot launch the game with saved data."
+					+"\nThis will change when new data is loaded");
 			e.printStackTrace();
 		} catch (IOException e) {
 			logger.log(Level.WARNING, "User loading failed");
@@ -375,6 +436,9 @@ public class DataManager {
 		return null;
 	}
 	
+	/**
+	 * Saves all data to a serialized file to sync with the database in case of necessity
+	 */
 	public void saveAllDataToFile() {
 		try (ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(filePath))) {
 			forFile.reset();
@@ -382,9 +446,9 @@ public class DataManager {
 			allData.add(registeredUsers);
 			allData.add(registeredMatches);
 			forFile.writeObject(allData);
-			logger.log(Level.INFO, "Users saved");
+			logger.log(Level.INFO, "All data was saved to the file successfully");
 		} catch (IOException e) {
-			logger.log(Level.WARNING, "The address to add the file was not found");
+			logger.log(Level.WARNING, "Unable to save data to file");
 			e.printStackTrace();
 		}	
 	}

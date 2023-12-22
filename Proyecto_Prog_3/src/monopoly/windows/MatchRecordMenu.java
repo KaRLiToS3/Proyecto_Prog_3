@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 
+import monopoly.data.DataManager;
 import monopoly.objects.GraphFactory;
 import monopoly.objects.Match;
 
@@ -64,10 +65,9 @@ public class MatchRecordMenu extends MasterFrame {
 		
 		/////////////////////DATA EXAMPLE//////////////////////
 		List<Match> testList = new ArrayList<>();
-		testList.add(new Match());
-//		testList.add(new Match("Name 2", 2));
-//		testList.add(new Match("Name 3", 2));
-//		testList.add(new Match("Name 4", 2));
+		for(Match match : DataManager.getManager().getRegisteredMatches()) {
+			testList.add(match);
+		}
 		/////////////////////DATA EXAMPLE//////////////////////
 		
 		//LIST MODEL

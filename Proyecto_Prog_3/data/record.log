@@ -1,2 +1,6 @@
-dic 21, 2023 9:38:48 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   All existing JFrames were terminated
+dic 22, 2023 4:04:24 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainMenu   MainMenu running
+dic 22, 2023 4:04:24 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.windows.MainMenu   Window building ended
+dic 22, 2023 4:04:25 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.DataManager   Users saved

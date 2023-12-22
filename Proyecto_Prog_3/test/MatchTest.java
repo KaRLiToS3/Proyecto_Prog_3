@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class MatchTest {
 	@Before
 	public void loadDataStructure() {
 		Map<User, TreeMap<Integer, Integer>> data = loadDataExampe1();
-		match1 = new Match("match1", data);
+		match1 = new Match(new Date(),"match1", data);
 		match2 = new Match();
 	}
 	

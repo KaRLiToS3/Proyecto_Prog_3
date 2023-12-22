@@ -1,6 +1,7 @@
 package monopoly.data;
 
 import java.sql.*;
+import java.text.ParseException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,9 +12,12 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
@@ -133,17 +137,8 @@ public class DataManager {
 	public void uploadDataFromDB() {
 		connect();
 		try {
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM USER");
-			while(rs.next()) {
-				String Alias = rs.getString("ALIAS");
-				String Name = rs.getString("NAME");
-				String Email = rs.getString("EMAIL");
-				String Password = rs.getString("PASSWORD");
-				String Achievements = rs.getString("ACHIEVEMENTS");
-				Set<Achievement> setAch = convertStringToAchievementSet(Achievements);
-				registeredUsers.addObject(new User(Name, Email, Password, Alias, setAch));
-			}
+			uploadUsers();
+			uploadMatches();
 			disconnect();
 		}catch (SQLException e) {
 			userChoiceToContinue = JOptionPane.showConfirmDialog(null, "There was a problem while loading the data, please "
@@ -159,23 +154,73 @@ public class DataManager {
 		}
 	}
 	
+	private void uploadUsers() throws SQLException{
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM USER");
+		while(rs.next()) {
+			String Alias = rs.getString("ALIAS");
+			String Name = rs.getString("NAME");
+			String Email = rs.getString("EMAIL");
+			String Password = rs.getString("PASSWORD");
+			String Achievements = rs.getString("ACHIEVEMENTS");
+			Set<Achievement> setAch = convertStringToAchievementSet(Achievements);
+			registeredUsers.addObject(new User(Name, Email, Password, Alias, setAch));
+		}
+	}
+	
+	private void uploadMatches() throws SQLException{
+		String getMatches = "SELECT * FROM MATCH";
+		String getMap = "SELECT USER_EMAIL, TURN, CURRENCY FROM MATCHMAP WHERE MATCH_DAT = ?";
+		
+		Statement stmt = conn.createStatement();
+		ResultSet res = stmt.executeQuery(getMatches);
+		while(res.next()) {
+			String dat = res.getString("DAT");
+			String name = res.getString("NAME");
+			
+			PreparedStatement mapStmt = conn.prepareStatement(getMap);
+			mapStmt.setString(1, dat);
+			ResultSet map = mapStmt.executeQuery();
+			
+			Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser = new HashMap<>();
+			while (map.next()) {
+				TreeMap<Integer, Integer> turnsPerCurrency = new TreeMap<>();
+				String email = map.getString("USER_EMAIL");
+				Integer turn = map.getInt("TURN");
+				Integer currency = map.getInt("CURRENCY");
+				
+				for(User usr : registeredUsers) {
+					if(usr.getEmail().equals(email)) {
+						if(!turnCurrencyPerUser.containsKey(usr)) {
+							turnsPerCurrency.put(turn, currency);
+							turnCurrencyPerUser.put(usr, turnsPerCurrency);
+						} else {
+							turnCurrencyPerUser.get(usr).put(turn, currency);
+						}
+					}
+				}
+			}
+			System.out.println(turnCurrencyPerUser);
+			try {
+				registeredMatches.addObject(new Match(Match.getFormat().parse(dat), name, turnCurrencyPerUser));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void saveDataInDB() {
 		connect();
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:data/GeneralDatabase.bd");
-			String sqlDelete = "DELETE FROM USER";
-			PreparedStatement deleteStmt = conn.prepareStatement(sqlDelete);
-			deleteStmt.executeUpdate();
-			for (User user : registeredUsers) {
-				//The order in the database is now EMAIL, NAME, ALIAS, PASSWORD, IMAGE, ACHIEVEMENTS
-				String sqlInsert = "INSERT INTO USER (EMAIL, NAME, ALIAS, PASSWORD, ACHIEVEMENTS) VALUES (?, ?, ?, ?, ?)";
-				PreparedStatement prepStmt = conn.prepareStatement(sqlInsert);
-				prepStmt.setString(1,user.getEmail());
-				prepStmt.setString(2,user.getName());
-				prepStmt.setString(3,user.getAlias());
-				prepStmt.setString(4,user.getPassword());
-				prepStmt.setString(5, convertAchievementSetToString(user.getAchievements()));
-				prepStmt.executeUpdate();
+			try {
+				saveUsers();				
+			}catch (SQLException e) {
+				logger.log(Level.SEVERE, "Error saving users");
+			}
+			try {
+				saveMatches();				
+			}catch (SQLException e) {
+				logger.log(Level.SEVERE, "Error saving matches");
 			}
 			disconnect();
 		}catch (SQLException e) {
@@ -184,6 +229,83 @@ public class DataManager {
 			e.printStackTrace();
 		} finally {
 			saveAllDataToFile();
+		}
+	}
+	
+	private void saveUsers() throws SQLException {
+		String checkUser = "SELECT * FROM USER WHERE EMAIL = ?";
+		String updateUser = "UPDATE USER SET NAME = ?, ALIAS = ?, PASSWORD = ?, IMAGE = ?, ACHIEVEMENTS = ? WHERE EMAIL = ?";
+		String sqlInsert = "INSERT INTO USER (EMAIL, NAME, ALIAS, PASSWORD, ACHIEVEMENTS) VALUES (?, ?, ?, ?, ?)";
+		
+		for (User user : registeredUsers) {
+			PreparedStatement chkStmt = conn.prepareStatement(checkUser);
+			chkStmt.setString(1, user.getEmail());
+			ResultSet check =chkStmt.executeQuery();
+			if(check.next()) {
+				PreparedStatement updateStmt = conn.prepareStatement(updateUser);
+				updateStmt.setString(1,user.getName());
+				updateStmt.setString(2,user.getAlias());
+				updateStmt.setString(3,user.getPassword());
+				updateStmt.setString(4, convertAchievementSetToString(user.getAchievements()));
+				updateStmt.setString(5,user.getEmail());
+				updateStmt.executeUpdate();
+				updateStmt.close();
+			} else {
+				//The order in the database is now EMAIL, NAME, ALIAS, PASSWORD, IMAGE, ACHIEVEMENTS
+				PreparedStatement prepStmt = conn.prepareStatement(sqlInsert);
+				prepStmt.setString(1,user.getEmail());
+				prepStmt.setString(2,user.getName());
+				prepStmt.setString(3,user.getAlias());
+				prepStmt.setString(4,user.getPassword());
+				prepStmt.setString(5, convertAchievementSetToString(user.getAchievements()));
+				prepStmt.executeUpdate();
+				prepStmt.close();
+			}
+			chkStmt.close();
+		}
+	}
+	
+	private void saveMatches() throws SQLException {
+		String checkMatch = "SELECT * FROM MATCH WHERE DAT = ?";
+		String updateMatch = "UPDATE MATCH SET NAME = ? WHERE DAT = ?";
+		String insertMatch = "INSERT INTO MATCH (DAT, NAME) VALUES (?, ?)";
+		
+		for(Match match : registeredMatches) {
+			PreparedStatement chkStmt = conn.prepareStatement(checkMatch);
+			chkStmt.setString(1, match.getDateAsString());
+			ResultSet check = chkStmt.executeQuery();
+			
+			if(check.next()) {
+				PreparedStatement updateStmt = conn.prepareStatement(updateMatch);
+				updateStmt.setString(1, match.getName());
+				updateStmt.setString(2, match.getDateAsString());
+				updateStmt.executeUpdate();
+				updateStmt.close();
+			} else {
+				PreparedStatement insertStmt = conn.prepareStatement(insertMatch);
+				insertStmt.setString(1, match.getDateAsString());
+				insertStmt.setString(2, match.getName());
+				insertStmt.executeUpdate();
+				insertStmt.close();
+				insertMapAssocieted(match);
+			}
+		}
+	}
+	
+	private void insertMapAssocieted(Match match) throws SQLException{
+		String insertStatement = "INSERT INTO MATCHMAP (MATCH_DAT, USER_EMAIL, TURN, CURRENCY) VALUES (?, ?, ?, ?)";
+		
+		for(User user : match.getTurnCurrencyPerUser().keySet()) {
+			TreeMap<Integer, Integer> turnAndCurrency = match.getTurnCurrencyPerUser().get(user);
+			for(Integer turn : turnAndCurrency.keySet()) {
+				PreparedStatement insertStmt = conn.prepareStatement(insertStatement);
+				insertStmt.setString(1, match.getDateAsString());
+				insertStmt.setString(2, user.getEmail());
+				insertStmt.setInt(3, turn);
+				insertStmt.setInt(4, turnAndCurrency.get(turn));
+				insertStmt.executeUpdate();
+				insertStmt.close();
+			}
 		}
 	}
 	

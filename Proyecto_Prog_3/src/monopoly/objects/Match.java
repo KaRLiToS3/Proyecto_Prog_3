@@ -1,14 +1,13 @@
 package monopoly.objects;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Level;
-
-import monopoly.data.LogRecorder;
 
 public class Match implements Serializable{
 	private static final long serialVersionUID = 3317059767741645648L;
@@ -16,17 +15,19 @@ public class Match implements Serializable{
 	private Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser; //Used for statistics
 	private List<User> users;
 	private String name;
-	private LogRecorder logger = new LogRecorder(getClass());
-	
-	public Match(String name, Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
+	private Date date;
+	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
+
+	public Match(Date date, String name, Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
 		this.name = name;
+		this.date = date;
 		this.turnCurrencyPerUser = turnCurrencyPerUser;
 		users = new ArrayList<>(turnCurrencyPerUser.keySet());
-		logger.log(Level.INFO, "Match " + name + " was created succesfully");
 	}
 	
 	//Test data model
 	public Match() {
+		date = new Date();
 		name = "Test Match";
 		turnCurrencyPerUser = new HashMap<User, TreeMap<Integer, Integer>>();
 		TreeMap<Integer, Integer> map1 = new TreeMap<>();
@@ -45,9 +46,9 @@ public class Match implements Serializable{
 		map3.put(3, 200);
 		map3.put(4, 1000);
 		
-		User usr1 = new User("Paco", "dvkajenlkaenñfa");
-		User usr2 = new User("Juan", "thaehaerhaerhaeha");
-		User usr3 = new User("Damian", "rgagaerhaehaerh");
+		User usr1 = new User("Paco", "a");
+		User usr2 = new User("Juan", "b");
+		User usr3 = new User("Damian", "c");
 		
 		users = new ArrayList<>();
 		users.add(usr1);
@@ -57,8 +58,6 @@ public class Match implements Serializable{
 		turnCurrencyPerUser.put(usr1, map1);
 		turnCurrencyPerUser.put(usr2, map2);
 		turnCurrencyPerUser.put(usr3, map3);
-		
-		logger.log(Level.INFO, "Match ' Test Match ' was created succesfully");
 	}
 
 	public String getName() {
@@ -80,8 +79,16 @@ public class Match implements Serializable{
 		return turnCurrencyPerUser;
 	}
 
+	public static SimpleDateFormat getFormat() {
+		return format;
+	}
+
 	public void setTurnCurrencyPerUser(Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
 		this.turnCurrencyPerUser = turnCurrencyPerUser;
+	}
+	
+	public String getDateAsString() {
+		return format.format(date);
 	}
 
 	@Override
@@ -99,7 +106,7 @@ public class Match implements Serializable{
 
 	@Override
 	public String toString() {
-		return name;
+		return date + "\t" + name;
 	}
 	
 }

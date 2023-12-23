@@ -74,9 +74,6 @@ public class UsersMenu extends MasterFrame{
 		//CENTER
 		//JTable model
 		class MyTableModel extends DefaultTableModel { 
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override

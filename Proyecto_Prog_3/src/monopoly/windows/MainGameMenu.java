@@ -3,6 +3,8 @@ package monopoly.windows;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
@@ -26,6 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
@@ -35,23 +38,25 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
 
 import monopoly.objects.Cell;
+import monopoly.objects.Cell.CellType;
 import monopoly.objects.Token;
 
 public class MainGameMenu extends MasterFrame {
-
-
 	private static final long serialVersionUID = 1L;
 	
 
+	private static Font font1 = new Font("Arial Black", Font.BOLD, 24);
+	
 	private final URL boardPath = getClass().getResource(getStringProperty("board_img"));
 	private final URL dicePath = getClass().getResource(getStringProperty("dice_img"));
 	public static final Dimension defaultWindowDimension = getDimensionProperty("mainGameMenuSizeX", "mainGameMenuSizeY");
-	private static String cellPositionsPath = Paths.get(getStringProperty("cellPositions")).toAbsolutePath().toString();
+	private static String cellPositionsPath = Paths.get(getStringProperty("cellPositions1")).toAbsolutePath().toString();
 
 	
 	// cell position setter
@@ -119,25 +124,51 @@ public class MainGameMenu extends MasterFrame {
 		eventPanel.setLayout(new BoxLayout(eventPanel, BoxLayout.Y_AXIS));
 		eventPanel.setBackground(Color.BLACK);
 		
-		// DICE BUTTON
+		//PARTS OF THE PANEL
+		JLabel Turn = new JLabel("Turn from user");
+		Turn.setFont(font1);
+		Turn.setForeground(Color.RED); //TODO The color must change according to the player that's playing
+		Turn.setText("Turn from ?"); //TODO The user should also appear
+		Turn.setAlignmentX(CENTER_ALIGNMENT);
+		eventPanel.add(Turn, BorderLayout.NORTH);
+		
+		
 		eventPanel.add(new Box.Filler(new Dimension(100, 100), null, null));
 
+		//DICE PANEL
+		JPanel dicePanel = new JPanel();
+		dicePanel.setLayout(new FlowLayout());
+		dicePanel.setAlignmentX(CENTER_ALIGNMENT);
+		dicePanel.setBackground(Color.black);
+		dicePanel.setMaximumSize(new Dimension(getWidth(),110));
+		
+		eventPanel.add(dicePanel,BorderLayout.SOUTH);
+		
+		//DICE RESULT
+		JLabel diceResult = new JLabel();
+		diceResult.setForeground(Color.white);
+		diceResult.setFont(font1);
+		diceResult.setPreferredSize(new Dimension(40, 80));
+		
+		dicePanel.add(diceResult);
+		
+		//DICE BUTTON
 		JButton diceButton = new JButton(getIconifiedImage(dicePath, 100, 100));
-		diceButton.setAlignmentX(CENTER_ALIGNMENT);
-		diceButton.setBackground(Color.WHITE);
-		eventPanel.add(diceButton);
+//		diceButton.setAlignmentX(CENTER_ALIGNMENT);
+		diceButton.setBackground(Color.white);
 		setComponentDimension(diceButton, 100, 80);
 		
+		dicePanel.add(diceButton);
 
-		addMouseListener( new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// Token position setter
-				/////////////
+//		addMouseListener( new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				 Token position setter
+//				///////////
 //				posList.add(getMousePosition());
-				/////////////
-			}
-		});
+//				///////////
+//			}
+//		});
 
 		this.addWindowListener(new WindowAdapter() {
 			@Override
@@ -172,18 +203,18 @@ public class MainGameMenu extends MasterFrame {
 //					}
 //				}
 				///////////
-				
+				diceButton.setEnabled(false);
 				Random dice = new Random();
 				int hops = dice.nextInt(1, 13);
+				diceResult.setText(""+hops);
 				Runnable thread = new Runnable() {
 					
 					@Override
 					public void run() {
 						Token t = tokenList.get(turn);
 						for (int i = 0; i<hops;i++) {
-							System.out.println(t.getCellNumber());
 							t.setCellNumber(t.getCellNumber()+1);
-							if ( t.getCellNumber()==40) t.setCellNumber(0);
+							if ( t.getCellNumber()==cellList.size()) t.setCellNumber(0);
 							try {
 								Thread.sleep(500);
 							} catch (InterruptedException e) {
@@ -191,6 +222,20 @@ public class MainGameMenu extends MasterFrame {
 								e.printStackTrace();
 							}
 						}
+						
+//						switch (cellList.get(t.getCellNumber()).getcType()) {
+//						case Property: {
+//							
+//							
+//						}
+//						default:
+//							throw new IllegalArgumentException("Unexpected value: " + cellList.get(t.getCellNumber()).getcType());
+//						} 
+						
+						
+						turn++;
+						if (turn==tokenList.size()) turn = 0;
+						diceButton.setEnabled(true);
 					}
 				};
 				Thread t =  new Thread(thread);
@@ -229,8 +274,16 @@ public class MainGameMenu extends MasterFrame {
 		try (Scanner scanner = new Scanner(file)) {
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
-				int separation = line.indexOf("_");
-				cellList.add(new Cell(Double.parseDouble( line.substring(0, separation)), Double.parseDouble(line.substring(separation+1)), panel));
+				
+				
+//				int separation = line.indexOf("_");
+//				cellList.add(new Cell(Double.parseDouble( line.substring(0, separation)), Double.parseDouble(line.substring(separation+1)), panel));
+			
+				String[] splitedLine = line.split("_");
+				cellList.add(new Cell(Double.parseDouble( splitedLine[0].strip() ), Double.parseDouble( splitedLine[1].strip() ),  CellType.valueOf(splitedLine[2].strip()),panel));
+
+				
+			
 			}
 			scanner.close();
 		} catch (FileNotFoundException e) {

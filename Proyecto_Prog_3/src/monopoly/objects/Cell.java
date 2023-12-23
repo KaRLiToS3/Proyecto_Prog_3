@@ -26,13 +26,13 @@ public class Cell extends JComponent{
 	
 	private int x;
 	private int y;
+	int width;
+	int height;
 	double perX;
 	double perY;
 	JPanel panel;
 	private int cellNumber;
-	
-	private final static int cellWidth = 30;
-	private final static int cellHeight = 40;
+
 
 	
 	
@@ -46,13 +46,40 @@ public class Cell extends JComponent{
 //		counter++;
 //	}
 	
+	public enum CellType {
+		Property(30,40),
+		Start(50,50),
+		Free(50,50),
+		Gojail(50,50),
+		Jail(50,50),
+		Tax(40,40),
+		Train(40,40),
+		Water(40,40),
+		Elec(40,40),
+		Chest(40,40),
+		Chance(40,40);
+		
+		
+		int width;
+		int height;
+		
+		private CellType(int w, int h) {
+			width=w;
+			height=h;
+		}
+	}
+	
+	CellType cType;
 	
 	
-	public Cell(double perX, double perY, JPanel panel) {
+	public Cell(double perX, double perY, CellType type, JPanel panel) {
 		this.perX = perX;
 		this.perY = perY;
 		this.panel = panel;
 		this.cellNumber = counter;
+		this.cType=type;
+		this.width=type.width;
+		this.height=type.height;
 		setX((int)(this.getPerX()*this.getPanel().getWidth()));
 		setY((int)(this.getPerY()*this.getPanel().getWidth()));
 		counter++;
@@ -106,14 +133,19 @@ public class Cell extends JComponent{
 	}
 	
 	public int getWidth() {
-		return (int)(cellWidth*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
+		return (int)(width*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
 	}
 	public int getHeight() {
-		return (int)(cellHeight*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
+		return (int)(height*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
 	}
+	public CellType getcType() {
+		return cType;
+	}
+	
 	
 	// Corner getters
 	
+
 	public Point getTopLeft() {
 		return new Point(getX(), getY());
 	}

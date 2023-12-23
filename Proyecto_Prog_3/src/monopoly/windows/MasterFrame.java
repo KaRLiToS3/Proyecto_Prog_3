@@ -34,7 +34,7 @@ public abstract class MasterFrame extends JFrame{
 	private static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
 	private static Properties initializer = DataManager.getInitializer();
-	protected final URL windowIcon = getClass().getResource(DataManager.getInitializer().getProperty("appIcon"));
+	protected final URL windowIcon = getClass().getResource(initializer.getProperty("appIcon"));
 	
 	protected static final String MainMenu = "monopoly.windows.MainMenu";
 	protected static final String MainGameMenu = "monopoly.windows.MainGameMenu";
@@ -146,8 +146,8 @@ public abstract class MasterFrame extends JFrame{
 	 * @param integerProp
 	 * @return
 	 */
-	protected static String getStringProperty(String integerProp) {
-		return initializer.getProperty(integerProp);
+	protected static String getStringProperty(String stringProp) {
+		return initializer.getProperty(stringProp);
 	}
 	
 	/**Used to get the {@code int} property from a {@code String}
@@ -155,7 +155,7 @@ public abstract class MasterFrame extends JFrame{
 	 * @return
 	 */
 	protected static int getIntegerProperty(String integerProp) {
-		return Integer.parseInt(integerProp);
+		return Integer.parseInt(initializer.getProperty(integerProp));
 	}
 	
 	/**Used to get the {@code float} property from a {@code String}
@@ -241,12 +241,21 @@ public abstract class MasterFrame extends JFrame{
 		});
 	};
 	
-	protected void triggerDataUpdate() {
+	public static void disposeAllFrames() {
+		for(JFrame jfr : windowRefs.values()) {
+			jfr.dispose();
+			LogRecorder lg = new LogRecorder(jfr.getClass());
+			lg.log(Level.INFO, "All existing JFrames were terminated");
+		}
+	}
+	
+	public static void triggerDataUpdate() {
 		for(JFrame jfr : windowRefs.values()) {			
 			if( jfr instanceof Updatable) {
 				Updatable upd = (Updatable) jfr;
 				upd.updateAllData();
-				logger.log(Level.INFO, "Data updated in " + jfr.getName());
+				LogRecorder lg = new LogRecorder(jfr.getClass());
+				lg.log(Level.INFO, "Data updated in " + jfr.getName());
 			}
 		}
 	}

@@ -35,8 +35,8 @@ public class GameSettingsMenu extends MasterFrame implements Updatable{
 	private static final Color gold = new Color(212, 175, 55);
 	private static final Color bg = new Color(27, 27, 27);
 	private static final int compSpace = 20;
-	private static List<User> selectedUsers = new ArrayList<>();
 	private DefaultListModel<User> modelUserSelectionList;
+	private static List<User> selectedUsers = new ArrayList<>();
 	private static int startingCash;
 	private static int cashMultiplier;
 	

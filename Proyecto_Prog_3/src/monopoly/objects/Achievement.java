@@ -13,21 +13,19 @@ public class Achievement implements Serializable{
 	public Type type;
 
 	public enum Type {
-		MVP("MVP", mvp),
-		CHEAPSKATE("CHEAPSKATE", chpsk),
-		BEGGINER("BEGGINER", mvp),
-		FLAT_BROKE("FLAT_BROKE", mvp),
-		VETERAN("VETERAN", mvp);
+		MVP(mvp),
+		CHEAPSKATE(chpsk),
+		BEGGINER(mvp),
+		FLAT_BROKE(mvp),
+		VETERAN(mvp),
+		IMPERIALIST(mvp),
+		MODEST(mvp);
 		
-		private String desc;
 		private String[] img;
-		private Type(String desc, String[] img) {
-			this.desc = desc;
+		private Type(String[] img) {
 			this.img = img;
 		}
-		public String getDesc() {
-			return desc;
-		}
+		
 		public String[] getImg() {
 			return img;
 		}
@@ -40,7 +38,7 @@ public class Achievement implements Serializable{
 	
 	public Achievement(Type type) {
 		this.type = type;
-		times = 0;
+		times = 1;
 	}
 
 	public int getTimes() {
@@ -74,6 +72,6 @@ public class Achievement implements Serializable{
 
 	@Override
 	public String toString() {
-		return getType().getDesc() + "/" + getTimes();
+		return getType().toString() + "/" + getTimes();
 	}
 }

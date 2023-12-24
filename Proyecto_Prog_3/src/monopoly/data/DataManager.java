@@ -455,19 +455,20 @@ public class DataManager {
 	}
 	
 	//RECURSIVITY
-	private User finalUsr = null;
 	public User getUserByEmail(String email) {
-		List<User> list = new ArrayList<>(registeredUsers.getRegisteredData());
-		recursiveFunction(list, email);
-		return finalUsr;
+	    List<User> list = new ArrayList<>(registeredUsers.getRegisteredData());
+	    return recursiveFunction(list, email);
 	}
-	
-	private void recursiveFunction(List<User> list, String email) {
-		if(list.size() < 1) return;
-		int breakPoint = Math.round(list.size()/2);
-		User usr = list.get(breakPoint);
-		if(usr.getEmail().equals(email)) finalUsr = usr;
-		recursiveFunction(list.subList(0, breakPoint), email);
-		recursiveFunction(list.subList(breakPoint + 1, list.size()), email);
+
+	private User recursiveFunction(List<User> list, String email) {
+	    if(list.size() < 1) return null;
+	    int breakPoint = Math.round(list.size()/2);
+	    User usr = list.get(breakPoint);
+	    if(usr.getEmail().equals(email)) {
+	        return usr;
+	    }
+	    User foundUser = recursiveFunction(list.subList(0, breakPoint), email);
+	    if(foundUser != null) return foundUser;
+	    return recursiveFunction(list.subList(breakPoint + 1, list.size()), email);
 	}
 }

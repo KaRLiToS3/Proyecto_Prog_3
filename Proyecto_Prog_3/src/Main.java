@@ -13,6 +13,7 @@ public class Main {
 		setUpLookAndFeel();
 		if(DataManager.getManager().checkForUserChoice()) {
 			SwingUtilities.invokeLater(() -> new MainMenu());
+			System.out.println(DataManager.getManager().getUserByEmail("u"));
 		}
 	}
 	

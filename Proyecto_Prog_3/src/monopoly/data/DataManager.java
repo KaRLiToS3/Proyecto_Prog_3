@@ -14,6 +14,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -451,5 +452,22 @@ public class DataManager {
 			logger.log(Level.WARNING, "Unable to save data to file");
 			e.printStackTrace();
 		}	
+	}
+	
+	//RECURSIVITY
+	private User finalUsr = null;
+	public User getUserByEmail(String email) {
+		List<User> list = new ArrayList<>(registeredUsers.getRegisteredData());
+		recursiveFunction(list, email);
+		return finalUsr;
+	}
+	
+	private void recursiveFunction(List<User> list, String email) {
+		if(list.size() < 1) return;
+		int breakPoint = Math.round(list.size()/2);
+		User usr = list.get(breakPoint);
+		if(usr.getEmail().equals(email)) finalUsr = usr;
+		recursiveFunction(list.subList(0, breakPoint), email);
+		recursiveFunction(list.subList(breakPoint + 1, list.size()), email);
 	}
 }

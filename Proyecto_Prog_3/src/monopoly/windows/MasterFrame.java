@@ -53,8 +53,8 @@ public abstract class MasterFrame extends JFrame{
 	protected LogRecorder logger = new LogRecorder(this.getClass());
 	
 	/**
-	 * @author KaRLiToS3 and rekix
 	 *Class specially designed to draw images into panels
+	 * @author KaRLiToS3 and Xiker Goikoetxea
 	 */
 	class PanelImageBuilder extends JPanel{
 		private static final long serialVersionUID = 1L;

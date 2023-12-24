@@ -462,7 +462,7 @@ public class DataManager {
 
 	private User recursiveFunction(List<User> list, String email) {
 	    if(list.size() < 1) return null;
-	    int breakPoint = Math.round(list.size()/2);
+	    int breakPoint = list.size()/2;
 	    User usr = list.get(breakPoint);
 	    if(usr.getEmail().equals(email)) {
 	        return usr;

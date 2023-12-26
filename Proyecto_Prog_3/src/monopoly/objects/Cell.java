@@ -26,6 +26,7 @@ public class Cell extends JComponent{
 	
 	private int x;
 	private int y;
+	Color color;
 	int width;
 	int height;
 	double perX;
@@ -80,6 +81,7 @@ public class Cell extends JComponent{
 		this.cType=type;
 		this.width=type.width;
 		this.height=type.height;
+		this.color=Color.black;
 		setX((int)(this.getPerX()*this.getPanel().getWidth()));
 		setY((int)(this.getPerY()*this.getPanel().getWidth()));
 		counter++;
@@ -131,7 +133,13 @@ public class Cell extends JComponent{
 	public void setPanel(JPanel panel) {
 		this.panel = panel;
 	}
-	
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 	public int getWidth() {
 		return (int)(width*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
 	}
@@ -174,6 +182,7 @@ public class Cell extends JComponent{
 		
 		Graphics2D graphics2d = (Graphics2D) g;
 		
+		graphics2d.setColor(getColor());
 		graphics2d.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 

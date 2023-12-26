@@ -36,12 +36,22 @@ import java.nio.file.Paths;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
+import javax.swing.event.ListDataListener;
+
+import org.jfree.ui.tabbedui.VerticalLayout;
 
 import monopoly.objects.Cell;
 import monopoly.objects.Cell.CellType;
@@ -52,6 +62,10 @@ public class MainGameMenu extends MasterFrame {
 	
 
 	private static Font font1 = new Font("Arial Black", Font.BOLD, 24);
+	private static Font font2 = new Font("Arial Black", Font.PLAIN, 16);
+	private static Font font3 = new Font("Arial Black", Font.PLAIN, 12);
+
+
 	
 	private final URL boardPath = getClass().getResource(getStringProperty("board_img"));
 	private final URL dicePath = getClass().getResource(getStringProperty("dice_img"));
@@ -68,6 +82,13 @@ public class MainGameMenu extends MasterFrame {
 	private static List<Token> tokenList = new ArrayList<>();
 	
 	private static int turn;
+	private static Color turnColor;
+    private static final Object lock1 = new Object();
+    private static boolean radiobuttonSelected = false;
+    
+    private static final Object lock2 = new Object();
+    private static boolean confirmbuttonPush = false;
+
 	
 	public MainGameMenu() {
 		
@@ -117,21 +138,71 @@ public class MainGameMenu extends MasterFrame {
 		
 		// PANEL FOR EVENTS
 		JPanel eventPanel = new JPanel();
-		eventPanel.setLayout( new BorderLayout() );
+		eventPanel.setBackground(Color.black);
 		add(eventPanel, BorderLayout.CENTER);
 		eventPanel.setPreferredSize(new Dimension((int) (this.getWidth()*0.3), HEIGHT));
 
 		eventPanel.setLayout(new BoxLayout(eventPanel, BoxLayout.Y_AXIS));
-		eventPanel.setBackground(Color.BLACK);
 		
-		//PARTS OF THE PANEL
+		//PARTS OF THE EVENT PANEL
+		
+		//TURN LABEL
 		JLabel Turn = new JLabel("Turn from user");
 		Turn.setFont(font1);
-		Turn.setForeground(Color.RED); //TODO The color must change according to the player that's playing
 		Turn.setText("Turn from ?"); //TODO The user should also appear
 		Turn.setAlignmentX(CENTER_ALIGNMENT);
-		eventPanel.add(Turn, BorderLayout.NORTH);
 		
+		eventPanel.add(Turn);
+		
+		//INFORMATION AREA
+		JTextArea infoText = new JTextArea();
+		infoText.setEditable(false);
+		infoText.setBackground(Color.black);
+		infoText.setForeground(Color.white);
+		infoText.setFont(font2);
+		infoText.setLineWrap(true);
+		infoText.setWrapStyleWord(true);
+		infoText.setMaximumSize(new Dimension(10000, 200));
+
+		
+		eventPanel.add(infoText);
+		
+		//OPTION SELECTOR
+		JRadioButton option1 = new JRadioButton("Buy");
+		option1.setForeground(Color.white);
+		option1.setFont(font3);
+		JRadioButton option2 = new JRadioButton("Not buy");
+		option2.setForeground(Color.white);
+		option2.setFont(font3);
+
+
+		ButtonGroup buttonGroup = new ButtonGroup();
+		buttonGroup.add(option1);
+		buttonGroup.add(option2);
+		JButton confirmButton = new JButton("Confirm");
+		
+		JPanel optionPanel = new JPanel(new VerticalLayout());
+		optionPanel.setBackground(Color.black);
+		
+		optionPanel.add(option1);
+		optionPanel.add(option2);
+		optionPanel.add(confirmButton);
+		
+		option1.setEnabled(false);
+		option2.setEnabled(false);
+		confirmButton.setEnabled(false);
+		
+		eventPanel.add(optionPanel);
+		optionPanel.setVisible(false);
+		
+		//JLIST
+		DefaultListModel<String> optionModel = new DefaultListModel<>();
+		
+		JList<String> optionSelector = new JList<String>();
+		
+		optionSelector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		eventPanel.add(optionSelector);
 		
 		eventPanel.add(new Box.Filler(new Dimension(100, 100), null, null));
 
@@ -142,7 +213,7 @@ public class MainGameMenu extends MasterFrame {
 		dicePanel.setBackground(Color.black);
 		dicePanel.setMaximumSize(new Dimension(getWidth(),110));
 		
-		eventPanel.add(dicePanel,BorderLayout.SOUTH);
+		eventPanel.add(dicePanel);
 		
 		//DICE RESULT
 		JLabel diceResult = new JLabel();
@@ -180,6 +251,25 @@ public class MainGameMenu extends MasterFrame {
 		turn = 0;
 		setVisible(true);
 		
+		ActionListener radioListener = i -> {
+			synchronized (lock1) {
+				radiobuttonSelected=true;
+				lock1.notify();
+			}
+		};
+		
+		option1.addActionListener(radioListener);
+		option2.addActionListener(radioListener);
+		
+		ActionListener confirmListener = i -> {
+			synchronized (lock2) {
+				confirmbuttonPush=true;
+				lock2.notify();
+			}
+		};
+		
+		confirmButton.addActionListener(confirmListener);
+		
 		
 //		Insets insets = getInsets();
 		diceButton.addActionListener( new ActionListener() {
@@ -203,9 +293,17 @@ public class MainGameMenu extends MasterFrame {
 //					}
 //				}
 				///////////
+
+				
+				
+				
+				
+				
+				
 				diceButton.setEnabled(false);
 				Random dice = new Random();
-				int hops = dice.nextInt(1, 13);
+//				int hops = dice.nextInt(1, 13);
+				int hops = 1;
 				diceResult.setText(""+hops);
 				Runnable thread = new Runnable() {
 					
@@ -223,18 +321,63 @@ public class MainGameMenu extends MasterFrame {
 							}
 						}
 						
-//						switch (cellList.get(t.getCellNumber()).getcType()) {
-//						case Property: {
-//							
-//							
-//						}
-//						default:
+						switch (cellList.get(t.getCellNumber()).getcType()) {
+						case Property: {
+							if (cellList.get(t.getCellNumber()).getColor().equals(Color.black)) {
+								
+								optionPanel.setVisible(true);
+								
+								infoText.setText("You must decide to BUY or NOT BUY the property for it's price");
+								option1.setEnabled(true);
+								option2.setEnabled(true);
+								
+								synchronized (lock1) {
+									while (!radiobuttonSelected) {
+										try {
+											lock1.wait();
+										} catch (InterruptedException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+									}
+								}
+								
+								confirmButton.setEnabled(true);
+								
+								synchronized (lock2) {
+									try {
+										lock2.wait();
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
+								
+//							JRadioButton rb = (JRadioButton) buttonGroup.getSelection();
+								if (buttonGroup.getSelection().equals(option1.getModel())) {
+									cellList.get(t.getCellNumber()).setColor(t.getColor());									
+								}
+							} else {
+								// TODO falta hacer pagos a otros players
+							}
+							
+							
+							
+							break;
+							
+						}
+						
+						
+						default:
 //							throw new IllegalArgumentException("Unexpected value: " + cellList.get(t.getCellNumber()).getcType());
-//						} 
+							System.out.println("not there");
+						} 
 						
 						
 						turn++;
 						if (turn==tokenList.size()) turn = 0;
+						turnColor=tokenList.get(turn).getColor();
+						Turn.setForeground(turnColor);
 						diceButton.setEnabled(true);
 					}
 				};
@@ -253,6 +396,9 @@ public class MainGameMenu extends MasterFrame {
 		tokenList.add(new Token(Color.BLUE, boardPanel, 0));
 		tokenList.add(new Token(Color.YELLOW, boardPanel, 0));
 		
+		turnColor=tokenList.get(turn).getColor();
+		Turn.setForeground(turnColor); 
+
 		// -------------tryin token in each cell----------------------
 //		for (Cell c : cellList) {
 //			tokenList.add(new Token(c.getTopLeft(), Color.RED, boardPanel, c.getCellNumber()));

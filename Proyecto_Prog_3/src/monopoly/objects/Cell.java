@@ -15,6 +15,8 @@ import java.util.Scanner;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import org.bouncycastle.oer.its.ieee1609dot2.Opaque;
+
 import monopoly.windows.MainGameMenu;
 
 public class Cell extends JComponent{
@@ -39,13 +41,6 @@ public class Cell extends JComponent{
 	
 	static int counter = 0;
 	public static final List<double[]> cellPositionList = new ArrayList<>();
-	
-//	public Cell(int x, int y, Dimension defaultWindowDimension, Dimension actualWindowDimension) {
-//		this.x = (int) (x * ( defaultWindowDimension.getWidth() / actualWindowDimension.getWidth()));
-//		this.y = (int) (y * ( defaultWindowDimension.getHeight() / actualWindowDimension.getHeight()));
-//		this.cellNumber = counter;
-//		counter++;
-//	}
 	
 	public enum CellType {
 		Property(30,40),
@@ -86,16 +81,6 @@ public class Cell extends JComponent{
 		setY((int)(this.getPerY()*this.getPanel().getWidth()));
 		counter++;
 	}
-	
-//	public Cell(double perX, double perY, JPanel panel) {
-//		this.x = (int)(perX*panel.getWidth());
-//		this.y = (int)(perY*panel.getHeight());
-//		this.cellNumber = counter;
-////		this.panel = panel;
-//		counter++;
-//	}
-
-
 
 	public int getX() {
 		return x;
@@ -180,10 +165,14 @@ public class Cell extends JComponent{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		Graphics2D graphics2d = (Graphics2D) g;
-		
-		graphics2d.setColor(getColor());
-		graphics2d.fillRect(getX(), getY(), getWidth(), getHeight());
+		if (!getColor().equals(Color.black)) {
+			Graphics2D graphics2d = (Graphics2D) g;
+			
+			graphics2d.setColor(getColor());
+			graphics2d.fillRect(getX(), getY(), getWidth(), getHeight());
+			graphics2d.setColor(Color.black);
+			graphics2d.drawRect(getX(), getY(), getWidth(), getHeight());
+		}
 	}
 
 
@@ -193,8 +182,4 @@ public class Cell extends JComponent{
 		// TODO Auto-generated method stub
 		return "x: "+getX()+", y: "+getY();
 	}
-
-	
-	
-
 }

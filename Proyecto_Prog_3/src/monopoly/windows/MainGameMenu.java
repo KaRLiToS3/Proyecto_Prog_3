@@ -147,9 +147,9 @@ public class MainGameMenu extends MasterFrame {
 		//PARTS OF THE EVENT PANEL
 		
 		//TURN LABEL
-		JLabel Turn = new JLabel("Turn from user");
+		JLabel Turn = new JLabel("Turn of user");
 		Turn.setFont(font1);
-		Turn.setText("Turn from ?"); //TODO The user should also appear
+		Turn.setText("Turn of ?"); //TODO The user should also appear
 		Turn.setAlignmentX(CENTER_ALIGNMENT);
 		
 		eventPanel.add(Turn);
@@ -167,30 +167,14 @@ public class MainGameMenu extends MasterFrame {
 		
 		eventPanel.add(infoText);
 		
-		//OPTION SELECTOR
-		JRadioButton option1 = new JRadioButton("Buy");
-		option1.setForeground(Color.white);
-		option1.setFont(font3);
-		JRadioButton option2 = new JRadioButton("Not buy");
-		option2.setForeground(Color.white);
-		option2.setFont(font3);
-
-
-		ButtonGroup buttonGroup = new ButtonGroup();
-		buttonGroup.add(option1);
-		buttonGroup.add(option2);
-		JButton confirmButton = new JButton("Confirm");
-		
+		//BUYIN BUTTON
 		JPanel optionPanel = new JPanel(new VerticalLayout());
 		optionPanel.setBackground(Color.black);
 		
-		optionPanel.add(option1);
-		optionPanel.add(option2);
-		optionPanel.add(confirmButton);
-		
-		option1.setEnabled(false);
-		option2.setEnabled(false);
-		confirmButton.setEnabled(false);
+		JButton buyButton = new JButton("Buy");
+		buyButton.setFont(font2);
+
+		optionPanel.add(buyButton);
 		
 		eventPanel.add(optionPanel);
 		optionPanel.setVisible(false);
@@ -248,27 +232,18 @@ public class MainGameMenu extends MasterFrame {
 			}
 		});
 		
-		turn = 0;
+		turn = -1;
 		setVisible(true);
 		
-		ActionListener radioListener = i -> {
-			synchronized (lock1) {
-				radiobuttonSelected=true;
-				lock1.notify();
+		buyButton.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Token t = tokenList.get(turn);
+				cellList.get(t.getCellNumber()).setColor(t.getColor());
 			}
-		};
-		
-		option1.addActionListener(radioListener);
-		option2.addActionListener(radioListener);
-		
-		ActionListener confirmListener = i -> {
-			synchronized (lock2) {
-				confirmbuttonPush=true;
-				lock2.notify();
-			}
-		};
-		
-		confirmButton.addActionListener(confirmListener);
+		});
 		
 		
 //		Insets insets = getInsets();
@@ -298,8 +273,10 @@ public class MainGameMenu extends MasterFrame {
 				
 				
 				
-				
-				
+				optionPanel.setVisible(false);
+				nextTurn();
+				turnColor=tokenList.get(turn).getColor();
+				Turn.setForeground(turnColor);
 				diceButton.setEnabled(false);
 				Random dice = new Random();
 //				int hops = dice.nextInt(1, 13);
@@ -320,72 +297,28 @@ public class MainGameMenu extends MasterFrame {
 								e.printStackTrace();
 							}
 						}
-						
+						diceButton.setEnabled(true);
 						switch (cellList.get(t.getCellNumber()).getcType()) {
 						case Property: {
 							if (cellList.get(t.getCellNumber()).getColor().equals(Color.black)) {
-								
 								optionPanel.setVisible(true);
-								
-								infoText.setText("You must decide to BUY or NOT BUY the property for it's price");
-								option1.setEnabled(true);
-								option2.setEnabled(true);
-								
-								synchronized (lock1) {
-									while (!radiobuttonSelected) {
-										try {
-											lock1.wait();
-										} catch (InterruptedException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-									}
-								}
-								
-								confirmButton.setEnabled(true);
-								
-								synchronized (lock2) {
-									try {
-										lock2.wait();
-									} catch (InterruptedException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-								}
-								
-//							JRadioButton rb = (JRadioButton) buttonGroup.getSelection();
-								if (buttonGroup.getSelection().equals(option1.getModel())) {
-									cellList.get(t.getCellNumber()).setColor(t.getColor());									
-								}
 							} else {
 								// TODO falta hacer pagos a otros players
 							}
-							
-							
-							
 							break;
-							
 						}
-						
 						
 						default:
 //							throw new IllegalArgumentException("Unexpected value: " + cellList.get(t.getCellNumber()).getcType());
 							System.out.println("not there");
-						} 
-						
-						
-						turn++;
-						if (turn==tokenList.size()) turn = 0;
+						}
 						turnColor=tokenList.get(turn).getColor();
 						Turn.setForeground(turnColor);
-						diceButton.setEnabled(true);
 					}
 				};
+				
 				Thread t =  new Thread(thread);
 				t.start();
-				
-//				Token t = tokenList.get(0);
-//				t.setCellNumber(t.getCellNumber()+1);
 			}
 		});
 		
@@ -396,8 +329,6 @@ public class MainGameMenu extends MasterFrame {
 		tokenList.add(new Token(Color.BLUE, boardPanel, 0));
 		tokenList.add(new Token(Color.YELLOW, boardPanel, 0));
 		
-		turnColor=tokenList.get(turn).getColor();
-		Turn.setForeground(turnColor); 
 
 		// -------------tryin token in each cell----------------------
 //		for (Cell c : cellList) {
@@ -426,8 +357,9 @@ public class MainGameMenu extends MasterFrame {
 //				cellList.add(new Cell(Double.parseDouble( line.substring(0, separation)), Double.parseDouble(line.substring(separation+1)), panel));
 			
 				String[] splitedLine = line.split("_");
-				cellList.add(new Cell(Double.parseDouble( splitedLine[0].strip() ), Double.parseDouble( splitedLine[1].strip() ),  CellType.valueOf(splitedLine[2].strip()),panel));
-
+				Cell cell = new Cell(Double.parseDouble( splitedLine[0].strip() ), Double.parseDouble( splitedLine[1].strip() ),  CellType.valueOf(splitedLine[2].strip()),panel);
+				cellList.add(cell);
+				
 				
 			
 			}
@@ -435,5 +367,11 @@ public class MainGameMenu extends MasterFrame {
 		} catch (FileNotFoundException e) {
 			System.out.println("no hay");
 		}	
+	}
+	
+	public void nextTurn() {
+		turn++;
+		if (turn==tokenList.size()) turn = 0;
+		
 	}
 }

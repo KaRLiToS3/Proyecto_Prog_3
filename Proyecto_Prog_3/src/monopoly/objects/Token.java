@@ -1,5 +1,6 @@
 package monopoly.objects;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -25,6 +26,8 @@ public class Token extends JComponent{
 	Color color;
 	Insets insets;
 	int cellNumber;
+	int money;
+	boolean inJail;
 	
 	
 	static int counter = 0;
@@ -90,6 +93,20 @@ public class Token extends JComponent{
 		this.cellNumber = cell;
 	}
 	
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+	public boolean isInJail() {
+		return inJail;
+	}
+	public void setInJail(boolean inJail) {
+		this.inJail = inJail;
+	}
+
 	public void setCoordinates(Point point) {
 		setX((int)point.getX());
 		setY((int)point.getY());
@@ -104,18 +121,20 @@ public class Token extends JComponent{
 //		counter++;
 //	}
 	
-	public Token(Point p, Color color, JPanel panel, int cellNumber) {
-		this.x = (int)p.getX();
-		this.y = (int)p.getY();
-		this.color = color;
-		this.panel = panel;
-		this.cellNumber = cellNumber;
-	}
+//	public Token(Point p, Color color, JPanel panel, int cellNumber) {
+//		this.x = (int)p.getX();
+//		this.y = (int)p.getY();
+//		this.color = color;
+//		this.panel = panel;
+//		this.cellNumber = cellNumber;
+//	}
 	
 	public Token(Color color, JPanel panel, int cellNumber) {
 		this.color = color;
 		this.panel = panel;
 		this.cellNumber = cellNumber;
+		this.money=1500;
+		this.inJail=false;
 	}
 	
 //	public Token(double perX, double perY, Color color, JPanel panel,Insets insets) {
@@ -140,13 +159,19 @@ public class Token extends JComponent{
 		
 		Graphics2D graphics2D = (Graphics2D)g;
 		
-		graphics2D.setPaint(color);
-//		graphics2D.fillOval(x, y, radius*2, radius*2);
-//		double panelWidth = panel.getSize().getWidth();
-		int radiusCalc = (int)(radius*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
-		
-//		graphics2D.fillOval((int)(perX*panelWidth-insets.left-radiusCalc), (int)(perY*panelWidth-insets.top-radiusCalc), radiusCalc*2, radiusCalc*2);
-		graphics2D.fillOval(getX()-radiusCalc, getY()-radiusCalc, 2*radiusCalc, 2*radiusCalc);
+		if (!this.isInJail()) {
+			graphics2D.setPaint(color);
+			int radiusCalc = (int)(radius*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
+			graphics2D.fillOval(getX()-radiusCalc, getY()-radiusCalc, 2*radiusCalc, 2*radiusCalc);
+		} else {
+			int radiusCalc = (int)(radius*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
+			graphics2D.setPaint(color);
+			graphics2D.fillOval(getX()-radiusCalc, getY()-radiusCalc, 2*radiusCalc, 2*radiusCalc);
+			graphics2D.setColor(Color.gray);
+			graphics2D.setStroke(new BasicStroke(3));
+			graphics2D.drawLine(getX()-radiusCalc, getY()-radiusCalc, getX()+radiusCalc, getY()+radiusCalc);
+			graphics2D.drawLine(getX()+radiusCalc, getY()-radiusCalc, getX()-radiusCalc, getY()+radiusCalc);
+		}
 	}
 	
 	public void updateToken(Cell cell) {

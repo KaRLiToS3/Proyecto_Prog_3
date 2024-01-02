@@ -1,6 +1,7 @@
 package monopoly.data;
 
 import java.sql.*;
+import java.text.FieldPosition;
 import java.text.ParseException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -388,7 +389,7 @@ public class DataManager {
 		return res;
 	}
 	
-	/**The output convention will have this example format: <strong>"MVP/2;CHEAPSKATE/4;BEGGINER/1"</strong>
+	/**The output convention will have this example format: <strong>"MVP/2;CHEAPSKATE/4;BEGINNER/1"</strong>
 	 * The <strong>slash /</strong> divides the {@code Type} selection and the {@code times} from the {@code Achievement} class.
 	 * The <strong> ;</strong> divides the Achievements
 	 * @param data
@@ -414,25 +415,30 @@ public class DataManager {
 	@SuppressWarnings("unchecked")
 	private void synchronizeFileWithDataBase() {
 		ArrayList<ObjectManager<?>> allData = loadAllDataFromFile();
-		registeredUsers.addObjectManager((ObjectManager<User>)allData.get(0));
-		registeredMatches.addObjectManager((ObjectManager<Match>)allData.get(1));
+		if(allData != null) {
+			registeredUsers.addObjectManager((ObjectManager<User>)allData.get(0));
+			registeredMatches.addObjectManager((ObjectManager<Match>)allData.get(1));
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	private ArrayList<ObjectManager<?>> loadAllDataFromFile() {
+		File f = new File(filePath);
+		try {
+			if(f.createNewFile()) logger.log(Level.INFO, "A new Data.dat file was created for it was missing");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(filePath))) {
 			return (ArrayList<ObjectManager<?>>) input.readObject();
 		} catch (FileNotFoundException e) {
 			logger.log(Level.WARNING, "File for load users not found");
 			new WarningPanel("The data file is missing in the location "+ filePath + "\nWe cannot launch the game with saved data."
 					+"\nThis will change when new data is loaded");
-			e.printStackTrace();
 		} catch (IOException e) {
 			logger.log(Level.WARNING, "User loading failed");
-			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			logger.log(Level.WARNING, "Incorrect cast to User");
-			e.printStackTrace();
 		}
 		return null;
 	}

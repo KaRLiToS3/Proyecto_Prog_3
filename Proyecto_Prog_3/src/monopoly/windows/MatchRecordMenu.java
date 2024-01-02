@@ -77,7 +77,7 @@ public class MatchRecordMenu extends MasterFrame {
 		JList<Match> list = new JList<Match>(model);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL);
-		setComponentDimension(list, 230, 200);
+		setComponentDimension(list, 250, 200);
 		
 		JScrollPane scroll = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		W.add(scroll);

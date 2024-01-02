@@ -9,7 +9,7 @@ public class Achievement implements Serializable{
 	private static final String[] mvp = {"/monopoly/images/MVP.jpg", "/monopoly/images/MVPtext.png"};
 	private static final String[] chpsk = {"/monopoly/images/cheapSkate.jpg", "/monopoly/images/cheapSkateText.png"};
 	private static final String[] flat_broke = {"/monopoly/images/flat_broke.jpg", "/monopoly/images/flatBrokeText.png"};
-	private static final String[] begginer = {"/monopoly/images/begginer.jpg", "/monopoly/images/begginerText.png"};
+	private static final String[] beginner = {"/monopoly/images/beginner.jpg", "/monopoly/images/beginnerText.png"};
 	private static final String[] veteran = {"/monopoly/images/veteran.jpg", "/monopoly/images/veteranText.png"};
 	private static final String[] imperialist = {"/monopoly/images/imperialist.jpg", "/monopoly/images/imperialistText.png"};
 	private static final String[] modest = {"/monopoly/images/modest.jpg", "/monopoly/images/modestText.png"};
@@ -19,7 +19,7 @@ public class Achievement implements Serializable{
 	public enum Type {
 		MVP(mvp),
 		CHEAPSKATE(chpsk),
-		BEGGINER(begginer),
+		BEGINNER(beginner),
 		FLAT_BROKE(flat_broke),
 		VETERAN(veteran),
 		IMPERIALIST(imperialist),

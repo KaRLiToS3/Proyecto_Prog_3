@@ -93,6 +93,15 @@ public class MainGameMenu extends MasterFrame {
 	private static int turn;
 	private static Color turnColor;
 	
+	JLabel money0 = new JLabel();
+	JLabel money1 = new JLabel();
+	JLabel money2 = new JLabel();
+	JLabel money3 = new JLabel();
+	JTextArea infoText = new JTextArea();		
+	JLabel turnLabel = new JLabel();
+
+
+	
 	Random dice = new Random();
 	
 	public MainGameMenu() {
@@ -152,15 +161,13 @@ public class MainGameMenu extends MasterFrame {
 		//PARTS OF THE EVENT PANEL
 		
 		//TURN LABEL
-		JLabel Turn = new JLabel("Turn of user");
-		Turn.setFont(font1);
-		Turn.setText("Turn of ?"); //TODO The user should also appear
-		Turn.setAlignmentX(CENTER_ALIGNMENT);
+		turnLabel.setFont(font1);
+		turnLabel.setText("Turn of ?"); //TODO The user should also appear
+		turnLabel.setAlignmentX(CENTER_ALIGNMENT);
 		
-		eventPanel.add(Turn);
+		eventPanel.add(turnLabel);
 		
 		//INFORMATION AREA
-		JTextArea infoText = new JTextArea();
 		infoText.setEditable(false);
 		infoText.setBackground(Color.black);
 		infoText.setForeground(Color.white);
@@ -184,17 +191,32 @@ public class MainGameMenu extends MasterFrame {
 		eventPanel.add(optionPanel);
 		optionPanel.setVisible(false);
 		
-		// ElecWater Dice
-		JPanel elecWaterPanel = new JPanel(new VerticalLayout());
-		elecWaterPanel.setBackground(Color.black);
+		// UTILITY PANEL
+		JPanel utilityPanel = new JPanel(new VerticalLayout());
+		utilityPanel.setBackground(Color.black);
 		
-		JButton elecWaterDice = new JButton("Roll!");
-		elecWaterDice.setFont(font2);
+		JButton utilityDice = new JButton("Roll!");
+		utilityDice.setFont(font2);
 
-		elecWaterPanel.add(elecWaterDice);
+		utilityPanel.add(utilityDice);
 		
-		eventPanel.add(elecWaterPanel);
-		elecWaterPanel.setVisible(false);
+		eventPanel.add(utilityPanel);
+		utilityPanel.setVisible(false);
+		
+		// JAIL PANEL
+		JPanel jailPanel = new JPanel(new VerticalLayout());
+		jailPanel.setBackground(Color.black);
+		
+		JButton jailPayButton = new JButton("Pay 50");
+		jailPayButton.setFont(font2);
+		jailPanel.add(jailPayButton);
+		JButton jailWaitButton = new JButton("Wait");
+		jailWaitButton.setFont(font2);
+		jailPanel.add(jailWaitButton);
+		
+		eventPanel.add(jailPanel);
+		jailPanel.setVisible(false);
+		
 		
 		//JLIST
 		DefaultListModel<String> optionModel = new DefaultListModel<>();
@@ -217,16 +239,13 @@ public class MainGameMenu extends MasterFrame {
 		eventPanel.add(money);
 		eventPanel.add(moneyPanel);
 
-		JLabel money0 = new JLabel();
+		
 		money0.setFont(font1);
 		money0.setHorizontalAlignment(SwingConstants.CENTER);
-		JLabel money1 = new JLabel();
 		money1.setFont(font1);
 		money1.setHorizontalAlignment(SwingConstants.CENTER);
-		JLabel money2 = new JLabel();
 		money2.setFont(font1);
 		money2.setHorizontalAlignment(SwingConstants.CENTER);
-		JLabel money3 = new JLabel();
 		money3.setFont(font1);
 		money3.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -319,12 +338,11 @@ public class MainGameMenu extends MasterFrame {
 				Token t = tokenList.get(turn);
 				cellList.get(t.getCellNumber()).setColor(t.getColor());
 				t.setMoney(t.getMoney()-priceList.get(t.getCellNumber())[0]);
-				updateMoney(money0, money1, money2, money3);
+				updateMoney();
 			}
 		});
 		
-		elecWaterDice.addActionListener( new ActionListener() {
-
+		utilityDice.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -332,14 +350,14 @@ public class MainGameMenu extends MasterFrame {
 				int result = dice.nextInt(1, 13);
 				for (Token propietary:tokenList) {
 					if (cellList.get(t.getCellNumber()).getColor().equals(propietary.getColor())) {
-						int elecwaterCounter=0;
+						int utilityCounter=0;
 						for (Cell cell:cellList) {
-							if(cell.getcType().equals(CellType.ElecWater) && cell.getColor().equals(propietary.getColor())) {
-								elecwaterCounter++;
+							if(cell.getcType().equals(CellType.Utility) && cell.getColor().equals(propietary.getColor())) {
+								utilityCounter++;
 							}
 						}
 						diceResult.setText(result+"");
-						if (elecwaterCounter==1) {
+						if (utilityCounter==1) {
 							t.setMoney(t.getMoney()-result*4);
 							propietary.setMoney(propietary.getMoney()+result*4);						
 						} else {
@@ -348,8 +366,32 @@ public class MainGameMenu extends MasterFrame {
 						}
 					}
 				}
-				elecWaterPanel.setVisible(false);
-				updateMoney(money0, money1, money2, money3);
+				utilityPanel.setVisible(false);
+				updateMoney();
+			}
+		});
+		
+		jailPayButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Token t = tokenList.get(turn);
+				t.setMoney(t.getMoney()-50);
+				t.setInJail(false);
+				diceButton.setEnabled(true);
+				updateMoney();
+				jailPanel.setVisible(false);
+			}
+		});
+		
+		jailWaitButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Token t = tokenList.get(turn);
+				t.setJailTurnCounter(t.getJailTurnCounter()+1);
+				diceButton.setEnabled(true);
+				jailPanel.setVisible(false);
 			}
 		});
 		
@@ -359,129 +401,40 @@ public class MainGameMenu extends MasterFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				
-
-				
-				
-				
-				
+				// prepare display for next turn
 				optionPanel.setVisible(false);
+				infoText.setText("");
 				nextTurn();
-				turnColor=tokenList.get(turn).getColor();
-				Turn.setForeground(turnColor);
 				diceButton.setEnabled(false);
-//				int hops = dice.nextInt(1, 13);
-				int hops = 4;
-				diceResult.setText(""+hops);
-				Runnable thread = new Runnable() {
-					
-					@Override
-					public void run() {
-						Token t = tokenList.get(turn);
-						for (int i = 0; i<hops;i++) {
-							t.setCellNumber(t.getCellNumber()+1);
-							if ( t.getCellNumber()==cellList.size()) t.setCellNumber(0);
-//							try {
-//								Thread.sleep(500);
-//							} catch (InterruptedException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-						}
-						diceButton.setEnabled(true);
-						switch (cellList.get(t.getCellNumber()).getcType()) {
-						case Property: {
-							if (cellList.get(t.getCellNumber()).getColor().equals(Color.black)) {
-								optionPanel.setVisible(true);
-							} else {
-								t.setMoney(t.getMoney()-priceList.get(t.getCellNumber())[1]);
-								for (Token propietary:tokenList) {
-									if (cellList.get(t.getCellNumber()).getColor().equals(propietary.getColor())) {
-										propietary.setMoney(propietary.getMoney()+priceList.get(t.getCellNumber())[1]);
-									}
-								}
-							}
-							updateMoney(money0, money1, money2, money3);
-							break;
-						}
-						case Train: {
-							if (cellList.get(t.getCellNumber()).getColor().equals(Color.black)) {
-								optionPanel.setVisible(true);
-							} else {
-								
-								for (Token propietary:tokenList) {
-									if (cellList.get(t.getCellNumber()).getColor().equals(propietary.getColor())) {
-										int trainCounter=0;
-										for (Cell cell:cellList) {
-											if(cell.getcType().equals(CellType.Train) && cell.getColor().equals(propietary.getColor())) {
-												trainCounter++;
-											}
-										}
-										t.setMoney(t.getMoney()-priceList.get(t.getCellNumber())[1] *(int)(Math.pow(2, trainCounter-1)));
-										propietary.setMoney(propietary.getMoney()+priceList.get(t.getCellNumber())[1] *(int)(Math.pow(2, trainCounter-1)));
-									}
-								}
-							}
-							updateMoney(money0, money1, money2, money3);
-							break;
-						}
-						case Tax: {
-							if (t.getCellNumber()==4) {
-								t.setMoney(t.getMoney()-200);
-							} else {
-								t.setMoney(t.getMoney()-100);
-							}
-							updateMoney(money0, money1, money2, money3);
+				// get the current token turn and check if in jail
+				Token token = tokenList.get(turn);
+				if (token.isInJail() && token.getJailTurnCounter()<3) {
+					//if in jail
+					jailPanel.setVisible(true);
+				} else {
+					// if out of jail
+					token.setInJail(false);
+					token.setJailTurnCounter(0);
+//					int hops = dice.nextInt(1, 13);
+					int hops = 2;
+					diceResult.setText(""+hops);
+					Runnable thread = new Runnable() {
 
-							break;
-						}
-						case Free: {
-							//TODO no hace nada
-							break;
-						}
-						case Start: {
-							//TODO no hace nada, igual unificarlo con Free
-							break;
-						}
-						case Gojail: {
-							//TODO tp a la casilla 11 y entras en modo carcel
-							break;
-						}
-						case Jail: {
-							//TODO mecanicas de encarcelado, si estas encarcelado, si no nada
-							break;
-						}
-						case ElecWater: { // TODO se podria meter una flag global y utilizar el boton diceButton para esto en vez de crear otro
-							if (cellList.get(t.getCellNumber()).getColor().equals(Color.black)) {
-								optionPanel.setVisible(true);
-							} else {
-								elecWaterPanel.setVisible(true);
-							}
-							break;
-						}
-						
-						case Chest: {
-							//TODO todavia por decidir
-							break;
-						}
-						case Chance: {
-							//TODO todavia por decidir
-							break;
-						}
+						@Override
+						public void run() {
 
-						default:
-//							throw new IllegalArgumentException("Unexpected value: " + cellList.get(t.getCellNumber()).getcType());
-							System.out.println("not there"+ cellList.get(t.getCellNumber()).getcType());
+							jumpAnimation(token, hops);
+							
+							cellMechanics(token, optionPanel, utilityPanel);
+							
+							diceButton.setEnabled(true);
+							
 						}
-//						System.out.println(t.getCellNumber()+" "+ cellList.get(t.getCellNumber()).getcType());
-						turnColor=tokenList.get(turn).getColor();
-						Turn.setForeground(turnColor);
-					}
-				};
-				
-				Thread t =  new Thread(thread);
-				t.start();
+					};
+
+					Thread t =  new Thread(thread);
+					t.start();
+				}
 			}
 		});
 		
@@ -495,7 +448,7 @@ public class MainGameMenu extends MasterFrame {
 		money1.setForeground(tokenList.get(1).getColor());
 //		money2.setForeground(tokenList.get(2).getColor());
 //		money3.setForeground(tokenList.get(3).getColor());
-		updateMoney(money0, money1, money2, money3);
+		updateMoney();
 
 		// -------------tryin token in each cell----------------------
 //		for (Cell c : cellList) {
@@ -546,13 +499,279 @@ public class MainGameMenu extends MasterFrame {
 	public void nextTurn() {
 		turn++;
 		if (turn==tokenList.size()) turn = 0;
+		turnColor=tokenList.get(turn).getColor();
+		turnLabel.setForeground(turnColor);
+	}
+	
+	public void cellMechanics(Token token, JPanel optionPanel, JPanel utilityPanel) {
+		switch (cellList.get(token.getCellNumber()).getcType()) {
+		case Property: {
+			propertyCase(token,optionPanel);
+			break;
+		}
+		case Train: {
+			trainCase(token, optionPanel);
+			break;
+		}
+		case Tax: {
+			taxCase(token);
+			break;
+		}
+		case Free: {
+			//TODO no hace nada
+			break;
+		}
+		case Start: {
+			//TODO no hace nada, igual unificarlo con Free
+			break;
+		}
+		case Gojail: {
+			gojailCase(token);
+			break;
+		}
+		case Jail: {
+		
+			break;
+		}
+		case Utility: { // TODO se podria meter una flag global y utilizar el boton diceButton para esto en vez de crear otro
+			utilityCase(token, optionPanel, utilityPanel);
+			break;
+		}
+		case Chest: {
+			//TODO todavia por decidir
+			chestCase(token);
+			break;
+		}
+		case Chance: {
+			chanceCase(token, optionPanel, utilityPanel);
+			break;
+			
+		}
+
+		default:
+//			throw new IllegalArgumentException("Unexpected value: " + cellList.get(t.getCellNumber()).getcType());
+			System.out.println("not there"+ cellList.get(token.getCellNumber()).getcType());
+		}
+	}
+	
+	public void updateMoney() {
+		money0.setText(tokenList.get(0).getMoney()+"");
+		money1.setText(tokenList.get(1).getMoney()+"");
+//		money2.setText(tokenList.get(2).getMoney()+"");
+//		money3.setText(tokenList.get(3).getMoney()+"");
+	}
+	
+	public void jumpAnimation(Token token, int hops) {
+		for (int i = 0; i<hops;i++) {
+			token.setCellNumber(token.getCellNumber()+1);
+			if ( token.getCellNumber()==cellList.size()) {token.setCellNumber(0); token.setMoney(token.getMoney()+200); updateMoney();}
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void propertyCase(Token token, JPanel optionPanel) {
+		if (cellList.get(token.getCellNumber()).getColor().equals(Color.black)) {
+			optionPanel.setVisible(true);
+		} else {
+			token.setMoney(token.getMoney()-priceList.get(token.getCellNumber())[1]);
+			for (Token propietary:tokenList) {
+				if (cellList.get(token.getCellNumber()).getColor().equals(propietary.getColor())) {
+					propietary.setMoney(propietary.getMoney()+priceList.get(token.getCellNumber())[1]);
+				}
+			}
+		}
+		updateMoney();
+	}
+	
+	public void trainCase(Token token, JPanel optionPanel) {
+		if (cellList.get(token.getCellNumber()).getColor().equals(Color.black)) {
+			optionPanel.setVisible(true);
+		} else {
+
+			for (Token propietary:tokenList) {
+				if (cellList.get(token.getCellNumber()).getColor().equals(propietary.getColor())) {
+					int trainCounter=0;
+					for (Cell cell:cellList) {
+						if(cell.getcType().equals(CellType.Train) && cell.getColor().equals(propietary.getColor())) {
+							trainCounter++;
+						}
+					}
+					token.setMoney(token.getMoney()-priceList.get(token.getCellNumber())[1] *(int)(Math.pow(2, trainCounter-1)));
+					propietary.setMoney(propietary.getMoney()+priceList.get(token.getCellNumber())[1] *(int)(Math.pow(2, trainCounter-1)));
+				}
+			}
+		}
+		updateMoney();
+	}
+	
+	public void taxCase(Token token) {
+		if (token.getCellNumber()==4) {
+			token.setMoney(token.getMoney()-200);
+		} else {
+			token.setMoney(token.getMoney()-100);
+		}
+		updateMoney();
+	}
+	
+	public void utilityCase(Token token, JPanel optionPanel, JPanel utilityPanel) {
+		if (cellList.get(token.getCellNumber()).getColor().equals(Color.black)) {
+			optionPanel.setVisible(true);
+		} else {
+			utilityPanel.setVisible(true);
+		}
+	}
+	
+	public void gojailCase(Token token) {
+		token.setCellNumber(10);
+		token.setInJail(true);
+	}
+	
+	public void chestCase(Token token) {
+//		int cardNum = dice.nextInt(1,9);
+		int cardNum = 3;
+		switch (cardNum) {
+		case 1: {
+			infoText.setText("You advance to Go (Collect 200)");
+			int jumpNum = 40-token.getCellNumber();;
+			jumpAnimation(token, jumpNum);
+			break;
+		}
+		case 2: {
+			infoText.setText("Bank error in your favor. Collect 200");
+			token.setMoney(token.getMoney()+200);
+			break;
+		}
+		case 3: {
+			infoText.setText("Doctor's fee. Pay 50");
+			token.setMoney(token.getMoney()-50);
+			break;
+		}
+		case 4: {
+			infoText.setText("From sale of stock you get 50");
+			token.setMoney(token.getMoney()+50);
+			break;
+		}
+		case 5: {
+			infoText.setText("Get out of Jail Free");
+			break;
+		}
+		case 6: {
+			infoText.setText("Go to Jail. Go directly to jail");
+			gojailCase(token);
+			break;
+		}
+		case 7: {
+			infoText.setText("Holiday fund matures. Receive 100");
+			token.setMoney(token.getMoney()+100);
+			break;
+		}
+		case 8: {
+			infoText.setText("Income tax refund. Collect 20");
+			token.setMoney(token.getMoney()+20);
+			break;
+		}
+		
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + cardNum);
+		}
+		updateMoney();
+	}
+	
+	public void chanceCase(Token token, JPanel optionPanel, JPanel utilityPanel) {
+//		int cardNum = dice.nextInt(1,9);
+		int cardNum = 3;
+		switch (cardNum) {
+		case 1: {
+			infoText.setText("Advance to Boardwalk");
+			int jumpNum = 39-token.getCellNumber();
+			jumpAnimation(token, jumpNum);
+			cellMechanics(token, optionPanel, utilityPanel);
+			break;
+		}
+		case 2: {
+			infoText.setText("Advance to Go (Collect 200)");
+			int jumpNum = 40-token.getCellNumber();
+			jumpAnimation(token, jumpNum);
+			break;
+		}
+		case 3: {
+			infoText.setText("Advance to Illinois Avenue. If you Pass Go, collect 200");
+			int jumpNum;
+			if (24-token.getCellNumber()<0) {
+			jumpNum = 24+40-token.getCellNumber();
+			} else {
+			jumpNum = 24-token.getCellNumber();
+			}
+			jumpAnimation(token, jumpNum);
+			cellMechanics(token, optionPanel, utilityPanel);
+			break;
+		}
+		case 4: {
+			infoText.setText("Advance to St. Charles Place. If you Pass Go, collect 200");
+			int jumpNum;
+			if (11-token.getCellNumber()<0) {
+			jumpNum = 11+40-token.getCellNumber();
+			} else {
+			jumpNum = 11-token.getCellNumber();
+			}
+			jumpAnimation(token, jumpNum);
+			cellMechanics(token, optionPanel, utilityPanel);
+			break;
+		}
+		case 5: {
+			infoText.setText("Get out of Jail Free");
+			break;
+		}
+		case 6: {
+			infoText.setText("Advance to the nearest Railroad. if unowned, you may buy it from the Bank. If owned, pay the rental");
+			if (token.getCellNumber()<5) {
+				int jumpNum = 5-token.getCellNumber();
+				jumpAnimation(token, jumpNum);
+			} else if (token.getCellNumber()<15) {
+				int jumpNum = 15-token.getCellNumber();
+				jumpAnimation(token, jumpNum);
+			} else if (token.getCellNumber()<25) {
+				int jumpNum = 25-token.getCellNumber();
+				jumpAnimation(token, jumpNum);
+			} else if (token.getCellNumber()<35) {
+				int jumpNum = 35-token.getCellNumber();
+				jumpAnimation(token, jumpNum);
+				cellMechanics(token, optionPanel, utilityPanel);
+			}
+			break;
+		}
+		case 7: {
+			infoText.setText("Advance to the nearest Utility. if unowned, you may buy it from the Bank. If owned, pay the rental");
+			if (token.getCellNumber()<12) {
+				int jumpNum = 12-token.getCellNumber();
+				jumpAnimation(token, jumpNum);
+			} else if (token.getCellNumber()<28) {
+				int jumpNum = 28-token.getCellNumber();
+				jumpAnimation(token, jumpNum);
+				cellMechanics(token, optionPanel, utilityPanel);
+			}
+			break;
+		}
+		case 8: {
+			infoText.setText("Speeding fine, pay 15");
+			token.setMoney(token.getMoney()-15);
+			break;
+		}
+		
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + cardNum);
+		}
+		updateMoney();
+	}
+	
+	public void modifyMoney(Token token, int amount) {
 		
 	}
 	
-	public void updateMoney(JLabel label0, JLabel label1, JLabel label2, JLabel label3) {
-		label0.setText(tokenList.get(0).getMoney()+"");
-		label1.setText(tokenList.get(1).getMoney()+"");
-//		label2.setText(tokenList.get(2).getMoney()+"");
-//		label3.setText(tokenList.get(3).getMoney()+"");
-	}
+
 }

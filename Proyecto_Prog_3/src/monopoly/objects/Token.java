@@ -28,6 +28,7 @@ public class Token extends JComponent{
 	int cellNumber;
 	int money;
 	boolean inJail;
+	int jailTurnCounter;
 	
 	
 	static int counter = 0;
@@ -40,63 +41,48 @@ public class Token extends JComponent{
 	public int getX() {
 		return x;
 	}
-
 	public void setX(int x) {
 		this.x = x;
 	}
-
 	public int getY() {
 		return y;
 	}
-
 	public void setY(int y) {
 		this.y = y;
 	}
-	
 	public double getPerX() {
 		return perX;
 	}
-
 	public void setPerX(double perX) {
 		this.perX = perX;
 	}
-
 	public double getPerY() {
 		return perY;
 	}
-
 	public void setPerY(double perY) {
 		this.perY = perY;
 	}
-
 	public JPanel getPanel() {
 		return panel;
 	}
-
 	public void setPanel(JPanel panel) {
 		this.panel = panel;
 	}
-
 	public Color getColor() {
 		return color;
 	}
-
 	public void setColor(Color color) {
 		this.color = color;
 	}
-
 	public int getCellNumber() {
 		return cellNumber;
 	}
-
 	public void setCellNumber(int cell) {
 		this.cellNumber = cell;
 	}
-	
 	public int getMoney() {
 		return money;
 	}
-
 	public void setMoney(int money) {
 		this.money = money;
 	}
@@ -105,6 +91,12 @@ public class Token extends JComponent{
 	}
 	public void setInJail(boolean inJail) {
 		this.inJail = inJail;
+	}
+	public int getJailTurnCounter() {
+		return jailTurnCounter;
+	}
+	public void setJailTurnCounter(int jailTurnCounter) {
+		this.jailTurnCounter = jailTurnCounter;
 	}
 
 	public void setCoordinates(Point point) {
@@ -135,6 +127,7 @@ public class Token extends JComponent{
 		this.cellNumber = cellNumber;
 		this.money=1500;
 		this.inJail=false;
+		this.jailTurnCounter=0;
 	}
 	
 //	public Token(double perX, double perY, Color color, JPanel panel,Insets insets) {

@@ -50,7 +50,7 @@ public class Cell extends JComponent{
 		Jail(50,50),
 		Tax(40,40),
 		Train(40,40),
-		ElecWater(40,40),
+		Utility(40,40),
 		Chest(40,40),
 		Chance(40,40);
 		

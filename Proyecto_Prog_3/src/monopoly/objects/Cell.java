@@ -34,6 +34,7 @@ public class Cell extends JComponent{
 	double perX;
 	double perY;
 	JPanel panel;
+	String name;
 	private int cellNumber;
 
 
@@ -67,7 +68,7 @@ public class Cell extends JComponent{
 	CellType cType;
 	
 	
-	public Cell(double perX, double perY, CellType type, JPanel panel) {
+	public Cell(double perX, double perY, CellType type, String name, JPanel panel) {
 		this.perX = perX;
 		this.perY = perY;
 		this.panel = panel;
@@ -76,6 +77,7 @@ public class Cell extends JComponent{
 		this.width=type.width;
 		this.height=type.height;
 		this.color=Color.black;
+		this.name=name;
 		setX((int)(this.getPerX()*this.getPanel().getWidth()));
 		setY((int)(this.getPerY()*this.getPanel().getWidth()));
 		counter++;
@@ -122,6 +124,12 @@ public class Cell extends JComponent{
 	}
 	public void setColor(Color color) {
 		this.color = color;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getWidth() {
@@ -179,6 +187,6 @@ public class Cell extends JComponent{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "x: "+getX()+", y: "+getY();
+		return getName()+" Selling Price: "+getX()+", Current Rent: "+getY();
 	}
 }

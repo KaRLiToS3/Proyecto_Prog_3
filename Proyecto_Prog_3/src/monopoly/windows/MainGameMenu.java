@@ -55,6 +55,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.jfree.ui.tabbedui.VerticalLayout;
 
@@ -99,6 +101,7 @@ public class MainGameMenu extends MasterFrame {
 	JLabel money3 = new JLabel();
 	JTextArea infoText = new JTextArea();		
 	JLabel turnLabel = new JLabel();
+	DefaultListModel<String> optionModel = new DefaultListModel<>();
 
 
 	
@@ -180,20 +183,22 @@ public class MainGameMenu extends MasterFrame {
 		eventPanel.add(infoText);
 		
 		//BUYIN BUTTON
-		JPanel optionPanel = new JPanel(new VerticalLayout());
-		optionPanel.setBackground(Color.black);
+		JPanel buyingPanel = new JPanel(new VerticalLayout());
+		buyingPanel.setBackground(Color.black);
+		buyingPanel.setMaximumSize(new Dimension(getWidth(),50));
 		
 		JButton buyButton = new JButton("Buy");
 		buyButton.setFont(font2);
 
-		optionPanel.add(buyButton);
+		buyingPanel.add(buyButton);
 		
-		eventPanel.add(optionPanel);
-		optionPanel.setVisible(false);
+		eventPanel.add(buyingPanel);
+		buyingPanel.setVisible(false);
 		
 		// UTILITY PANEL
 		JPanel utilityPanel = new JPanel(new VerticalLayout());
 		utilityPanel.setBackground(Color.black);
+		utilityPanel.setMaximumSize(new Dimension(getWidth(),50));
 		
 		JButton utilityDice = new JButton("Roll!");
 		utilityDice.setFont(font2);
@@ -206,6 +211,7 @@ public class MainGameMenu extends MasterFrame {
 		// JAIL PANEL
 		JPanel jailPanel = new JPanel(new VerticalLayout());
 		jailPanel.setBackground(Color.black);
+		jailPanel.setMaximumSize(new Dimension(getWidth(),50));
 		
 		JButton jailPayButton = new JButton("Pay 50");
 		jailPayButton.setFont(font2);
@@ -219,18 +225,37 @@ public class MainGameMenu extends MasterFrame {
 		
 		
 		//JLIST
-		DefaultListModel<String> optionModel = new DefaultListModel<>();
+//		JPanel propertyPanel = new JPanel();
+		JLabel properties = new JLabel("Your Properties:");
+		properties.setForeground(Color.white);
+		properties.setFont(font2);
+		properties.setAlignmentX(CENTER_ALIGNMENT);
+		JList<String> propertySelector = new JList<String>(optionModel);
+		propertySelector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		propertySelector.setFont(font3);
+		JButton sellButton = new JButton("Sell");
+		sellButton.setFont(font2);
+		sellButton.setEnabled(false);
+		sellButton.setAlignmentX(CENTER_ALIGNMENT);
 		
-		JList<String> optionSelector = new JList<String>();
+		eventPanel.add(properties);
+		eventPanel.add(propertySelector);
+		eventPanel.add(sellButton);
 		
-		optionSelector.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//propertyPanel.add(optionSelector);
+//		
+//		eventPanel.add(optionSelector);
 		
-		eventPanel.add(optionSelector);
 		
+		// SPACER
 		eventPanel.add(new Box.Filler(new Dimension(100, 100), null, null));
 		
 		//MONEY DISPLAY
 		JLabel money = new JLabel("Money");
+		money.setForeground(Color.white);
+		money.setBackground(Color.gray);
+		money.setFont(font2);
+		money.setAlignmentX(CENTER_ALIGNMENT);
 		JPanel moneyPanel = new JPanel();
 		moneyPanel.setLayout(new GridLayout(2, 2));
 		moneyPanel.setBackground(Color.black);
@@ -339,6 +364,7 @@ public class MainGameMenu extends MasterFrame {
 				cellList.get(t.getCellNumber()).setColor(t.getColor());
 				t.setMoney(t.getMoney()-priceList.get(t.getCellNumber())[0]);
 				updateMoney();
+				updatePropertyList(t);
 			}
 		});
 		
@@ -367,6 +393,7 @@ public class MainGameMenu extends MasterFrame {
 					}
 				}
 				utilityPanel.setVisible(false);
+				updatePropertyList(t);
 				updateMoney();
 			}
 		});
@@ -395,6 +422,30 @@ public class MainGameMenu extends MasterFrame {
 			}
 		});
 		
+		propertySelector.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (!propertySelector.isSelectionEmpty()) sellButton.setEnabled(true);
+			}
+		});
+		
+		sellButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String selection = propertySelector.getSelectedValue();
+				int selectionCellNumber = Integer.parseInt(selection.substring(selection.length()-2, selection.length()).strip());
+				cellList.get(selectionCellNumber).setColor(Color.black);
+				Token t = tokenList.get(turn);
+				t.setMoney(t.getMoney()+(int)(priceList.get(selectionCellNumber)[0]*0.5));
+				updateMoney();
+				updatePropertyList(t);
+				sellButton.setEnabled(false);
+			}
+		});
+		
 		
 //		Insets insets = getInsets();
 		diceButton.addActionListener( new ActionListener() {
@@ -402,12 +453,15 @@ public class MainGameMenu extends MasterFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// prepare display for next turn
-				optionPanel.setVisible(false);
+				buyingPanel.setVisible(false);
 				infoText.setText("");
 				nextTurn();
 				diceButton.setEnabled(false);
+				propertySelector.clearSelection();
+				sellButton.setEnabled(false);
 				// get the current token turn and check if in jail
 				Token token = tokenList.get(turn);
+				updatePropertyList(token);
 				if (token.isInJail() && token.getJailTurnCounter()<3) {
 					//if in jail
 					jailPanel.setVisible(true);
@@ -416,7 +470,7 @@ public class MainGameMenu extends MasterFrame {
 					token.setInJail(false);
 					token.setJailTurnCounter(0);
 //					int hops = dice.nextInt(1, 13);
-					int hops = 2;
+					int hops = 1;
 					diceResult.setText(""+hops);
 					Runnable thread = new Runnable() {
 
@@ -425,7 +479,7 @@ public class MainGameMenu extends MasterFrame {
 
 							jumpAnimation(token, hops);
 							
-							cellMechanics(token, optionPanel, utilityPanel);
+							cellMechanics(token, buyingPanel, utilityPanel);
 							
 							diceButton.setEnabled(true);
 							
@@ -472,7 +526,7 @@ public class MainGameMenu extends MasterFrame {
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				String[] splitedLine = line.split(";");
-				Cell cell = new Cell(Double.parseDouble( splitedLine[0].strip() ), Double.parseDouble( splitedLine[1].strip() ),  CellType.valueOf(splitedLine[2].strip()),panel);
+				Cell cell = new Cell(Double.parseDouble( splitedLine[0].strip() ), Double.parseDouble( splitedLine[1].strip() ), CellType.valueOf(splitedLine[2].strip()), splitedLine[3], panel);
 				cellList.add(cell);
 			}
 			scanner.close();
@@ -501,6 +555,15 @@ public class MainGameMenu extends MasterFrame {
 		if (turn==tokenList.size()) turn = 0;
 		turnColor=tokenList.get(turn).getColor();
 		turnLabel.setForeground(turnColor);
+	}
+	
+	public void updatePropertyList(Token token) {
+		optionModel.clear();
+		for (Cell cell:cellList) {
+			if(cell.getColor().equals(token.getColor())) {
+				optionModel.addElement(cell.getName()+", Selling Price: "+(int)(priceList.get(cell.getCellNumber())[0]*0.5)+", Rent: "+priceList.get(cell.getCellNumber())[1]+", Cell Number: "+cell.getCellNumber());
+			}
+		}
 	}
 	
 	public void cellMechanics(Token token, JPanel optionPanel, JPanel utilityPanel) {
@@ -632,8 +695,8 @@ public class MainGameMenu extends MasterFrame {
 	}
 	
 	public void chestCase(Token token) {
-//		int cardNum = dice.nextInt(1,9);
-		int cardNum = 3;
+		int cardNum = dice.nextInt(1,9);
+//		int cardNum = 6;
 		switch (cardNum) {
 		case 1: {
 			infoText.setText("You advance to Go (Collect 200)");
@@ -683,8 +746,8 @@ public class MainGameMenu extends MasterFrame {
 	}
 	
 	public void chanceCase(Token token, JPanel optionPanel, JPanel utilityPanel) {
-//		int cardNum = dice.nextInt(1,9);
-		int cardNum = 3;
+		int cardNum = dice.nextInt(1,9);
+//		int cardNum = 3;
 		switch (cardNum) {
 		case 1: {
 			infoText.setText("Advance to Boardwalk");
@@ -769,9 +832,6 @@ public class MainGameMenu extends MasterFrame {
 		updateMoney();
 	}
 	
-	public void modifyMoney(Token token, int amount) {
-		
-	}
 	
 
 }

@@ -113,7 +113,13 @@ public class DataManager {
 				String Password = rs.getString("PASSWORD");
 				String Achievements = rs.getString("ACHIEVEMENTS");
 				Set<Achievement> setAch = convertStringToAchievementSet(Achievements);
-				registeredUsers.addObject(new User(Name, Email, Password, Alias, setAch));
+				try {
+					File Image = new File(rs.getString("IMAGE"));
+					registeredUsers.addObject(new User(Name, Email, Password, Alias, Image, setAch));
+				} catch (Exception e) {
+					registeredUsers.addObject(new User(Name, Email, Password, Alias, setAch));
+				}
+				
 			}
 			rs.close();
 			stmt.close();
@@ -141,13 +147,19 @@ public class DataManager {
 			deleteStmt.executeUpdate();
 			for (User user : registeredUsers) {
 				//The order in the database is now EMAIL, NAME, ALIAS, PASSWORD, IMAGE, ACHIEVEMENTS
-				String sqlInsert = "INSERT INTO USER (EMAIL, NAME, ALIAS, PASSWORD, ACHIEVEMENTS) VALUES (?, ?, ?, ?, ?)";
+				String sqlInsert = "INSERT INTO USER (EMAIL, NAME, ALIAS, PASSWORD, IMAGE, ACHIEVEMENTS) VALUES (?, ?, ?, ?, ?, ?)";
 				PreparedStatement prepStmt = conn.prepareStatement(sqlInsert);
 				prepStmt.setString(1,user.getEmail());
 				prepStmt.setString(2,user.getName());
 				prepStmt.setString(3,user.getAlias());
 				prepStmt.setString(4,user.getPassword());
-				prepStmt.setString(5, convertAchievementSetToString(user.getAchievements()));
+				try {
+					prepStmt.setString(5,user.getImage().toString());
+				}catch (NullPointerException e) {
+					logger.log(Level.INFO, "User " + user.getName() + " don't have image");
+				}
+				
+				prepStmt.setString(6, convertAchievementSetToString(user.getAchievements()));
 				prepStmt.executeUpdate();
 			}
 			deleteStmt.close();

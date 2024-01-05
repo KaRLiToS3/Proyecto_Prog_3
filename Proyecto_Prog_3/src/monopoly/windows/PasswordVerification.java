@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -55,6 +58,29 @@ public class PasswordVerification extends MasterFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(user.getPassword().equals(new String(passwordField.getPassword()))) {
+					int counter = 0;
+					for (User sameUserImage : DataManager.getManager().getRegisteredUsers()) {
+						// Check if the deleted user's image is repeated 
+						try {
+							if (sameUserImage.getImage().equals(user.getImage())){
+								// We count 2 because 1 is the same user and it is enough with a repetition to not delete the file 
+								if (counter<2) {
+									counter++;
+								}	
+							}
+						}catch(NullPointerException e1) {
+							// This catch is here because there are some users without an image
+						}		
+					}
+					if (counter < 2) {
+						// Here the image is deleted
+						try {
+							Files.delete(user.getImage().toPath());
+						} catch (IOException e1) {
+							logger.log(Level.WARNING, "Deleting user " + user.getName()+ "'s image has failed");
+						}
+					}
+					//Delete of User
 					DataManager.getManager().getRegisteredUsers().removeObject(user);
 					JOptionPane.showMessageDialog(PasswordVerification.this, "User deleted");
 					DataManager.getManager().saveDataInDB();

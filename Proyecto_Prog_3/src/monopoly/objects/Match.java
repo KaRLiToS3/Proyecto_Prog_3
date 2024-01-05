@@ -46,9 +46,9 @@ public class Match implements Serializable{
 		map3.put(3, 200);
 		map3.put(4, 1000);
 		
-		User usr1 = new User("Paco", "a");
-		User usr2 = new User("Juan", "b");
-		User usr3 = new User("Damian", "c");
+		User usr1 = new User("a", "a");
+		User usr2 = new User("b", "b");
+		User usr3 = new User("c", "c");
 		
 		users = new ArrayList<>();
 		users.add(usr1);
@@ -106,7 +106,7 @@ public class Match implements Serializable{
 
 	@Override
 	public String toString() {
-		return date + "\t" + name;
+		return name + "    " + format.format(date);
 	}
 	
 }

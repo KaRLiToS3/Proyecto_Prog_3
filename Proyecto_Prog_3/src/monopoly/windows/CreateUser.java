@@ -187,10 +187,12 @@ public class CreateUser extends MasterFrame{
 			public void actionPerformed(ActionEvent e) {
 				Set<Achievement> list = new LinkedHashSet<>();
 				list.add(new Achievement(Achievement.Type.MVP, 2));
-				list.add(new Achievement(Achievement.Type.BEGGINER, 3));
+				list.add(new Achievement(Achievement.Type.BEGINNER, 3));
 				list.add(new Achievement(Achievement.Type.CHEAPSKATE, 4));
 				list.add(new Achievement(Achievement.Type.FLAT_BROKE, 1));
 //				list.add(new Achievement(Achievement.Type.VETERAN, 1));
+//				list.add(new Achievement(Achievement.Type.IMPERIALIST, 1));
+//				list.add(new Achievement(Achievement.Type.MODEST, 1));
 				String Alias = textFieldMap.get("ALIAS:").getText();
 				String Name = textFieldMap.get("NAME:").getText();
 				String Email = textFieldMap.get("EMAIL:").getText();

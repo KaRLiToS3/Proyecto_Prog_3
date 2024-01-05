@@ -34,13 +34,14 @@ public class HelpMenu extends MasterFrame {
 	private static final Color gold = new Color(212, 175, 55);
 	private static final Dimension frameMinSize = getDimensionProperty("helpMenuMinSizeX", "helpMenuMinSizeY");
 	private static final String pdf1 = getStringProperty("interface_pdf");
+	private static final String pdf2 = getStringProperty("how_to_start_a_match_pdf");
 	
 	private final URL path1 = getClass().getResource(getStringProperty("interface_logo"));
 	private final URL path2 = getClass().getResource(getStringProperty("match_logo"));
 	private final URL path3 = getClass().getResource(getStringProperty("rules_logo"));
 	private ArrayList<JScrollPane> scrollList = new ArrayList<>();
 	
-	private static final String[] pdfDirectory = {pdf1,pdf1,pdf1};
+	private static final String[] pdfDirectory = {pdf1,pdf2,pdf1};
 	InputStream[] pdfPaths = new InputStream[pdfDirectory.length];
 	
 	public HelpMenu() {
@@ -80,7 +81,7 @@ public class HelpMenu extends MasterFrame {
 		N.add(title);	
 		setVisible(true);
 		
-		for(int i= 0; i < 3; i++) {
+		for(int i= 0; i < C.getTabCount(); i++) {
 			JScrollPane p = scrollList.get(i);
 			JLabel lab = new JLabel("Loading...");
 			InputStream path = pdfPaths[i];

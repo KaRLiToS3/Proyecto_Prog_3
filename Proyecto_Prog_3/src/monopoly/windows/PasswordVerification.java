@@ -11,7 +11,6 @@ import java.nio.file.Files;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,17 +24,21 @@ public class PasswordVerification extends MasterFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private User user;
+	private JLabel label;
+	
 	public PasswordVerification(){
-		User user = ((UsersMenu) returnWindow(MasterFrame.UsersMenu)).getSelectedUser();
+		user = ((UsersMenu) returnWindow(MasterFrame.UsersMenu)).getSelectedUser();
         // Configuración de la ventana principal
         setTitle("Password Verification");
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setSize(300, 110);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
         
         //Components
-        JLabel label = new JLabel("Insert the password for " + user.getAlias() + ":");
+        label = new JLabel("Insert the password for " + user.getAlias() + ":");
         label.setFont(new Font("Arial Black", Font.BOLD, 12));
         JPasswordField passwordField = new JPasswordField(20);
         JButton verification = new JButton("Accept");
@@ -58,33 +61,38 @@ public class PasswordVerification extends MasterFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(user.getPassword().equals(new String(passwordField.getPassword()))) {
-					int counter = 0;
-					for (User sameUserImage : DataManager.getManager().getRegisteredUsers()) {
-						// Check if the deleted user's image is repeated 
-						try {
-							if (sameUserImage.getImage().equals(user.getImage())){
-								// We count 2 because 1 is the same user and it is enough with a repetition to not delete the file 
-								if (counter<2) {
-									counter++;
+					// If the user don't have a image there's no need to search for repetitions
+					if (user.getImage() != null) {
+						int counter = 0;
+						for (User sameUserImage : DataManager.getManager().getRegisteredUsers()) {
+							// Check if the deleted user's image is repeated 
+							try {
+								if (sameUserImage.getImage().equals(user.getImage())){
+									// We count 2 because 1 is the same user and it is enough with a repetition to not delete the file 
+									if (counter<2) {
+										counter++;
+									}	
 								}	
+							}catch(NullPointerException e1) {
+								// This catch is here because there are some users without an image
+							}		
+						}
+						if (counter < 2) {
+							// Here the image is deleted
+							try {
+								Files.delete(user.getImage().toPath());
+							} catch (IOException e1) {
+								logger.log(Level.WARNING, "Deleting user " + user.getName()+ "'s image has failed");
 							}
-						}catch(NullPointerException e1) {
-							// This catch is here because there are some users without an image
-						}		
-					}
-					if (counter < 2) {
-						// Here the image is deleted
-						try {
-							Files.delete(user.getImage().toPath());
-						} catch (IOException e1) {
-							logger.log(Level.WARNING, "Deleting user " + user.getName()+ "'s image has failed");
 						}
 					}
 					//Delete of User
 					DataManager.getManager().getRegisteredUsers().removeObject(user);
 					JOptionPane.showMessageDialog(PasswordVerification.this, "User deleted");
 					DataManager.getManager().saveDataInDB();
-					dispose();
+					//dispose();
+					//setVisible(false);
+                    switchToNextWindow(MasterFrame.UsersMenu);
 				} else {
 					JOptionPane.showMessageDialog(PasswordVerification.this, "Incorrect password");
 				}
@@ -93,13 +101,17 @@ public class PasswordVerification extends MasterFrame{
 		});
         
         this.addWindowListener(new WindowAdapter() {
-        	
+			
 			@Override
-			public void windowDeactivated(WindowEvent e) {
-				passwordField.setText("");
-				switchToNextWindow(MasterFrame.UsersMenu);
-				}
-			});
+			public void windowActivated(WindowEvent e) {
+				updateLabelText();
+			}
+			
+			@Override
+            public void windowClosing(WindowEvent e) {
+                switchToNextWindow(MasterFrame.UsersMenu);
+            }
+		});
 	}
 
 	@Override
@@ -107,4 +119,8 @@ public class PasswordVerification extends MasterFrame{
 		return MasterFrame.PasswordVerification;
 	}
 	
+	private void updateLabelText() {
+        user = ((UsersMenu) returnWindow(MasterFrame.UsersMenu)).getSelectedUser();
+        label.setText("Insert the password for " + user.getAlias() + ":");
+    }
 }

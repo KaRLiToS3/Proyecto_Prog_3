@@ -16,16 +16,13 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -205,7 +202,9 @@ public class CreateUser extends MasterFrame{
 				User NewUser = new User(Name,Email,Password,Alias,ImageUser, list);
 				logger.log(Level.INFO, "New User created");
 				//Only when we are sure user was created we save the copy of the Image
-				saveImage();
+				if (ImageFile != null) {
+					saveImage();
+				}
 				DataManager.getManager().saveUser(NewUser);
 				for (JTextField removeField: textFieldMap.values()) {
 					removeField.setText("");

@@ -209,8 +209,8 @@ public class UsersMenu extends MasterFrame{
 					int selectedRow = table.getSelectedRow();
                     if (selectedRow != -1) {
                     	String selectedValue = (String) table.getValueAt(selectedRow, 2);
-                    	Set<User> listUser = DataManager.getManager().getRegisteredUsers().getRegisteredData();
-                    	for (User user:listUser) {
+                    	
+                    	for (User user : DataManager.getManager().getRegisteredUsers()) {
                     		if(user.getEmail().equals(selectedValue)) {
                     			selectedUser = user;
                     		}

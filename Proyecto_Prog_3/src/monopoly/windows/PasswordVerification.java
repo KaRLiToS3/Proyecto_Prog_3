@@ -53,8 +53,9 @@ public class PasswordVerification extends MasterFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(user.getPassword().equals(new String(passwordField.getPassword()))) {
-					DataManager.getManager().getRegisteredUsers().removeObject(user);
+					DataManager.getManager().deleteUser(user);
 					JOptionPane.showMessageDialog(PasswordVerification.this, "User deleted");
+					
 					dispose();
 				} else {
 					JOptionPane.showMessageDialog(PasswordVerification.this, "Incorrect password");

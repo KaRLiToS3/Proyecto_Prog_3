@@ -12,24 +12,24 @@ import java.util.TreeMap;
 public class Match implements Serializable{
 	private static final long serialVersionUID = 3317059767741645648L;
 	//												Turn - Amount of cash
-	private Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser; //Used for statistics
-	private List<User> users;
+	private Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser; //Used for statistics
+	private List<String> usersEmails;
 	private String name;
 	private Date date;
 	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
 
-	public Match(Date date, String name, Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
+	public Match(Date date, String name, Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
 		this.name = name;
 		this.date = date;
 		this.turnCurrencyPerUser = turnCurrencyPerUser;
-		users = new ArrayList<>(turnCurrencyPerUser.keySet());
+		usersEmails = new ArrayList<>(turnCurrencyPerUser.keySet());
 	}
 	
 	//Test data model
 	public Match() {
 		date = new Date();
 		name = "Test Match";
-		turnCurrencyPerUser = new HashMap<User, TreeMap<Integer, Integer>>();
+		turnCurrencyPerUser = new HashMap<String, TreeMap<Integer, Integer>>();
 		TreeMap<Integer, Integer> map1 = new TreeMap<>();
 		map1.put(1, 100);
 		map1.put(2, 200);
@@ -50,14 +50,14 @@ public class Match implements Serializable{
 		User usr2 = new User("b", "b");
 		User usr3 = new User("c", "c");
 		
-		users = new ArrayList<>();
-		users.add(usr1);
-		users.add(usr2);
-		users.add(usr3);
+		usersEmails = new ArrayList<>();
+		usersEmails.add(usr1.getEmail());
+		usersEmails.add(usr2.getEmail());
+		usersEmails.add(usr3.getEmail());
 		
-		turnCurrencyPerUser.put(usr1, map1);
-		turnCurrencyPerUser.put(usr2, map2);
-		turnCurrencyPerUser.put(usr3, map3);
+		turnCurrencyPerUser.put(usr1.getEmail(), map1);
+		turnCurrencyPerUser.put(usr2.getEmail(), map2);
+		turnCurrencyPerUser.put(usr3.getEmail(), map3);
 	}
 
 	public String getName() {
@@ -67,15 +67,15 @@ public class Match implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<User> getUsers() {
-		return users;
+	public List<String> getUsersEmails() {
+		return usersEmails;
 	}
 
-	public void setUsers(ArrayList<User> users) {
-		this.users = users;
+	public void setUsersEmails(ArrayList<String> users) {
+		this.usersEmails = users;
 	}
 
-	public Map<User, TreeMap<Integer, Integer>> getTurnCurrencyPerUser() {
+	public Map<String, TreeMap<Integer, Integer>> getTurnCurrencyPerUser() {
 		return turnCurrencyPerUser;
 	}
 
@@ -83,7 +83,7 @@ public class Match implements Serializable{
 		return format;
 	}
 
-	public void setTurnCurrencyPerUser(Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
+	public void setTurnCurrencyPerUser(Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
 		this.turnCurrencyPerUser = turnCurrencyPerUser;
 	}
 	

@@ -42,7 +42,11 @@ import monopoly.objects.User;
 
 public class CreateUser extends MasterFrame{
 	private static final long serialVersionUID = 1L;
+	//File selected by the user
+	private File ImageFile;
+	//Copied File in folder for images
 	private File ImageUser;
+	//Folder where the images are saved
 	private File destinationFolder = new File("data/UserImage");
 	
 	public CreateUser() {
@@ -84,25 +88,14 @@ public class CreateUser extends MasterFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser ImageChooser = new JFileChooser();  
-	            // Only ".jpeg" extension 
-	            FileFilter ImageFilter = new FileNameExtensionFilter("JPEG, JPG, PNG Files", "jpeg", "jpg", "png");
+	            // Only ".jpeg , .jpg , .png" extension 
+	            FileFilter ImageFilter = new FileNameExtensionFilter("JPEG, JPG, PNG Files", "jpeg", "jpg", "png");;
 	            ImageChooser.setFileFilter(ImageFilter);
 	            int result = ImageChooser.showSaveDialog(CreateUser.this);
 	            if (result == JFileChooser.APPROVE_OPTION) {
-	               File ImageFile = ImageChooser.getSelectedFile();
-	               File destinationFile = new File(destinationFolder, ImageFile.getName());
-	               try {
-	            	   Files.copy(ImageFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-	            	   ImageUser = destinationFile;
-	            	   logger.log(Level.INFO, "Fichero seleccionado: " + ImageFile.toString());
-	               }catch(FileNotFoundException e1) {
-	            	   logger.log(Level.SEVERE, "File was not found");
-	               }catch(NoSuchFileException e2){
-	            	   logger.log(Level.SEVERE, "Folder does not exist");
-	               }
-	               catch(IOException ex){
-	            	   logger.log(Level.SEVERE,"Error when copying file: " + ImageFile.toString());
-	               };
+	            	// Save the path for the moment 
+	               ImageFile = ImageChooser.getSelectedFile();
+	               ImageUser = new File(destinationFolder, ImageFile.getName());
 	            }
 			}
 			
@@ -211,6 +204,8 @@ public class CreateUser extends MasterFrame{
 				String Password = textFieldMap.get("PASSWORD:").getText();
 				User NewUser = new User(Name,Email,Password,Alias,ImageUser, list);
 				logger.log(Level.INFO, "New User created");
+				//Only when we are sure user was created we save the copy of the Image
+				saveImage();
 				DataManager.getManager().saveUser(NewUser);
 				for (JTextField removeField: textFieldMap.values()) {
 					removeField.setText("");
@@ -246,5 +241,19 @@ public class CreateUser extends MasterFrame{
 	@Override
 	public String windowName() {
 		return MasterFrame.CreateUser;
+	}
+	
+	public void saveImage() {
+		try {
+     	   Files.copy(ImageFile.toPath(), ImageUser.toPath(), StandardCopyOption.REPLACE_EXISTING);
+     	   logger.log(Level.INFO, "Fichero seleccionado: " + ImageFile.toString());
+        }catch(FileNotFoundException e1) {
+     	   logger.log(Level.SEVERE, "File was not found");
+        }catch(NoSuchFileException e2){
+     	   logger.log(Level.SEVERE, "Folder does not exist");
+        }
+        catch(IOException ex){
+     	   logger.log(Level.SEVERE,"Error when copying file: " + ImageFile.toString());
+        };
 	}
 }

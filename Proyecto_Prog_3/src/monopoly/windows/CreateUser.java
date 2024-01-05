@@ -10,6 +10,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -38,7 +43,8 @@ import monopoly.objects.User;
 public class CreateUser extends MasterFrame{
 	private static final long serialVersionUID = 1L;
 	private File ImageUser;
-
+	private File destinationFolder = new File("data/UserImage");
+	
 	public CreateUser() {
 		//FONTS
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
@@ -46,7 +52,7 @@ public class CreateUser extends MasterFrame{
 		
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setSize(600,280);
+		setSize(650,340);
 		setLocationRelativeTo(null);
 		setDefaultWindowIcon();
 		setTitle("CREATE NEW USER");
@@ -79,13 +85,24 @@ public class CreateUser extends MasterFrame{
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser ImageChooser = new JFileChooser();  
 	            // Only ".jpeg" extension 
-	            FileFilter ImageFilter = new FileNameExtensionFilter("File JPG", "jpeg");
+	            FileFilter ImageFilter = new FileNameExtensionFilter("JPEG, JPG, PNG Files", "jpeg", "jpg", "png");
 	            ImageChooser.setFileFilter(ImageFilter);
 	            int result = ImageChooser.showSaveDialog(CreateUser.this);
 	            if (result == JFileChooser.APPROVE_OPTION) {
 	               File ImageFile = ImageChooser.getSelectedFile();
-	               //In the future we will save file for the user in the database
-	               logger.log(Level.INFO, "Fichero seleccionado: " + ImageFile.toString());
+	               File destinationFile = new File(destinationFolder, ImageFile.getName());
+	               try {
+	            	   Files.copy(ImageFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	            	   ImageUser = destinationFile;
+	            	   logger.log(Level.INFO, "Fichero seleccionado: " + ImageFile.toString());
+	               }catch(FileNotFoundException e1) {
+	            	   logger.log(Level.SEVERE, "File was not found");
+	               }catch(NoSuchFileException e2){
+	            	   logger.log(Level.SEVERE, "Folder does not exist");
+	               }
+	               catch(IOException ex){
+	            	   logger.log(Level.SEVERE,"Error when copying file: " + ImageFile.toString());
+	               };
 	            }
 			}
 			
@@ -117,7 +134,7 @@ public class CreateUser extends MasterFrame{
 				JPasswordField password = new JPasswordField(20);
 				textFieldMap.put(elem, password);
 				FIELDS.add(password);
-			} else {
+			} else{
 				JTextField field = new JTextField(20);
 				textFieldMap.put(elem, field);
 				FIELDS.add(field);

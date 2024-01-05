@@ -66,11 +66,12 @@ public class PasswordVerification extends MasterFrame{
 			}
 		});
         
-        PasswordVerification.this.addWindowListener(new WindowAdapter() {
+        this.addWindowListener(new WindowAdapter() {
+        	
 			@Override
-			public void windowClosing(WindowEvent e) {
+			public void windowDeactivated(WindowEvent e) {
+				passwordField.setText("");
 				switchToNextWindow(MasterFrame.UsersMenu);
-				passwordField.setText("");		
 				}
 			});
 	}

@@ -48,7 +48,7 @@ public abstract class MasterFrame extends JFrame{
 	protected static final String PasswordVerification = "monopoly.windows.PasswordVerification";
 	//DO NOT TOUCH
 	protected static final String[] windowArray = {MainGameMenu, GameSettingsMenu, UserAchievementsMenu, MatchRecordMenu, UsersMenu,
-			HelpMenu, CreditsMenu , PasswordVerification};
+			HelpMenu, CreditsMenu, PasswordVerification};
 	
 	protected LogRecorder logger = new LogRecorder(this.getClass());
 	

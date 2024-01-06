@@ -11,21 +11,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.EventObject;
 import java.util.Set;
-import java.util.logging.Level;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -225,7 +220,7 @@ public class UsersMenu extends MasterFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (selectedUser != null){
-					new PasswordVerification(selectedUser);
+					switchToNextWindow(MasterFrame.PasswordVerification);
 				}
 			}
 		});
@@ -235,4 +230,14 @@ public class UsersMenu extends MasterFrame{
 	public String windowName() {
 		return MasterFrame.UsersMenu;
 	}
+
+	public User getSelectedUser() {
+		return selectedUser;
+	}
+
+	public void setSelectedUser(User selectedUser) {
+		this.selectedUser = selectedUser;
+	}
+	
+	
 }

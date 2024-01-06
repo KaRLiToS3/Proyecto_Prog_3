@@ -348,7 +348,11 @@ public class DataManager{
 				prepStmt.setString(2, user.getName());
 				prepStmt.setString(3, user.getAlias());
 				prepStmt.setString(4, user.getPassword());
-				prepStmt.setString(5, null);
+				if (user.getImage() != null) {
+					prepStmt.setString(5, user.getImage().toString());
+				} else {
+					prepStmt.setString(5, null);
+				}
 				prepStmt.setString(6, convertAchievementSetToString(user.getAchievements()));
 				prepStmt.executeUpdate();
 				prepStmt.close();

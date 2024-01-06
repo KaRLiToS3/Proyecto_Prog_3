@@ -215,7 +215,7 @@ public class DataManager{
 		try {
 			uploadUsers();
 			uploadMatches();
-			saveMatch(new Match());
+//			saveMatch(new Match());
 			disconnect();
 		}catch (SQLException e) {
 			userChoiceToContinue = JOptionPane.showConfirmDialog(null, 
@@ -326,7 +326,7 @@ public class DataManager{
 	private void saveUsers() throws SQLException {
 		String checkUser = "SELECT * FROM USER WHERE EMAIL = ?";
 		String updateUser = "UPDATE USER SET NAME = ?, ALIAS = ?, PASSWORD = ?, IMAGE = ?, ACHIEVEMENTS = ? WHERE EMAIL = ?";
-		String sqlInsert = "INSERT INTO USER (EMAIL, NAME, ALIAS, PASSWORD, ACHIEVEMENTS) VALUES (?, ?, ?, ?, ?)";
+		String sqlInsert = "INSERT INTO USER (EMAIL, NAME, ALIAS, PASSWORD, IMAGE, ACHIEVEMENTS) VALUES (?, ?, ?, ?, ?, ?)";
 		
 		for (User user : registeredUsers) {
 			PreparedStatement chkStmt = conn.prepareStatement(checkUser);
@@ -348,7 +348,8 @@ public class DataManager{
 				prepStmt.setString(2, user.getName());
 				prepStmt.setString(3, user.getAlias());
 				prepStmt.setString(4, user.getPassword());
-				prepStmt.setString(5, convertAchievementSetToString(user.getAchievements()));
+				prepStmt.setString(5, null);
+				prepStmt.setString(6, convertAchievementSetToString(user.getAchievements()));
 				prepStmt.executeUpdate();
 				prepStmt.close();
 			}

@@ -219,13 +219,7 @@ public abstract class MasterFrame extends JFrame{
 	 */
 	protected void switchToNextWindow(String nextWindowName) {
 		SwingUtilities.invokeLater(() -> {
-			//We decided to exclude this JFrame from the Saving circuit, so that they are created from scratch every time
-			if(!windowName().equals(MainGameMenu)) saveWindowReference(windowName(), this);
-			if(nextWindowName.equals(MainGameMenu)) {
-				new MainGameMenu();
-				returnWindow(windowName()).setVisible(false);
-				return;
-			}
+			saveWindowReference(windowName(), this);
 			
 			if(!isReferenceInMemory(nextWindowName)) {
 				try {

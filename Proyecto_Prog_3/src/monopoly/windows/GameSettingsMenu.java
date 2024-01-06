@@ -36,7 +36,7 @@ public class GameSettingsMenu extends MasterFrame implements Updatable{
 	private static final Color bg = new Color(27, 27, 27);
 	private static final int compSpace = 20;
 	private DefaultListModel<User> modelUserSelectionList;
-	private static List<User> selectedUsers = new ArrayList<>();
+	public static List<User> selectedUsers = new ArrayList<>();
 	private static int startingCash;
 	private static int cashMultiplier;
 	
@@ -59,7 +59,7 @@ public class GameSettingsMenu extends MasterFrame implements Updatable{
 		C.setTabPlacement(JTabbedPane.LEFT);
 		C.addTab(tabNames[0], T1);
 		C.addTab(tabNames[1], T2);
-		C.addTab(tabNames[2], T3);
+//		C.addTab(tabNames[2], T3);
 		C.setFont(font2);
 		
 		getContentPane().add(N, BorderLayout.NORTH);
@@ -102,7 +102,7 @@ public class GameSettingsMenu extends MasterFrame implements Updatable{
 		createInstructionLabel(panelListT2[0], "Starting Cash", font3, null, null);
 		createInstructionLabel(panelListT2[1], "Cash Multiplier", font3, null, null);
 		
-		SpinnerNumberModel startingCashModel = new SpinnerNumberModel(100, 0, 1000, 100);
+		SpinnerNumberModel startingCashModel = new SpinnerNumberModel(1500, 0, 3000, 100);
 		JSpinner startingCashSp = createSpinner(panelListT2[0], startingCashModel, true);
 		
 		SpinnerNumberModel cashMultiplierModel = new SpinnerNumberModel(1, 1, 5, 1);

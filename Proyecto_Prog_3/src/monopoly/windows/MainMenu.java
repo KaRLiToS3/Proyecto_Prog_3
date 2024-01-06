@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -17,6 +18,7 @@ import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import monopoly.data.DataManager;
+import monopoly.windows.GameSettingsMenu;
 
 public class MainMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
@@ -125,6 +127,11 @@ public class MainMenu extends MasterFrame {
 			buttons[i].setFont(buttonFont);
 		}
 		
+		////////////////////////////////////xiker
+		buttons[0].setEnabled(false);
+		
+		//////////////////////////////////
+		
 		
 		//EVENTS
 
@@ -142,10 +149,23 @@ public class MainMenu extends MasterFrame {
 				DataManager.getManager().saveDataInDB();
 				disposeAllFrames();
 			}
+			////////xiker
+			@Override
+			public void windowActivated(WindowEvent e) {
+				if (monopoly.windows.GameSettingsMenu.getSelectedUsers().size()!=0) {
+					buttons[0].setEnabled(true);
+				} else {
+					buttons[0].setEnabled(false);
+				}
+					
+			}
+			///////
 		});
+		
 		setVisible(true);
 		logger.log(Level.INFO, "Window building ended");
 	}
+	
 	
 	class ButtonActionListener implements ActionListener{
 		private String className;

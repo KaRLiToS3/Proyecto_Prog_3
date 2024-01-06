@@ -121,10 +121,10 @@ public class Token extends JComponent{
 //		this.cellNumber = cellNumber;
 //	}
 	
-	public Token(Color color, JPanel panel, int cellNumber) {
+	public Token(Color color, JPanel panel) {
 		this.color = color;
 		this.panel = panel;
-		this.cellNumber = cellNumber;
+		this.cellNumber=0;
 		this.money=1500;
 		this.inJail=false;
 		this.jailTurnCounter=0;

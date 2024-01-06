@@ -31,7 +31,7 @@ import monopoly.data.LogRecorder;
 public abstract class MasterFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
-	private static Map<String, JFrame> windowRefs = new HashMap<>();
+	public static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
 	private static Properties initializer = DataManager.getInitializer();
 	protected final URL windowIcon = getClass().getResource(initializer.getProperty("appIcon"));

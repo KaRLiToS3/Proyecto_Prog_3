@@ -65,6 +65,7 @@ import com.orsoncharts.util.json.parser.ParseException;
 import monopoly.objects.Cell;
 import monopoly.objects.Cell.CellType;
 import monopoly.objects.Token;
+import monopoly.objects.User;
 
 public class MainGameMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
@@ -81,7 +82,7 @@ public class MainGameMenu extends MasterFrame {
 	public static final Dimension defaultWindowDimension = getDimensionProperty("mainGameMenuSizeX", "mainGameMenuSizeY");
 	private static String cellPositionsPath = Paths.get(getStringProperty("cellPositions1")).toAbsolutePath().toString();
 	private static String cellPricesPath = Paths.get(getStringProperty("cellPrices")).toAbsolutePath().toString();
-
+	
 	
 	// cell position setter
 	/////////////
@@ -91,6 +92,7 @@ public class MainGameMenu extends MasterFrame {
 	private static List<Cell> cellList = new ArrayList<>();
 	private static List<Token> tokenList = new ArrayList<>();
 	private static Map<Integer, Integer[]> priceList = new HashMap<>();
+	private static final Color[] defaultColors = {Color.red,Color.green,Color.blue,Color.yellow,};
 	
 	private static int turn;
 	private static Color turnColor;
@@ -99,6 +101,7 @@ public class MainGameMenu extends MasterFrame {
 	JLabel money1 = new JLabel();
 	JLabel money2 = new JLabel();
 	JLabel money3 = new JLabel();
+	JLabel[] moneyLabels = {money0,money1,money2,money3};
 	JTextArea infoText = new JTextArea();		
 	JLabel turnLabel = new JLabel();
 	DefaultListModel<String> optionModel = new DefaultListModel<>();
@@ -165,7 +168,7 @@ public class MainGameMenu extends MasterFrame {
 		
 		//TURN LABEL
 		turnLabel.setFont(font1);
-		turnLabel.setText("Turn of ?"); //TODO The user should also appear
+//		turnLabel.setText("Turn of "+monopoly.windows.GameSettingsMenu.getSelectedUsers().get(turn).getAlias()); //TODO The user should also appear
 		turnLabel.setAlignmentX(CENTER_ALIGNMENT);
 		
 		eventPanel.add(turnLabel);
@@ -493,13 +496,18 @@ public class MainGameMenu extends MasterFrame {
 		});
 		
 		loadCellPositions(boardPanel);
-		tokenList.add(new Token(Color.RED, boardPanel, 0));
-		tokenList.add(new Token(Color.GREEN, boardPanel, 0));
+		
+		for (int i=0;i<monopoly.windows.GameSettingsMenu.getSelectedUsers().size();i++) {
+			tokenList.add(new Token(defaultColors[i], boardPanel));
+			moneyLabels[i].setForeground(tokenList.get(i).getColor());
+		}
+//		tokenList.add(new Token(Color.RED, boardPanel));
+//		tokenList.add(new Token(Color.GREEN, boardPanel));
 //		tokenList.add(new Token(Color.BLUE, boardPanel, 0));
 //		tokenList.add(new Token(Color.YELLOW, boardPanel, 0));
 		
-		money0.setForeground(tokenList.get(0).getColor());
-		money1.setForeground(tokenList.get(1).getColor());
+//		money0.setForeground(tokenList.get(0).getColor());
+//		money1.setForeground(tokenList.get(1).getColor());
 //		money2.setForeground(tokenList.get(2).getColor());
 //		money3.setForeground(tokenList.get(3).getColor());
 		updateMoney();
@@ -555,6 +563,7 @@ public class MainGameMenu extends MasterFrame {
 		if (turn==tokenList.size()) turn = 0;
 		turnColor=tokenList.get(turn).getColor();
 		turnLabel.setForeground(turnColor);
+		turnLabel.setText("Turn of "+monopoly.windows.GameSettingsMenu.getSelectedUsers().get(turn).getAlias());
 	}
 	
 	public void updatePropertyList(Token token) {
@@ -618,8 +627,10 @@ public class MainGameMenu extends MasterFrame {
 	}
 	
 	public void updateMoney() {
-		money0.setText(tokenList.get(0).getMoney()+"");
-		money1.setText(tokenList.get(1).getMoney()+"");
+		for (int i=0;i<tokenList.size();i++) {
+			moneyLabels[i].setText(tokenList.get(i).getMoney()+"");
+		}
+//		money1.setText(tokenList.get(1).getMoney()+"");
 //		money2.setText(tokenList.get(2).getMoney()+"");
 //		money3.setText(tokenList.get(3).getMoney()+"");
 	}

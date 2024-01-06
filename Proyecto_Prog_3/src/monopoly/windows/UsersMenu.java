@@ -3,6 +3,7 @@ package monopoly.windows;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -34,6 +35,8 @@ import monopoly.objects.User;
 
 public class UsersMenu extends MasterFrame{
 	private static final long serialVersionUID = 1L;
+	private static final Dimension frameSize = getDimensionProperty("usersMenuSizeX", "usersMenuSizeY");
+	private static final Dimension frameMinSize= getDimensionProperty("usersMenuMinSizeX", "usersMenuMinSizeY");
 	JTextField SearchUser;
 	User selectedUser;
 	
@@ -43,7 +46,8 @@ public class UsersMenu extends MasterFrame{
 
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setSize(800,600);
+		setSize(frameSize);
+		setMinimumSize(frameMinSize);
 		setLocationRelativeTo(null);
 		setDefaultWindowIcon();
 		setTitle("USERS");
@@ -70,9 +74,6 @@ public class UsersMenu extends MasterFrame{
 		//CENTER
 		//JTable model
 		class MyTableModel extends DefaultTableModel { 
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -208,8 +209,8 @@ public class UsersMenu extends MasterFrame{
 					int selectedRow = table.getSelectedRow();
                     if (selectedRow != -1) {
                     	String selectedValue = (String) table.getValueAt(selectedRow, 2);
-                    	Set<User> listUser = DataManager.getManager().getRegisteredUsers().getRegisteredData();
-                    	for (User user:listUser) {
+                    	
+                    	for (User user : DataManager.getManager().getRegisteredUsers()) {
                     		if(user.getEmail().equals(selectedValue)) {
                     			selectedUser = user;
                     		}

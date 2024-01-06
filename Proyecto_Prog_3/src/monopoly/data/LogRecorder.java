@@ -1,20 +1,17 @@
 package monopoly.data;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-public class LogRecorder {
+public class LogRecorder{
 	public Logger logger;
 	private Path setupPath = Paths.get("data/loggerSetup.properties").toAbsolutePath();
 	private Path loggerLocation = Paths.get("data/record.log").toAbsolutePath();

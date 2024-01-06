@@ -1,34 +1,35 @@
 package monopoly.objects;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Level;
-
-import monopoly.data.LogRecorder;
 
 public class Match implements Serializable{
 	private static final long serialVersionUID = 3317059767741645648L;
-	//												Turn - Amount of cash
-	private Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser; //Used for statistics
-	private List<User> users;
+	//		       User email					Turn - Amount of cash
+	private Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser; //Used for statistics
+	private List<String> usersEmails;
 	private String name;
-	private LogRecorder logger = new LogRecorder(getClass());
+	private Date date;
+	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
 	
-	public Match(String name, Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
-		this.name = name;
+	public Match(Date date, String name, Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
+		this.name = name.strip();
+		this.date = date;
 		this.turnCurrencyPerUser = turnCurrencyPerUser;
-		users = new ArrayList<>(turnCurrencyPerUser.keySet());
-		logger.log(Level.INFO, "Match " + name + " was created succesfully");
+		usersEmails = new ArrayList<>(turnCurrencyPerUser.keySet());
 	}
 	
 	//Test data model
 	public Match() {
+		date = new Date();
 		name = "Test Match";
-		turnCurrencyPerUser = new HashMap<User, TreeMap<Integer, Integer>>();
+		turnCurrencyPerUser = new HashMap<String, TreeMap<Integer, Integer>>();
 		TreeMap<Integer, Integer> map1 = new TreeMap<>();
 		map1.put(1, 100);
 		map1.put(2, 200);
@@ -45,20 +46,18 @@ public class Match implements Serializable{
 		map3.put(3, 200);
 		map3.put(4, 1000);
 		
-		User usr1 = new User("Paco", "dvkajenlkaenñfa");
-		User usr2 = new User("Juan", "thaehaerhaerhaeha");
-		User usr3 = new User("Damian", "rgagaerhaehaerh");
+		User usr1 = new User("a", "a");
+		User usr2 = new User("b", "b");
+		User usr3 = new User("c", "c");
 		
-		users = new ArrayList<>();
-		users.add(usr1);
-		users.add(usr2);
-		users.add(usr3);
+		usersEmails = new ArrayList<>();
+		usersEmails.add(usr1.getEmail());
+		usersEmails.add(usr2.getEmail());
+		usersEmails.add(usr3.getEmail());
 		
-		turnCurrencyPerUser.put(usr1, map1);
-		turnCurrencyPerUser.put(usr2, map2);
-		turnCurrencyPerUser.put(usr3, map3);
-		
-		logger.log(Level.INFO, "Match ' Test Match ' was created succesfully");
+		turnCurrencyPerUser.put(usr1.getEmail(), map1);
+		turnCurrencyPerUser.put(usr2.getEmail(), map2);
+		turnCurrencyPerUser.put(usr3.getEmail(), map3);
 	}
 
 	public String getName() {
@@ -68,27 +67,35 @@ public class Match implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<User> getUsers() {
-		return users;
+	public List<String> getUsersEmails() {
+		return usersEmails;
 	}
 
-	public void setUsers(ArrayList<User> users) {
-		this.users = users;
+	public void setUsersEmails(ArrayList<String> users) {
+		this.usersEmails = users;
 	}
 
-	public Map<User, TreeMap<Integer, Integer>> getTurnCurrencyPerUser() {
+	public Map<String, TreeMap<Integer, Integer>> getTurnCurrencyPerUser() {
 		return turnCurrencyPerUser;
 	}
 
-	public void setTurnCurrencyPerUser(Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
+	public static SimpleDateFormat getFormat() {
+		return format;
+	}
+
+	public void setTurnCurrencyPerUser(Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
 		this.turnCurrencyPerUser = turnCurrencyPerUser;
+	}
+	
+	public String getDateAsString() {
+		return format.format(date);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Match) {
 			Match match = (Match) obj;
-			return this.getName().equals(match.getName());
+			return this.getDateAsString().equals(match.getDateAsString());
 		} else return false;
 	}
 
@@ -99,7 +106,7 @@ public class Match implements Serializable{
 
 	@Override
 	public String toString() {
-		return name;
+		return name + "    " + format.format(date);
 	}
 	
 }

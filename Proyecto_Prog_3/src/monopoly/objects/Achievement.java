@@ -6,28 +6,30 @@ import javax.swing.ImageIcon;
 
 public class Achievement implements Serializable{
 	private static final long serialVersionUID = -4777254735179279044L;
-	private static final String[] mvp = {"/monopoly/images/MVP.jpg", "/monopoly/images/textMVP.jpg"};
-	private static final String[] chpsk = {"/monopoly/images/cheapSkate.jpg", "/monopoly/images/cheapSkateText.jpg"};
-	
+	private static final String[] mvp = {"/monopoly/images/MVP.jpg", "/monopoly/images/MVPtext.png"};
+	private static final String[] chpsk = {"/monopoly/images/cheapSkate.jpg", "/monopoly/images/cheapSkateText.png"};
+	private static final String[] flat_broke = {"/monopoly/images/flat_broke.jpg", "/monopoly/images/flatBrokeText.png"};
+	private static final String[] beginner = {"/monopoly/images/beginner.jpg", "/monopoly/images/beginnerText.png"};
+	private static final String[] veteran = {"/monopoly/images/veteran.jpg", "/monopoly/images/veteranText.png"};
+	private static final String[] imperialist = {"/monopoly/images/imperialist.jpg", "/monopoly/images/imperialistText.png"};
+	private static final String[] modest = {"/monopoly/images/modest.jpg", "/monopoly/images/modestText.png"};
 	private int times;
 	public Type type;
 
 	public enum Type {
-		MVP("MVP", mvp),
-		CHEAPSKATE("CHEAPSKATE", chpsk),
-		BEGGINER("BEGGINER", mvp),
-		FLAT_BROKE("FLAT_BROKE", mvp),
-		VETERAN("VETERAN", mvp);
+		MVP(mvp),
+		CHEAPSKATE(chpsk),
+		BEGINNER(beginner),
+		FLAT_BROKE(flat_broke),
+		VETERAN(veteran),
+		IMPERIALIST(imperialist),
+		MODEST(modest);
 		
-		private String desc;
 		private String[] img;
-		private Type(String desc, String[] img) {
-			this.desc = desc;
+		private Type(String[] img) {
 			this.img = img;
 		}
-		public String getDesc() {
-			return desc;
-		}
+		
 		public String[] getImg() {
 			return img;
 		}
@@ -40,7 +42,7 @@ public class Achievement implements Serializable{
 	
 	public Achievement(Type type) {
 		this.type = type;
-		times = 0;
+		times = 1;
 	}
 
 	public int getTimes() {
@@ -74,6 +76,6 @@ public class Achievement implements Serializable{
 
 	@Override
 	public String toString() {
-		return getType().getDesc() + "/" + getTimes();
+		return getType().toString() + "/" + getTimes();
 	}
 }

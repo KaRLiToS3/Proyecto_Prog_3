@@ -1,5 +1,6 @@
 package monopoly.windows;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -18,14 +19,12 @@ import monopoly.data.DataManager;
 import monopoly.objects.User;
 
 public class PasswordVerification extends MasterFrame{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	private static final Dimension frameSize = getDimensionProperty("passwordVerificationSizeX", "passwordVerificationSizeY");
 	public PasswordVerification(User user){
         // Configuración de la ventana principal
         setTitle("Password Verification");
-        setSize(300, 110);
+        setSize(frameSize);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
@@ -54,9 +53,9 @@ public class PasswordVerification extends MasterFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(user.getPassword().equals(new String(passwordField.getPassword()))) {
-					DataManager.getManager().getRegisteredUsers().removeObject(user);
+					DataManager.getManager().deleteUser(user);
 					JOptionPane.showMessageDialog(PasswordVerification.this, "User deleted");
-					DataManager.getManager().saveDataInDB();
+					
 					dispose();
 				} else {
 					JOptionPane.showMessageDialog(PasswordVerification.this, "Incorrect password");
@@ -77,7 +76,7 @@ public class PasswordVerification extends MasterFrame{
 	@Override
 	public String windowName() {
 		// TODO Auto-generated method stub
-		return null;
+		return MasterFrame.PasswordVerification;
 	}
 	
 }

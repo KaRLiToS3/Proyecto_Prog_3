@@ -27,10 +27,10 @@ public class GraphFactory {
 			XYSeriesCollection dataset = new XYSeriesCollection();	//The data container
 			JFreeChart chart = ChartFactory.createXYLineChart(graphTitle, titleX, titleY, dataset );		//Creator of the chart with the data
 			for(int i = 0; i < match.getTurnCurrencyPerUser().keySet().size(); i++) {
-				User usr = match.getUsers().get(i);
+				String usr = match.getUsersEmails().get(i);
 				TreeMap<Integer, Integer> turnAndCurrencyData = match.getTurnCurrencyPerUser().get(usr);
 
-				XYSeries legend = new XYSeries(usr.getName());	//Assigns a legend to the graph of a user
+				XYSeries legend = new XYSeries(usr);	//Assigns a legend to the graph of a user
 
 				for(Integer lng : turnAndCurrencyData.keySet()) {
 					legend.add((double) lng, (double) turnAndCurrencyData.get(lng));	//Assigns points to the XY axles 
@@ -39,7 +39,7 @@ public class GraphFactory {
 				dataset.addSeries(legend);	//The legend of every user and its data associated is added to the dataset
 				XYPlot line = (XYPlot) chart.getPlot();		//The Plot is the line that is drawn
 				line.getRenderer().setSeriesStroke(i, new BasicStroke(5.0f));		//This sets up the thickness of the line
-				logger.log(Level.INFO, "Data from User: " + usr.getName() + " was properly obtained");
+				logger.log(Level.INFO, "Data from User: " + usr + " was properly obtained");
 			}
 			return chart;
 		} else return null;

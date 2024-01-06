@@ -93,6 +93,7 @@ public class MainGameMenu extends MasterFrame {
 	private static List<Token> tokenList = new ArrayList<>();
 	private static Map<Integer, Integer[]> priceList = new HashMap<>();
 	private static final Color[] defaultColors = {Color.red,Color.green,Color.blue,Color.yellow,};
+	public static List<User> gameUsers = monopoly.windows.GameSettingsMenu.getSelectedUsers();
 	
 	private static int turn;
 	private static Color turnColor;
@@ -497,7 +498,7 @@ public class MainGameMenu extends MasterFrame {
 		
 		loadCellPositions(boardPanel);
 		
-		for (int i=0;i<monopoly.windows.GameSettingsMenu.getSelectedUsers().size();i++) {
+		for (int i=0;i<gameUsers.size();i++) {
 			tokenList.add(new Token(defaultColors[i], boardPanel));
 			moneyLabels[i].setForeground(tokenList.get(i).getColor());
 		}
@@ -563,7 +564,7 @@ public class MainGameMenu extends MasterFrame {
 		if (turn==tokenList.size()) turn = 0;
 		turnColor=tokenList.get(turn).getColor();
 		turnLabel.setForeground(turnColor);
-		turnLabel.setText("Turn of "+monopoly.windows.GameSettingsMenu.getSelectedUsers().get(turn).getAlias());
+		turnLabel.setText("Turn of "+gameUsers.get(turn).getAlias());
 	}
 	
 	public void updatePropertyList(Token token) {

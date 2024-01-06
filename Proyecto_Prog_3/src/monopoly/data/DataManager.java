@@ -10,11 +10,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -35,12 +38,13 @@ import monopoly.windows.WarningPanel;
  * Designed to manage all the data of the application
  * @author KaRLiToS3.0 with some contributions from Fauldave
  */
-public class DataManager {
+public class DataManager{
+	
 	private static DataManager dataManager = null;
 	private static Properties initializer = null;
 	private static final String propertyFile = Paths.get("data/configuration.properties").toAbsolutePath().toString();
-	private ObjectManager<User> registeredUsers = new ObjectManager<>();
-	private ObjectManager<Match> registeredMatches = new ObjectManager<>();
+	private ImmutableList<User> registeredUsers = new ImmutableList<>();
+	private ImmutableList<Match> registeredMatches = new ImmutableList<>();
 	private static LogRecorder logger = new LogRecorder(DataManager.class);
 		
 	private Connection conn;
@@ -61,7 +65,7 @@ public class DataManager {
 
 	public void saveUser(User usr){
 		try {
-			registeredUsers.addObject(usr);			
+			registeredUsers.addObject(usr);
 		} catch (InvalidParameterException e) {
 			logger.log(Level.WARNING, "The user " + usr.getName() + " was already on the list");
 		}
@@ -75,11 +79,11 @@ public class DataManager {
 		}
 	}
 	
-	public ObjectManager<User> getRegisteredUsers() {
+	public ImmutableList<User> getRegisteredUsers() {
 		return registeredUsers;
 	}
 	
-	public ObjectManager<Match> getRegisteredMatches() {
+	public ImmutableList<Match> getRegisteredMatches() {
 		return registeredMatches;
 	}
 	
@@ -156,13 +160,48 @@ public class DataManager {
 				+ ");");
 		stmt.executeUpdate("CREATE TABLE MATCHMAP ("
 				+ "	ID_MAP INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "	MATCH_DAT TEXT,"
-				+ "	USER_EMAIL TEXT,"
+				+ "	MATCH_DAT TEXT NOT NULL,"
+				+ "	USER_EMAIL TEXT NOT NULL,"
 				+ "	TURN INT,"
 				+ "	CURRENCY INT,"
-				+ "	FOREIGN KEY (MATCH_DAT) REFERENCES MATCH(DAT),"
-				+ "	FOREIGN KEY (USER_EMAIL) REFERENCES USER(EMAIL)"
+				+ "	FOREIGN KEY (MATCH_DAT) REFERENCES MATCH(DAT)"
 				+ ");");
+		stmt.close();
+	}
+	
+	public void deleteUser(User usr) {
+		registeredUsers.removeObject(usr);
+		connect();
+		try {
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM USER WHERE EMAIL = ?");
+			stmt.setString(1, usr.getEmail());
+			stmt.executeUpdate();
+			stmt.close();
+			disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteMatch(Match match) {
+		registeredMatches.removeObject(match);
+		connect();
+		try {
+			deleteMapAssociated(match);
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM MATCH WHERE DAT = ?");
+			stmt.setString(1, match.getDateAsString());
+			stmt.executeUpdate();
+			stmt.close();
+			disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void deleteMapAssociated(Match match) throws SQLException{
+		PreparedStatement stmt = conn.prepareStatement("DELETE FROM MATCHMAP WHERE MATCH_DAT = ?");
+		stmt.setString(1, match.getDateAsString());
+		stmt.executeUpdate();
 		stmt.close();
 	}
 	
@@ -174,9 +213,9 @@ public class DataManager {
 	public void uploadDataFromDB() {
 		connect();
 		try {
-			Map<String, User> userMap = new HashMap<>();
-			uploadUsers(userMap);
-			uploadMatches(userMap);
+			uploadUsers();
+			uploadMatches();
+			saveMatch(new Match());
 			disconnect();
 		}catch (SQLException e) {
 			userChoiceToContinue = JOptionPane.showConfirmDialog(null, 
@@ -204,7 +243,7 @@ public class DataManager {
 		}
 	}
 	
-	private void uploadUsers(Map<String, User> userMap) throws SQLException{
+	private void uploadUsers() throws SQLException{
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM USER");
 		while(rs.next()) {
@@ -215,14 +254,13 @@ public class DataManager {
 			String Achievements = rs.getString("ACHIEVEMENTS");
 			Set<Achievement> setAch = convertStringToAchievementSet(Achievements);
 			User usr = new User(Name, Email, Password, Alias, setAch);
-			userMap.put(Email, usr);
 			registeredUsers.addObject(usr);
 		}
 		stmt.close();
 		rs.close();
 	}
 	
-	private void uploadMatches(Map<String, User> userMap) throws SQLException{
+	private void uploadMatches() throws SQLException{
 		String getMatches = "SELECT * FROM MATCH";
 		String getMap = "SELECT USER_EMAIL, TURN, CURRENCY FROM MATCHMAP WHERE MATCH_DAT = ?";
 
@@ -236,18 +274,18 @@ public class DataManager {
 			mapStmt.setString(1, dat);
 			ResultSet map = mapStmt.executeQuery();
 
-			Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser = new HashMap<>();
+			Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser = new HashMap<>();
 			while (map.next()) {
 				TreeMap<Integer, Integer> turnsPerCurrency = new TreeMap<>();
 				String email = map.getString("USER_EMAIL");
 				Integer turn = map.getInt("TURN");
 				Integer currency = map.getInt("CURRENCY");
-				User usr = userMap.get(email);
-				if(!turnCurrencyPerUser.containsKey(usr)) {
+				
+				if(!turnCurrencyPerUser.containsKey(email)) {
 					turnsPerCurrency.put(turn, currency);
-					turnCurrencyPerUser.put(usr, turnsPerCurrency);
+					turnCurrencyPerUser.put(email, turnsPerCurrency);
 				} else {
-					turnCurrencyPerUser.get(usr).put(turn, currency);
+					turnCurrencyPerUser.get(email).put(turn, currency);
 				}
 			}
 			try {
@@ -351,12 +389,12 @@ public class DataManager {
 	private void insertMapAssocieted(Match match) throws SQLException{
 		String insertStatement = "INSERT INTO MATCHMAP (MATCH_DAT, USER_EMAIL, TURN, CURRENCY) VALUES (?, ?, ?, ?)";
 		
-		for(User user : match.getTurnCurrencyPerUser().keySet()) {
-			TreeMap<Integer, Integer> turnAndCurrency = match.getTurnCurrencyPerUser().get(user);
+		for(String userEmail : match.getTurnCurrencyPerUser().keySet()) {
+			TreeMap<Integer, Integer> turnAndCurrency = match.getTurnCurrencyPerUser().get(userEmail);
 			for(Integer turn : turnAndCurrency.keySet()) {
 				PreparedStatement insertStmt = conn.prepareStatement(insertStatement);
 				insertStmt.setString(1, match.getDateAsString());
-				insertStmt.setString(2, user.getEmail());
+				insertStmt.setString(2, userEmail);
 				insertStmt.setInt(3, turn);
 				insertStmt.setInt(4, turnAndCurrency.get(turn));
 				insertStmt.executeUpdate();
@@ -414,15 +452,15 @@ public class DataManager {
 	 */
 	@SuppressWarnings("unchecked")
 	private void synchronizeFileWithDataBase() {
-		ArrayList<ObjectManager<?>> allData = loadAllDataFromFile();
+		List<Set<?>> allData = loadAllDataFromFile();
 		if(allData != null) {
-			registeredUsers.addObjectManager((ObjectManager<User>)allData.get(0));
-			registeredMatches.addObjectManager((ObjectManager<Match>)allData.get(1));
+			registeredUsers.addDataSet((Set<User>) allData.get(0));
+			registeredMatches.addDataSet((Set<Match>)allData.get(1));
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	private ArrayList<ObjectManager<?>> loadAllDataFromFile() {
+	private List<Set<?>> loadAllDataFromFile() {
 		File f = new File(filePath);
 		try {
 			if(f.createNewFile()) logger.log(Level.INFO, "A new Data.dat file was created for it was missing");
@@ -430,7 +468,7 @@ public class DataManager {
 			e.printStackTrace();
 		}
 		try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(filePath))) {
-			return (ArrayList<ObjectManager<?>>) input.readObject();
+			return (List<Set<?>>) input.readObject();
 		} catch (FileNotFoundException e) {
 			logger.log(Level.WARNING, "File for load users not found");
 			new WarningPanel("The data file is missing in the location "+ filePath + "\nWe cannot launch the game with saved data."
@@ -449,9 +487,9 @@ public class DataManager {
 	public void saveAllDataToFile() {
 		try (ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(filePath))) {
 			forFile.reset();
-			ArrayList<ObjectManager<?>> allData = new ArrayList<>();
-			allData.add(registeredUsers);
-			allData.add(registeredMatches);
+			List<Set<?>> allData = new ArrayList<>();
+			allData.add(registeredUsers.getRegisteredData());
+			allData.add(registeredMatches.getRegisteredData());
 			forFile.writeObject(allData);
 			logger.log(Level.INFO, "All data was saved to the file successfully");
 		} catch (IOException e) {
@@ -476,5 +514,61 @@ public class DataManager {
 	    User foundUser = recursiveFunction(list.subList(0, breakPoint), email);
 	    if(foundUser != null) return foundUser;
 	    return recursiveFunction(list.subList(breakPoint + 1, list.size()), email);
+	}
+	
+	///////////////////////////////////////////////////
+	//**************** IMMUTABLE LIST *********************
+	///////////////////////////////////////////////////
+	
+	/**
+	 * Designed to handle any kind data of type T, similar to a HashSet
+	 * but ensuring only visualization of the data, only the DataManager is
+	 * allowed to perform modifications in these objects
+	 * @author KaRLiToS3.0
+	 */
+	public class ImmutableList <T> implements Iterable<T>{
+		
+		private Set<T> registeredData = new HashSet<>();
+
+		private void addObject(T object){
+			registeredData.add(object);
+		}
+		
+		private void removeObject(T object){
+			registeredData.remove(object);
+		}
+		
+		private void addImmutableList(ImmutableList<T> dataCollection) {
+			registeredData.addAll(dataCollection.getRegisteredData());
+		}
+		
+		private void addDataSet(Set<T> data) {
+			registeredData.addAll(data);
+		}
+		
+		public boolean containsObject(T object) {
+			return registeredData.contains(object);
+		}		
+		
+		public boolean isEmpty() {
+			return registeredData.isEmpty();
+		}
+		
+		public int size() {
+			return registeredData.size();
+		}
+
+		@Override
+		public Iterator<T> iterator() {
+			return registeredData.iterator();
+		}
+		
+		/**This method returns a copy of the data, so any changes made in this list
+		 * will not prevail in the database or in the files
+		 * @return A copy of the data
+		 */
+		public Set<T> getRegisteredData() {
+			return new HashSet<>(registeredData);
+		}
 	}
 }

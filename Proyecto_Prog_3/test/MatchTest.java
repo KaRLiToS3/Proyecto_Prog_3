@@ -16,11 +16,11 @@ import monopoly.objects.User;
 public class MatchTest {
 	private Match match1;
 	private Match match2;
-	private List<User>users;
+	private List<String>users;
 
 	@Before
 	public void loadDataStructure() {
-		Map<User, TreeMap<Integer, Integer>> data = loadDataExampe1();
+		Map<String, TreeMap<Integer, Integer>> data = loadDataExampe1();
 		match1 = new Match(new Date(),"match1", data);
 		match2 = new Match();
 	}
@@ -28,17 +28,17 @@ public class MatchTest {
 	@Test
 	public void test() {
 		assertEquals("match1", match1.getName());
-		assertEquals(users, match1.getUsers());
+		assertEquals(users, match1.getUsersEmails());
 		assertEquals(loadDataExampe1(), match1.getTurnCurrencyPerUser());
 		assertNotEquals(match1, match2);
 		
 		assertEquals("Test Match", match2.getName());
-		assertEquals(users, match2.getUsers());
+		assertEquals(users, match2.getUsersEmails());
 		assertEquals(loadDataExampe2(), match2.getTurnCurrencyPerUser());
 	}
 
-	private Map<User, TreeMap<Integer, Integer>> loadDataExampe1(){
-		Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser = new HashMap<User, TreeMap<Integer, Integer>>();
+	private Map<String, TreeMap<Integer, Integer>> loadDataExampe1(){
+		Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser = new HashMap<String, TreeMap<Integer, Integer>>();
 		TreeMap<Integer, Integer> map1 = new TreeMap<>();
 		map1.put(1, 100);
 		map1.put(2, 200);
@@ -60,19 +60,19 @@ public class MatchTest {
 		User usr3 = new User("Pedro", "Pascal");
 		
 		users = new ArrayList<>();
-		users.add(usr1);
-		users.add(usr2);
-		users.add(usr3);
+		users.add(usr1.getEmail());
+		users.add(usr2.getEmail());
+		users.add(usr3.getEmail());
 		
-		turnCurrencyPerUser.put(usr1, map1);
-		turnCurrencyPerUser.put(usr2, map2);
-		turnCurrencyPerUser.put(usr3, map3);
+		turnCurrencyPerUser.put(usr1.getEmail(), map1);
+		turnCurrencyPerUser.put(usr2.getEmail(), map2);
+		turnCurrencyPerUser.put(usr3.getEmail(), map3);
 		
 		return turnCurrencyPerUser;
 	}
 	
-	private Map<User, TreeMap<Integer, Integer>> loadDataExampe2(){
-		Map<User, TreeMap<Integer, Integer>> turnCurrencyPerUser = new HashMap<User, TreeMap<Integer, Integer>>();
+	private Map<String, TreeMap<Integer, Integer>> loadDataExampe2(){
+		Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser = new HashMap<String, TreeMap<Integer, Integer>>();
 		TreeMap<Integer, Integer> map1 = new TreeMap<>();
 		map1.put(1, 100);
 		map1.put(2, 200);
@@ -94,13 +94,13 @@ public class MatchTest {
 		User usr3 = new User("Damian", "rgagaerhaehaerh");
 		
 		users = new ArrayList<>();
-		users.add(usr1);
-		users.add(usr2);
-		users.add(usr3);
+		users.add(usr1.getEmail());
+		users.add(usr2.getEmail());
+		users.add(usr3.getEmail());
 		
-		turnCurrencyPerUser.put(usr1, map1);
-		turnCurrencyPerUser.put(usr2, map2);
-		turnCurrencyPerUser.put(usr3, map3);
+		turnCurrencyPerUser.put(usr1.getEmail(), map1);
+		turnCurrencyPerUser.put(usr2.getEmail(), map2);
+		turnCurrencyPerUser.put(usr3.getEmail(), map3);
 		
 		return turnCurrencyPerUser;
 	}

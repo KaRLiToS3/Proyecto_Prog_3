@@ -2,6 +2,7 @@ package monopoly.windows;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -42,6 +43,7 @@ public class CreateUser extends MasterFrame{
 	//File selected by the user
 	private File ImageFile;
 	//Copied File in folder for images
+	private static final Dimension frameSize= getDimensionProperty("createUserSizeX", "createUserSizeY");
 	private File ImageUser;
 	//Folder where the images are saved
 	private File destinationFolder = new File("data/UserImage");
@@ -54,6 +56,8 @@ public class CreateUser extends MasterFrame{
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(650,340);
+		setSize(frameSize);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultWindowIcon();
 		setTitle("CREATE NEW USER");
@@ -191,10 +195,12 @@ public class CreateUser extends MasterFrame{
 			public void actionPerformed(ActionEvent e) {
 				Set<Achievement> list = new LinkedHashSet<>();
 				list.add(new Achievement(Achievement.Type.MVP, 2));
-				list.add(new Achievement(Achievement.Type.BEGGINER, 3));
+				list.add(new Achievement(Achievement.Type.BEGINNER, 3));
 				list.add(new Achievement(Achievement.Type.CHEAPSKATE, 4));
 				list.add(new Achievement(Achievement.Type.FLAT_BROKE, 1));
 //				list.add(new Achievement(Achievement.Type.VETERAN, 1));
+//				list.add(new Achievement(Achievement.Type.IMPERIALIST, 1));
+//				list.add(new Achievement(Achievement.Type.MODEST, 1));
 				String Alias = textFieldMap.get("ALIAS:").getText();
 				String Name = textFieldMap.get("NAME:").getText();
 				String Email = textFieldMap.get("EMAIL:").getText();

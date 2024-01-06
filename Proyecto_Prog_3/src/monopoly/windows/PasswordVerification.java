@@ -1,5 +1,6 @@
 package monopoly.windows;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,19 +21,17 @@ import monopoly.data.DataManager;
 import monopoly.objects.User;
 
 public class PasswordVerification extends MasterFrame{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private User user;
+	private User user = ((UsersMenu) returnWindow(MasterFrame.UsersMenu)).getSelectedUser();
 	private JLabel label;
+	private static final Dimension frameSize = getDimensionProperty("passwordVerificationSizeX", "passwordVerificationSizeY");
 	
 	public PasswordVerification(){
-		user = ((UsersMenu) returnWindow(MasterFrame.UsersMenu)).getSelectedUser();
+		// user = ((UsersMenu) returnWindow(MasterFrame.UsersMenu)).getSelectedUser();
         // Configuración de la ventana principal
         setTitle("Password Verification");
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        setSize(300, 110);
+        setSize(frameSize);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
@@ -87,7 +86,7 @@ public class PasswordVerification extends MasterFrame{
 						}
 					}
 					//Delete of User
-					DataManager.getManager().getRegisteredUsers().removeObject(user);
+					DataManager.getManager().deleteUser(user);
 					JOptionPane.showMessageDialog(PasswordVerification.this, "User deleted");
 					DataManager.getManager().saveDataInDB();
 					//dispose();
@@ -116,6 +115,7 @@ public class PasswordVerification extends MasterFrame{
 
 	@Override
 	public String windowName() {
+		// TODO Auto-generated method stub
 		return MasterFrame.PasswordVerification;
 	}
 	

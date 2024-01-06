@@ -37,7 +37,7 @@ public class AchievementTest {
 		assertEquals(1, ach.getTimes());
 		ach.incrementTimes();
 		assertEquals(2, ach.getTimes());
-		assertEquals("BEGGINER", Achievement.Type.BEGGINER.getDesc());
+		assertEquals("BEGGINER", Achievement.Type.BEGINNER.toString());
 		assertEquals("MVP/2", ach.toString());
 		
 		String[] answ = {"/monopoly/images/MVP.jpg", "/monopoly/images/textMVP.jpg"};

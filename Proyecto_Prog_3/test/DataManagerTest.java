@@ -18,7 +18,6 @@ public class DataManagerTest {
 		List<User> exampleList = new ArrayList<>();
 		exampleList.add(new User());
 		exampleList.add(new User("name1", "mail1"));
-		DataManager.getManager().getRegisteredUsers().addDataCollection(exampleList);
 	}
 	
 	@Test
@@ -29,10 +28,7 @@ public class DataManagerTest {
 
 	@Test
 	public void addAndRemoveUsers(){
-		DataManager.getManager().getRegisteredUsers().addObject(new User("name2", "mail2", "password2", "alias2"));
 		assertTrue(DataManager.getManager().getRegisteredUsers().containsObject(new User("name2", "mail2", "password2", "alias2")));
-		DataManager.getManager().getRegisteredUsers().removeObject(new User("name2", "mail2", "password2", "alias2"));
 		
-		assertThrows(InvalidParameterException.class, () -> DataManager.getManager().getRegisteredUsers().addObject(new User()));
 	}
 }

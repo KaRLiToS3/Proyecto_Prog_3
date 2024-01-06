@@ -33,8 +33,8 @@ public abstract class MasterFrame extends JFrame{
 	
 	private static Map<String, JFrame> windowRefs = new HashMap<>();
 	protected static Map<URL, ImageIcon> imageCache = new HashMap<>();
-	protected static Properties initializer = DataManager.getInitializer();
-	protected final URL windowIcon = getClass().getResource(DataManager.getInitializer().getProperty("appIcon"));
+	private static Properties initializer = DataManager.getInitializer();
+	protected final URL windowIcon = getClass().getResource(initializer.getProperty("appIcon"));
 	
 	protected static final String MainMenu = "monopoly.windows.MainMenu";
 	protected static final String MainGameMenu = "monopoly.windows.MainGameMenu";
@@ -53,8 +53,8 @@ public abstract class MasterFrame extends JFrame{
 	protected LogRecorder logger = new LogRecorder(this.getClass());
 	
 	/**
-	 * @author KaRLiToS3 and rekix
 	 *Class specially designed to draw images into panels
+	 * @author KaRLiToS3 and Xiker Goikoetxea
 	 */
 	class PanelImageBuilder extends JPanel{
 		private static final long serialVersionUID = 1L;
@@ -129,14 +129,41 @@ public abstract class MasterFrame extends JFrame{
 		}
 	}
 	
+	/**This method is used to get two property values and convert them into a {@code new Dimension()} object and directly assign it to a variable
+	 * If the properties are not found an exception will occur
+	 * @param X
+	 * @param Y
+	 * @return	{@code new Dimension()}
+	 */
 	protected static Dimension getDimensionProperty(String X, String Y) {
 		int x = Integer.parseInt(initializer.getProperty(X));
 		int y = Integer.parseInt(initializer.getProperty(Y));
 		return new Dimension(x, y);
 	}
 	
-	protected static int getIntegerProperty(String integer) {
-		return Integer.parseInt(integer);
+	/**Used to get the {@code String} property from a {@code String}
+	 * The purpose of this method is to reduce the amount of typing
+	 * @param integerProp
+	 * @return
+	 */
+	protected static String getStringProperty(String stringProp) {
+		return initializer.getProperty(stringProp);
+	}
+	
+	/**Used to get the {@code int} property from a {@code String}
+	 * @param integerProp
+	 * @return
+	 */
+	protected static int getIntegerProperty(String integerProp) {
+		return Integer.parseInt(initializer.getProperty(integerProp));
+	}
+	
+	/**Used to get the {@code float} property from a {@code String}
+	 * @param floatProp
+	 * @return
+	 */
+	protected static float getFloatProperty(String floatProp) {
+		return Float.parseFloat(floatProp);
 	}
 	
 	private void saveWindowReference(String name, JFrame frame) {
@@ -214,12 +241,21 @@ public abstract class MasterFrame extends JFrame{
 		});
 	};
 	
-	protected void triggerDataUpdate() {
+	public static void disposeAllFrames() {
+		for(JFrame jfr : windowRefs.values()) {
+			jfr.dispose();
+			LogRecorder lg = new LogRecorder(jfr.getClass());
+			lg.log(Level.INFO, "All existing JFrames were terminated");
+		}
+	}
+	
+	public static void triggerDataUpdate() {
 		for(JFrame jfr : windowRefs.values()) {			
 			if( jfr instanceof Updatable) {
 				Updatable upd = (Updatable) jfr;
 				upd.updateAllData();
-				logger.log(Level.INFO, "Data updated in " + jfr.getName());
+				LogRecorder lg = new LogRecorder(jfr.getClass());
+				lg.log(Level.INFO, "Data updated in " + jfr.getName());
 			}
 		}
 	}

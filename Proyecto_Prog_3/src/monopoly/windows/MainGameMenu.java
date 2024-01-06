@@ -3,6 +3,7 @@ package monopoly.windows;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
@@ -34,6 +35,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
@@ -42,14 +44,14 @@ import monopoly.objects.Cell;
 import monopoly.objects.Token;
 
 public class MainGameMenu extends MasterFrame {
-
-
 	private static final long serialVersionUID = 1L;
 	
-	private final URL boardPath = getClass().getResource("/monopoly/images/board_monopoly.png");
-	private final URL dicePath = getClass().getResource("/monopoly/images/dice.png");
-	public static final Dimension defaultWindowDimension = new Dimension(1000, 700);
-	private static String cellPositionsPath = Paths.get("data/cellPositions.txt").toAbsolutePath().toString();
+	private static Font font1 = new Font("Arial Black", Font.BOLD, 24);
+	
+	private final URL boardPath = getClass().getResource(getStringProperty("board_img"));
+	private final URL dicePath = getClass().getResource(getStringProperty("dice_img"));
+	public static final Dimension defaultWindowDimension = getDimensionProperty("mainGameMenuSizeX", "mainGameMenuSizeY");
+	private static String cellPositionsPath = Paths.get(getStringProperty("cellPositions")).toAbsolutePath().toString();
 
 	
 	// Token position setter
@@ -61,7 +63,7 @@ public class MainGameMenu extends MasterFrame {
 	public MainGameMenu() {
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setSize(1000,700);
+		setSize(defaultWindowDimension);
 		setMinimumSize(defaultWindowDimension);
 		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
@@ -112,7 +114,15 @@ public class MainGameMenu extends MasterFrame {
 		eventPanel.setLayout(new BoxLayout(eventPanel, BoxLayout.Y_AXIS));
 		eventPanel.setBackground(Color.BLACK);
 		
-		// DICE BUTTON
+		//PARTS OF THE PANEL
+		JLabel turn = new JLabel("Turn from user");
+		turn.setFont(font1);
+		turn.setForeground(Color.RED); //TODO The color must change according to the player that's playing
+		turn.setText("Turn from ?"); //TODO The user should also appear
+		turn.setAlignmentX(CENTER_ALIGNMENT);
+		eventPanel.add(turn);
+		
+		
 		eventPanel.add(new Box.Filler(new Dimension(100, 100), null, null));
 
 		JButton diceButton = new JButton(getIconifiedImage(dicePath, 100, 100));

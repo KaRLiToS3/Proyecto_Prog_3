@@ -37,22 +37,23 @@ import monopoly.objects.User;
 
 public class UserAchievementsMenu extends MasterFrame implements Updatable{
 	private static final long serialVersionUID = 1L;
+	private static final Dimension frameSize = getDimensionProperty("userAchievementsMenuSizeX", "userAchievementsMenuSizeY");
 	private static final Font font1 = new Font("Arial Rounded MT Bold", Font.BOLD, 24);
 	private static final Font font2 = new Font("Arial Rounded MT Bold", Font.PLAIN, 15);
 	private static final Color gold = new Color(212, 175, 55);
 	private static final Color bg = new Color(27, 27, 27);
-	private static final String infoText = "Information about the achievements will appear here as soon as you click on the images!";
+	private static final String infoText = getStringProperty("initial_text_info");
 	private static int achievementSize = 150;
 	private static final int numPossibleAchievements = Achievement.Type.values().length;
 	private static final int numGridSize = calculateGridSize();
 	private JLabel info;
-	private URL backgroundImage = getClass().getResource("/monopoly/images/backgroundAchievements.jpg");
-	private URL trophy = getClass().getResource("/monopoly/images/trophy.png");
+	private URL backgroundImage = getClass().getResource(getStringProperty("mosaic_bg"));
+	private URL trophy = getClass().getResource(getStringProperty("trophy_img"));
 	private Set<Thread> threadList = new HashSet<>();
 	private JComboBox<User> usersCombo;
 	
 	public UserAchievementsMenu() {
-		setSize(1000,800);
+		setSize(frameSize);
 		setLocationRelativeTo(null);
 		setDefaultWindowIcon();
 		setMinimumSize(new Dimension(600,700));
@@ -237,7 +238,7 @@ public class UserAchievementsMenu extends MasterFrame implements Updatable{
 			shiftImage = new Thread(() -> {
 				if(readyToShift) {
 					readyToShift = false;
-					info.setText("This userreceived this award " + times + " times!!! ");
+					info.setText("This user received this award " + times + " times!!! ");
 					try {
 						for(int width = achievementSize; width > 0 ; width -= 2) {
 							img = resizeIcon(logo, width, achievementSize);

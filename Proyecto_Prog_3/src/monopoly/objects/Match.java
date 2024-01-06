@@ -11,15 +11,15 @@ import java.util.TreeMap;
 
 public class Match implements Serializable{
 	private static final long serialVersionUID = 3317059767741645648L;
-	//												Turn - Amount of cash
+	//		       User email					Turn - Amount of cash
 	private Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser; //Used for statistics
 	private List<String> usersEmails;
 	private String name;
 	private Date date;
 	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
-
+	
 	public Match(Date date, String name, Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
-		this.name = name;
+		this.name = name.strip();
 		this.date = date;
 		this.turnCurrencyPerUser = turnCurrencyPerUser;
 		usersEmails = new ArrayList<>(turnCurrencyPerUser.keySet());
@@ -95,7 +95,7 @@ public class Match implements Serializable{
 	public boolean equals(Object obj) {
 		if (obj instanceof Match) {
 			Match match = (Match) obj;
-			return this.getName().equals(match.getName());
+			return this.getDateAsString().equals(match.getDateAsString());
 		} else return false;
 	}
 

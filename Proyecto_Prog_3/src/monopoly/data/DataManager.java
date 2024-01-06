@@ -188,7 +188,7 @@ public class DataManager{
 		connect();
 		try {
 			deleteMapAssociated(match);
-			PreparedStatement stmt = conn.prepareStatement("DELETE FROM USER WHERE DAT = ?");
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM MATCH WHERE DAT = ?");
 			stmt.setString(1, match.getDateAsString());
 			stmt.executeUpdate();
 			stmt.close();
@@ -196,6 +196,13 @@ public class DataManager{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void deleteMapAssociated(Match match) throws SQLException{
+		PreparedStatement stmt = conn.prepareStatement("DELETE FROM MATCHMAP WHERE MATCH_DAT = ?");
+		stmt.setString(1, match.getDateAsString());
+		stmt.executeUpdate();
+		stmt.close();
 	}
 	
 	/**
@@ -208,6 +215,7 @@ public class DataManager{
 		try {
 			uploadUsers();
 			uploadMatches();
+			saveMatch(new Match());
 			disconnect();
 		}catch (SQLException e) {
 			userChoiceToContinue = JOptionPane.showConfirmDialog(null, 
@@ -246,7 +254,6 @@ public class DataManager{
 			String Achievements = rs.getString("ACHIEVEMENTS");
 			Set<Achievement> setAch = convertStringToAchievementSet(Achievements);
 			User usr = new User(Name, Email, Password, Alias, setAch);
-//			userMap.put(Email, usr);
 			registeredUsers.addObject(usr);
 		}
 		stmt.close();
@@ -396,13 +403,6 @@ public class DataManager{
 		}
 	}
 	
-	private void deleteMapAssociated(Match match) throws SQLException{
-		PreparedStatement stmt = conn.prepareStatement("DELETE FROM MATCHMAP WHERE MATCH_DAT = ?");
-		stmt.setString(1, match.getDateAsString());
-		stmt.executeUpdate();
-		stmt.close();
-	}
-	
 	//ACHIEVEMENT DECODIFICATION
 	
 	/**The input convention should have this example format: <strong>"MVP/2;CHEAPSKATE/4;BEGGINER/1"</strong>
@@ -487,7 +487,7 @@ public class DataManager{
 	public void saveAllDataToFile() {
 		try (ObjectOutputStream forFile = new ObjectOutputStream(new FileOutputStream(filePath))) {
 			forFile.reset();
-			ArrayList<Set<?>> allData = new ArrayList<>();
+			List<Set<?>> allData = new ArrayList<>();
 			allData.add(registeredUsers.getRegisteredData());
 			allData.add(registeredMatches.getRegisteredData());
 			forFile.writeObject(allData);

@@ -93,7 +93,7 @@ public class MainGameMenu extends MasterFrame {
 	private static List<Token> tokenList = new ArrayList<>();
 	private static Map<Integer, Integer[]> priceList = new HashMap<>();
 	private static final Color[] defaultColors = {Color.red,Color.green,Color.blue,Color.yellow,};
-	public static List<User> gameUsers = monopoly.windows.GameSettingsMenu.getSelectedUsers();
+	public static List<User> gameUsers = new ArrayList<>(monopoly.windows.GameSettingsMenu.getSelectedUsers());
 	
 	private static int turn;
 	private static Color turnColor;

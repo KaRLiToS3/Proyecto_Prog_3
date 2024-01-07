@@ -50,7 +50,7 @@ public class MainGameMenu extends MasterFrame {
 	private List<Token> tokenList = new ArrayList<>();
 
 	public MainGameMenu() {
-
+		System.out.println("New window");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(defaultWindowDimension);
 		setMinimumSize(defaultWindowDimension);

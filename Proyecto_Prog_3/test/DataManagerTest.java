@@ -16,16 +16,23 @@ public class DataManagerTest {
 		List<User> exampleList = new ArrayList<>();
 		exampleList.add(new User());
 		exampleList.add(new User("name1", "mail1"));
+		for (User user: exampleList) {
+			DataManager.getManager().saveUser(user);
+		}
+	}
+	
+	@Test
+	public void addAndRemoveUsers(){
+		DataManager.getManager().saveUser(new User("name2", "mail2", "password2", "alias2"));
+		assertTrue(DataManager.getManager().getRegisteredUsers().containsObject(new User("name2", "mail2", "password2", "alias2")));
+		DataManager.getManager().deleteUser(new User("name2", "mail2", "password2", "alias2"));
+		assertTrue(!DataManager.getManager().getRegisteredUsers().containsObject(new User("name2", "mail2", "password2", "alias2")));
+		
 	}
 
 	@Test
 	public void getUsers() {
 		assertTrue(DataManager.getManager().getRegisteredUsers().containsObject(new User()));
 		assertTrue(DataManager.getManager().getRegisteredUsers().containsObject(new User("name1", "mail1")));
-	}
-
-	@Test
-	public void addAndRemoveUsers(){
-		assertTrue(DataManager.getManager().getRegisteredUsers().containsObject(new User("name2", "mail2", "password2", "alias2")));
 	}
 }

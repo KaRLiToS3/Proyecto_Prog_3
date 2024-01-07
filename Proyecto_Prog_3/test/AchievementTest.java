@@ -40,9 +40,10 @@ public class AchievementTest {
 		assertEquals(1, ach.getTimes());
 		ach.incrementTimes();
 		assertEquals(2, ach.getTimes());
-		//assertEquals("BEGINNER", Achievement.Type.BEGINNER.toString());
+		assertEquals("BEGINNER", Achievement.Type.BEGINNER.toString());
 		assertEquals("MVP/2", ach.toString());
-		String[] answ = {"/monopoly/images/MVP.jpg", "/monopoly/images/textMVP.jpg"};
+		
+		String[] answ = {"/monopoly/images/MVP.jpg", "/monopoly/images/MVPtext.png"};
 		assertArrayEquals(answ, ach.getType().getImg());
 
 		assertFalse(ach.equals(new User()));

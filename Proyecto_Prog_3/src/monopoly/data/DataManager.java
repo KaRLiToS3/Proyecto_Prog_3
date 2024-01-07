@@ -217,7 +217,7 @@ public class DataManager{
 		try {
 			uploadUsers();
 			uploadMatches();
-			saveMatch(new Match());
+//			saveMatch(new Match());
 			disconnect();
 		}catch (SQLException e) {
 			userChoiceToContinue = JOptionPane.showConfirmDialog(null,

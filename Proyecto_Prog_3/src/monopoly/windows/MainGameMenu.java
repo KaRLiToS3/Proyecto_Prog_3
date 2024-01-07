@@ -9,73 +9,62 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.event.CellEditorListener;
 
 import monopoly.objects.Cell;
 import monopoly.objects.Token;
 
 public class MainGameMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static Font font1 = new Font("Arial Black", Font.BOLD, 24);
-	
+
 	private final URL boardPath = getClass().getResource(getStringProperty("board_img"));
 	private final URL dicePath = getClass().getResource(getStringProperty("dice_img"));
 	public static final Dimension defaultWindowDimension = getDimensionProperty("mainGameMenuSizeX", "mainGameMenuSizeY");
 	private static String cellPositionsPath = Paths.get(getStringProperty("cellPositions")).toAbsolutePath().toString();
 
-	
+
 	// Token position setter
 	private static List<Point> posList = new ArrayList<>();
 
 	private List<Cell> cellList = new ArrayList<>();
 	private List<Token> tokenList = new ArrayList<>();
-	
+
 	public MainGameMenu() {
-		
+
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(defaultWindowDimension);
 		setMinimumSize(defaultWindowDimension);
 		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
-		
-		
+
+
 		// PANEL FOR MAIN DISTRIBUTION
-		 
+
 		setLayout(new BorderLayout());
-		
+
 		// PANEL FOR BOARD
-		
+
 		JPanel boardPanel = new PanelImageBuilder(boardPath, 0.7, 1, true) {
 			private static final long serialVersionUID = 1L;
 
@@ -93,18 +82,18 @@ public class MainGameMenu extends MasterFrame {
 				for (Cell c : cellList) {
 					c.paintComponent(g);
 				}
-				
+
 				for (Token token : tokenList) {
 					token.paintComponent(g);
 				}
-				
+
 				repaint();
 			}
 		};
 		boardPanel.setBackground(Color.BLACK);
 		add(boardPanel, BorderLayout.WEST);
-		
-		
+
+
 		// PANEL FOR EVENTS
 		JPanel eventPanel = new JPanel();
 		eventPanel.setLayout( new BorderLayout() );
@@ -113,7 +102,7 @@ public class MainGameMenu extends MasterFrame {
 
 		eventPanel.setLayout(new BoxLayout(eventPanel, BoxLayout.Y_AXIS));
 		eventPanel.setBackground(Color.BLACK);
-		
+
 		//PARTS OF THE PANEL
 		JLabel turn = new JLabel("Turn from user");
 		turn.setFont(font1);
@@ -121,8 +110,8 @@ public class MainGameMenu extends MasterFrame {
 		turn.setText("Turn from ?"); //TODO The user should also appear
 		turn.setAlignmentX(CENTER_ALIGNMENT);
 		eventPanel.add(turn);
-		
-		
+
+
 		eventPanel.add(new Box.Filler(new Dimension(100, 100), null, null));
 
 		JButton diceButton = new JButton(getIconifiedImage(dicePath, 100, 100));
@@ -130,7 +119,7 @@ public class MainGameMenu extends MasterFrame {
 		diceButton.setBackground(Color.WHITE);
 		eventPanel.add(diceButton);
 		setComponentDimension(diceButton, 100, 80);
-		
+
 
 		addMouseListener( new MouseAdapter() {
 			@Override
@@ -146,18 +135,18 @@ public class MainGameMenu extends MasterFrame {
 				switchToNextWindow(MasterFrame.MainMenu);
 			}
 		});
-		
+
 
 		setVisible(true);
 		Insets insets = getInsets();
 		diceButton.addActionListener( new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				PrintStream stream = null;
 				try {
-					stream = new PrintStream(new FileOutputStream(cellPositionsPath)); 
+					stream = new PrintStream(new FileOutputStream(cellPositionsPath));
 					for (Point p : posList) {
 						stream.println(((p.getX()-insets.left)/boardPanel.getSize().getWidth())+"_"+((p.getY()-insets.top)/boardPanel.getSize().getHeight()));
 					}
@@ -170,10 +159,10 @@ public class MainGameMenu extends MasterFrame {
 				}
 			}
 		});
-		
-		
+
+
 		loadCellPositions(boardPanel);
-		
+
 		// tryin token in each cell
 		for (Cell c : cellList) {
 			System.out.println(c.getTopLeft()+", "+c.getTopRight()+", "+c.getBottomLeft()+", "+c.getBottomRight());
@@ -189,7 +178,7 @@ public class MainGameMenu extends MasterFrame {
 	public String windowName() {
 		return MasterFrame.MainGameMenu;
 	}
-	
+
 	public void loadCellPositions(JPanel panel) {
 		File file = new File(cellPositionsPath);
 		// TODO probar a crear un input stream en vez de un file para utilizar el this.geclas... y tener el fichero fuera de src
@@ -202,6 +191,6 @@ public class MainGameMenu extends MasterFrame {
 			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("no hay");
-		}	
+		}
 	}
 }

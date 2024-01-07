@@ -2,8 +2,6 @@ package monopoly.objects;
 
 import java.io.Serializable;
 
-import javax.swing.ImageIcon;
-
 public class Achievement implements Serializable{
 	private static final long serialVersionUID = -4777254735179279044L;
 	private static final String[] mvp = {"/monopoly/images/MVP.jpg", "/monopoly/images/MVPtext.png"};
@@ -24,22 +22,22 @@ public class Achievement implements Serializable{
 		VETERAN(veteran),
 		IMPERIALIST(imperialist),
 		MODEST(modest);
-		
+
 		private String[] img;
 		private Type(String[] img) {
 			this.img = img;
 		}
-		
+
 		public String[] getImg() {
 			return img;
 		}
 	}
-	
+
 	public Achievement(Type type, int times) {
 		this.times = times;
 		this.type = type;
 	}
-	
+
 	public Achievement(Type type) {
 		this.type = type;
 		times = 1;
@@ -52,7 +50,7 @@ public class Achievement implements Serializable{
 	public void setTimes(int times) {
 		this.times = times;
 	}
-	
+
 	public void incrementTimes() {
 		times++;
 	}

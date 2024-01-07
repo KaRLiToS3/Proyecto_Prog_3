@@ -15,38 +15,38 @@ public class User implements Serializable{
 	private Set<Achievement> achievements;
 //	private final String path1 = "/monopoly/data/UserFile.dat";
 //	private final URL UserURL = getClass().getResource(path1);
-	
+
 	public User() {
 		setAlias("alias");
 		setName("name");
 		setEmail("email");
 		setPassword("password");
 	}
-	
+
 	public User(String name, String email) {
 		this.Name = name;
 		this.Email = email;
 		this.Alias = "alias";
 		this.Password = "password";
 	}
-	
+
 	public User(String name,String email, String password, String alias) {
 		this(name, email);
 		this.Alias = alias;
 		this.Email = email;
 		this.Password = password;
 	}
-	
+
 	public User(String name,String email, String password, String alias, File ImageUser) {
 		this(name, email, password, alias);
 		this.Image = ImageUser;
 	}
-	
+
 	public User(String name,String email, String password, String alias, Set<Achievement> achievements) {
 		this(name, email, password, alias);
 		this.achievements = achievements;
 	}
-	
+
 	public User(String name,String email, String password, String alias, File ImageUser, Set<Achievement> achievements) {
 		this(name, email, password, alias, ImageUser);
 		this.achievements = achievements;
@@ -117,5 +117,5 @@ public class User implements Serializable{
 	public int hashCode() {
 		return this.getEmail().hashCode();
 	}
-	
+
 }

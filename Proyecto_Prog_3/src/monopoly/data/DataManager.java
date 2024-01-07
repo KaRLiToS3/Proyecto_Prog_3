@@ -1,8 +1,5 @@
 package monopoly.data;
 
-import java.sql.*;
-import java.text.FieldPosition;
-import java.text.ParseException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,11 +7,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.nio.file.Paths;
 import java.security.InvalidParameterException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,28 +41,28 @@ import monopoly.windows.WarningPanel;
  * @author KaRLiToS3.0 with some contributions from Fauldave
  */
 public class DataManager{
-	
+
 	private static DataManager dataManager = null;
 	private static Properties initializer = null;
 	private static final String propertyFile = Paths.get("data/configuration.properties").toAbsolutePath().toString();
 	private ImmutableList<User> registeredUsers = new ImmutableList<>();
 	private ImmutableList<Match> registeredMatches = new ImmutableList<>();
 	private static LogRecorder logger = new LogRecorder(DataManager.class);
-		
+
 	private Connection conn;
 	private static int userChoiceToContinue = JOptionPane.YES_OPTION;
 	private static String driver = getInitializer().getProperty("driver");
 	private String filePath = Paths.get("data/Data.dat").toAbsolutePath().toString();
-	
+
 	private DataManager() {
 		uploadDataFromDB();
 	}
-	
+
 	public static DataManager getManager() {
 		if(dataManager == null) {
 			dataManager = new DataManager();
-		} 
-		return DataManager.dataManager;			
+		}
+		return DataManager.dataManager;
 	}
 
 	public void saveUser(User usr){
@@ -70,23 +72,23 @@ public class DataManager{
 			logger.log(Level.WARNING, "The user " + usr.getName() + " was already on the list");
 		}
 	}
-	
+
 	public void saveMatch(Match match) {
 		try {
-			registeredMatches.addObject(match);			
+			registeredMatches.addObject(match);
 		} catch (InvalidParameterException e) {
 			logger.log(Level.WARNING, "The match " + match.getName() + " was already on the list");
 		}
 	}
-	
+
 	public ImmutableList<User> getRegisteredUsers() {
 		return registeredUsers;
 	}
-	
+
 	public ImmutableList<Match> getRegisteredMatches() {
 		return registeredMatches;
 	}
-	
+
 	/**This method adds a {@code Achievement} and a {@code Type} to a {@code User} and in case the type of achievement was already
 	 * added it increments the {@code times} parameter in the {@code Achievement} class.
 	 * @param usr
@@ -100,7 +102,7 @@ public class DataManager{
 		}
 		MasterFrame.triggerDataUpdate();
 	}
-	
+
 	//JAVA PROPERTY FILE
 	public static Properties getInitializer() {
 		if(initializer == null) {
@@ -119,9 +121,9 @@ public class DataManager{
 		}
 		return DataManager.initializer;
 	}
-	
+
 	//DATA BASE
-	
+
 	private void connect() {
 		try {
 			Class.forName(driver);
@@ -130,16 +132,16 @@ public class DataManager{
 			logger.log(Level.SEVERE, "Unable to load the driver " + driver);
 		}
 	}
-	
+
 	private void disconnect() throws SQLException {
 		conn.close();
 	}
-	
+
 	public boolean checkForUserChoice() {
 		if(userChoiceToContinue == JOptionPane.NO_OPTION) return false;
 		else return true;
 	}
-	
+
 	/**This method creates the database from scratch in case the original file is lost
 	 * @throws SQLException
 	 */
@@ -168,7 +170,7 @@ public class DataManager{
 				+ ");");
 		stmt.close();
 	}
-	
+
 	public void deleteUser(User usr) {
 		registeredUsers.removeObject(usr);
 		connect();
@@ -182,7 +184,7 @@ public class DataManager{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void deleteMatch(Match match) {
 		registeredMatches.removeObject(match);
 		connect();
@@ -197,14 +199,14 @@ public class DataManager{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void deleteMapAssociated(Match match) throws SQLException{
 		PreparedStatement stmt = conn.prepareStatement("DELETE FROM MATCHMAP WHERE MATCH_DAT = ?");
 		stmt.setString(1, match.getDateAsString());
 		stmt.executeUpdate();
 		stmt.close();
 	}
-	
+
 	/**
 	 * Loads all the data from the database to the lists of objects, in case the database is lost
 	 * there will appear a <strong>WarningPanel</strong> to explain that a new database
@@ -218,14 +220,14 @@ public class DataManager{
 			saveMatch(new Match());
 			disconnect();
 		}catch (SQLException e) {
-			userChoiceToContinue = JOptionPane.showConfirmDialog(null, 
+			userChoiceToContinue = JOptionPane.showConfirmDialog(null,
 					"There was a problem while loading the data, please "
 					+ "\nmake sure all files remain in their corresponding folder.\n"
 					+ "Should we try other means to retrieve the data?\n"
 					+ "We will use a local copy of the data, any changes will be\n"
 					+ "saved and we will create a new database, in case you\n"
 					+ "retrieve the old one you can change them, all new changes\n"
-					+ "will prevail", "Warning", 
+					+ "will prevail", "Warning",
 					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			logger.log(Level.SEVERE, "Error uploading data, we will atempt to read from a serialized file");
 			if(userChoiceToContinue == JOptionPane.YES_OPTION) {
@@ -242,7 +244,7 @@ public class DataManager{
 			synchronizeFileWithDataBase();
 		}
 	}
-	
+
 	private void uploadUsers() throws SQLException{
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM USER");
@@ -259,7 +261,7 @@ public class DataManager{
 		stmt.close();
 		rs.close();
 	}
-	
+
 	private void uploadMatches() throws SQLException{
 		String getMatches = "SELECT * FROM MATCH";
 		String getMap = "SELECT USER_EMAIL, TURN, CURRENCY FROM MATCHMAP WHERE MATCH_DAT = ?";
@@ -280,7 +282,7 @@ public class DataManager{
 				String email = map.getString("USER_EMAIL");
 				Integer turn = map.getInt("TURN");
 				Integer currency = map.getInt("CURRENCY");
-				
+
 				if(!turnCurrencyPerUser.containsKey(email)) {
 					turnsPerCurrency.put(turn, currency);
 					turnCurrencyPerUser.put(email, turnsPerCurrency);
@@ -299,17 +301,17 @@ public class DataManager{
 		stmt.close();
 		res.close();
 	}
-	
+
 	public void saveDataInDB() {
 		connect();
 		try {
 			try {
-				saveUsers();				
+				saveUsers();
 			}catch (SQLException e) {
 				logger.log(Level.SEVERE, "Error saving users");
 			}
 			try {
-				saveMatches();				
+				saveMatches();
 			}catch (SQLException e) {
 				logger.log(Level.SEVERE, "Error saving matches");
 			}
@@ -322,12 +324,12 @@ public class DataManager{
 			saveAllDataToFile();
 		}
 	}
-	
+
 	private void saveUsers() throws SQLException {
 		String checkUser = "SELECT * FROM USER WHERE EMAIL = ?";
 		String updateUser = "UPDATE USER SET NAME = ?, ALIAS = ?, PASSWORD = ?, IMAGE = ?, ACHIEVEMENTS = ? WHERE EMAIL = ?";
 		String sqlInsert = "INSERT INTO USER (EMAIL, NAME, ALIAS, PASSWORD, IMAGE, ACHIEVEMENTS) VALUES (?, ?, ?, ?, ?, ?)";
-		
+
 		for (User user : registeredUsers) {
 			PreparedStatement chkStmt = conn.prepareStatement(checkUser);
 			chkStmt.setString(1, user.getEmail());
@@ -361,17 +363,17 @@ public class DataManager{
 			chkStmt.close();
 		}
 	}
-	
+
 	private void saveMatches() throws SQLException {
 		String checkMatch = "SELECT * FROM MATCH WHERE DAT = ?";
 		String updateMatch = "UPDATE MATCH SET NAME = ? WHERE DAT = ?";
 		String insertMatch = "INSERT INTO MATCH (DAT, NAME) VALUES (?, ?)";
-		
+
 		for(Match match : registeredMatches) {
 			PreparedStatement chkStmt = conn.prepareStatement(checkMatch);
 			chkStmt.setString(1, match.getDateAsString());
 			ResultSet check = chkStmt.executeQuery();
-			
+
 			if(check.next()) {
 				PreparedStatement updateStmt = conn.prepareStatement(updateMatch);
 				updateStmt.setString(1, match.getName());
@@ -390,10 +392,10 @@ public class DataManager{
 			check.close();
 		}
 	}
-	
+
 	private void insertMapAssocieted(Match match) throws SQLException{
 		String insertStatement = "INSERT INTO MATCHMAP (MATCH_DAT, USER_EMAIL, TURN, CURRENCY) VALUES (?, ?, ?, ?)";
-		
+
 		for(String userEmail : match.getTurnCurrencyPerUser().keySet()) {
 			TreeMap<Integer, Integer> turnAndCurrency = match.getTurnCurrencyPerUser().get(userEmail);
 			for(Integer turn : turnAndCurrency.keySet()) {
@@ -407,9 +409,9 @@ public class DataManager{
 			}
 		}
 	}
-	
+
 	//ACHIEVEMENT DECODIFICATION
-	
+
 	/**The input convention should have this example format: <strong>"MVP/2;CHEAPSKATE/4;BEGGINER/1"</strong>
 	 * The <strong>slash /</strong> divides the {@code Type} selection and the {@code times} from the {@code Achievement} class.
 	 * The <strong> ;</strong> divides the Achievements
@@ -419,10 +421,10 @@ public class DataManager{
 	private static Set<Achievement> convertStringToAchievementSet(String input){
 		Set<Achievement> res = new HashSet<>();
 		if(input == null) return res;
-		
+
 		String[] line = input.split(";");
-		for(int i = 0; i < line.length; i++) {
-			String[] achievement = line[i].split("/");
+		for (String element : line) {
+			String[] achievement = element.split("/");
 			for(Achievement.Type type : Achievement.Type.values()){
 				if(type.toString().equals(achievement[0])) {
 					res.add(new Achievement(type, Integer.parseInt(achievement[1])));
@@ -431,7 +433,7 @@ public class DataManager{
 		}
 		return res;
 	}
-	
+
 	/**The output convention will have this example format: <strong>"MVP/2;CHEAPSKATE/4;BEGINNER/1"</strong>
 	 * The <strong>slash /</strong> divides the {@code Type} selection and the {@code times} from the {@code Achievement} class.
 	 * The <strong> ;</strong> divides the Achievements
@@ -448,7 +450,7 @@ public class DataManager{
 		}
 		return str;
 	}
-	
+
 	/**
 	 * This method will <strong>always</strong> synchronize the database
 	 * using the file as a safety measure. The database is the primary source
@@ -463,7 +465,7 @@ public class DataManager{
 			registeredMatches.addDataSet((Set<Match>)allData.get(1));
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private List<Set<?>> loadAllDataFromFile() {
 		File f = new File(filePath);
@@ -485,7 +487,7 @@ public class DataManager{
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Saves all data to a serialized file to sync with the database in case of necessity
 	 */
@@ -500,9 +502,9 @@ public class DataManager{
 		} catch (IOException e) {
 			logger.log(Level.WARNING, "Unable to save data to file");
 			e.printStackTrace();
-		}	
+		}
 	}
-	
+
 	//RECURSIVITY
 	public User getUserByEmail(String email) {
 	    List<User> list = new ArrayList<>(registeredUsers.getRegisteredData());
@@ -520,11 +522,11 @@ public class DataManager{
 	    if(foundUser != null) return foundUser;
 	    return recursiveFunction(list.subList(breakPoint + 1, list.size()), email);
 	}
-	
+
 	///////////////////////////////////////////////////
 	//**************** IMMUTABLE LIST *********************
 	///////////////////////////////////////////////////
-	
+
 	/**
 	 * Designed to handle any kind data of type T, similar to a HashSet
 	 * but ensuring only visualization of the data, only the DataManager is
@@ -532,33 +534,33 @@ public class DataManager{
 	 * @author KaRLiToS3.0
 	 */
 	public class ImmutableList <T> implements Iterable<T>{
-		
+
 		private Set<T> registeredData = new HashSet<>();
 
 		private void addObject(T object){
 			registeredData.add(object);
 		}
-		
+
 		private void removeObject(T object){
 			registeredData.remove(object);
 		}
-		
+
 		private void addImmutableList(ImmutableList<T> dataCollection) {
 			registeredData.addAll(dataCollection.getRegisteredData());
 		}
-		
+
 		private void addDataSet(Set<T> data) {
 			registeredData.addAll(data);
 		}
-		
+
 		public boolean containsObject(T object) {
 			return registeredData.contains(object);
-		}		
-		
+		}
+
 		public boolean isEmpty() {
 			return registeredData.isEmpty();
 		}
-		
+
 		public int size() {
 			return registeredData.size();
 		}
@@ -567,7 +569,7 @@ public class DataManager{
 		public Iterator<T> iterator() {
 			return registeredData.iterator();
 		}
-		
+
 		/**This method returns a copy of the data, so any changes made in this list
 		 * will not prevail in the database or in the files
 		 * @return A copy of the data

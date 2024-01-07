@@ -10,7 +10,7 @@ public class WarningPanel extends JOptionPane {
 
 	public WarningPanel(String message) {
 		showMessageDialog(null, message, "WARNING", WARNING_MESSAGE);
-		
+
 		this.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {

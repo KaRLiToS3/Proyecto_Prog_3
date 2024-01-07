@@ -11,14 +11,14 @@ public enum Property {
 	YELLOW("yellow"),
 	BROWN("brown"),
 	RED("red");
-	
+
 	private int basicRent;
 	private int houseRent;
 	private int hotelRent;
 	private int buyingCost;
 	private int houseCost;
 	private int hotelCost;
-	
+
 	private Property(String name) {
 		basicRent = getIntegerProperty(name + "_basicRent");
 		houseRent = getIntegerProperty(name + "_houseRent");
@@ -27,7 +27,7 @@ public enum Property {
 		houseCost = getIntegerProperty(name + "_basicRent");
 		hotelCost = getIntegerProperty(name + "_basicRent");
 	}
-	
+
 	public int getBasicRent() {
 		return basicRent;
 	}
@@ -64,7 +64,7 @@ public enum Property {
 	public void setHotelCost(int hotelCost) {
 		this.hotelCost = hotelCost;
 	}
-	
+
 	protected static int getIntegerProperty(String integerProp) {
 		return Integer.parseInt(DataManager.getInitializer().getProperty(integerProp));
 	}

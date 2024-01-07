@@ -17,19 +17,19 @@ public class Match implements Serializable{
 	private String name;
 	private Date date;
 	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
-	
+
 	public Match(Date date, String name, Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
 		this.name = name.strip();
 		this.date = date;
 		this.turnCurrencyPerUser = turnCurrencyPerUser;
 		usersEmails = new ArrayList<>(turnCurrencyPerUser.keySet());
 	}
-	
+
 	//Test data model
 	public Match() {
 		date = new Date();
 		name = "Test Match";
-		turnCurrencyPerUser = new HashMap<String, TreeMap<Integer, Integer>>();
+		turnCurrencyPerUser = new HashMap<>();
 		TreeMap<Integer, Integer> map1 = new TreeMap<>();
 		map1.put(1, 100);
 		map1.put(2, 200);
@@ -45,16 +45,16 @@ public class Match implements Serializable{
 		map3.put(2, 600);
 		map3.put(3, 200);
 		map3.put(4, 1000);
-		
+
 		User usr1 = new User("a", "a");
 		User usr2 = new User("b", "b");
 		User usr3 = new User("c", "c");
-		
+
 		usersEmails = new ArrayList<>();
 		usersEmails.add(usr1.getEmail());
 		usersEmails.add(usr2.getEmail());
 		usersEmails.add(usr3.getEmail());
-		
+
 		turnCurrencyPerUser.put(usr1.getEmail(), map1);
 		turnCurrencyPerUser.put(usr2.getEmail(), map2);
 		turnCurrencyPerUser.put(usr3.getEmail(), map3);
@@ -86,7 +86,7 @@ public class Match implements Serializable{
 	public void setTurnCurrencyPerUser(Map<String, TreeMap<Integer, Integer>> turnCurrencyPerUser) {
 		this.turnCurrencyPerUser = turnCurrencyPerUser;
 	}
-	
+
 	public String getDateAsString() {
 		return format.format(date);
 	}
@@ -108,5 +108,5 @@ public class Match implements Serializable{
 	public String toString() {
 		return name + "    " + format.format(date);
 	}
-	
+
 }

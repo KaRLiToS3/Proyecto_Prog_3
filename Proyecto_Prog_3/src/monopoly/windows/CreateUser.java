@@ -47,12 +47,12 @@ public class CreateUser extends MasterFrame{
 	private File ImageUser;
 	//Folder where the images are saved
 	private File destinationFolder = new File("data/UserImage");
-	
+
 	public CreateUser() {
 		//FONTS
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
 		Font TextFont = new Font("Arial Black", Font.ITALIC, 12);
-		
+
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(650,340);
@@ -63,7 +63,7 @@ public class CreateUser extends MasterFrame{
 		setTitle("CREATE NEW USER");
 		setLayout(new BorderLayout());
 		setVisible(true);
-		
+
 		JPanel JTitle = new JPanel();
 		JPanel LeftSide = new JPanel();
 		JPanel RightSide = new JPanel();
@@ -74,42 +74,42 @@ public class CreateUser extends MasterFrame{
 		this.add(JTitle,BorderLayout.NORTH);
 		this.add(Center,BorderLayout.CENTER);
 		this.add(Bottom,BorderLayout.SOUTH);
-		
+
 		//TITLE
 		JLabel Title = new JLabel("New user data");
 		Title.setFont(UserFont);
 		JTitle.add(Title);
-		
+
 		//LEFT SIDE
 		Center.add(LeftSide,BorderLayout.WEST);
 		JButton IUser = new JButton("Upload Image");
 		LeftSide.add(IUser);
 		IUser.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser ImageChooser = new JFileChooser();  
-	            // Only ".jpeg , .jpg , .png" extension 
-	            FileFilter ImageFilter = new FileNameExtensionFilter("JPEG, JPG, PNG Files", "jpeg", "jpg", "png");;
+				JFileChooser ImageChooser = new JFileChooser();
+	            // Only ".jpeg , .jpg , .png" extension
+	            FileFilter ImageFilter = new FileNameExtensionFilter("JPEG, JPG, PNG Files", "jpeg", "jpg", "png");
 	            ImageChooser.setFileFilter(ImageFilter);
 	            int result = ImageChooser.showSaveDialog(CreateUser.this);
 	            if (result == JFileChooser.APPROVE_OPTION) {
-	            	// Save the path for the moment 
+	            	// Save the path for the moment
 	               ImageFile = ImageChooser.getSelectedFile();
 	               ImageUser = new File(destinationFolder, ImageFile.getName());
 	            }
 			}
-			
+
 		});
-		
+
 		//RIGHT SIDE
 		//These button don't go here, but we need to use it for the document listener.
 		JButton createNewUser = new JButton("Create User");
 		createNewUser.setBackground(Color.GREEN);
-		
+
 		//I want to use the data that the user gives me, so i use a Map in order to later
 		//identified the JTextField that i need to use.
-		Center.add(RightSide,BorderLayout.EAST);		
+		Center.add(RightSide,BorderLayout.EAST);
 		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:","PASSWORD:","CODE:"};
 		Map<String, JTextField> textFieldMap = new HashMap<>();
 
@@ -118,11 +118,11 @@ public class CreateUser extends MasterFrame{
 		RightSide.add(FIELDS, BorderLayout.EAST);
 		HEADERS.setLayout(new GridLayout(HEADERSNAMES.length,1));
 		FIELDS.setLayout(new GridLayout(HEADERSNAMES.length,1));
-				
+
 		for (String elem: HEADERSNAMES) {
 			JLabel Name = new JLabel(elem);
 			Name.setFont(TextFont);
-			
+
 			//CREATING THE FIELDS, ADDING TO THE MAP AND PUTTING THEM IN FIELDS
 			if (elem.equals("PASSWORD:")) {
 				JPasswordField password = new JPasswordField(20);
@@ -133,11 +133,11 @@ public class CreateUser extends MasterFrame{
 				textFieldMap.put(elem, field);
 				FIELDS.add(field);
 			}
-			
+
 			//DOCUMENT LISTENER FOR EACH FIELD
 			for (JTextField Field:textFieldMap.values()) {
 				Field.getDocument().addDocumentListener(new DocumentListener() {
-					
+
 					@Override
 					public void removeUpdate(DocumentEvent e) {
 						for (JTextField fields: textFieldMap.values()) {
@@ -146,10 +146,10 @@ public class CreateUser extends MasterFrame{
 								break;
 							} else{
 								createNewUser.setEnabled(true);
-							};
+							}
 						}
 					}
-					
+
 					@Override
 					public void insertUpdate(DocumentEvent e) {
 						for (JTextField fields: textFieldMap.values()) {
@@ -158,10 +158,10 @@ public class CreateUser extends MasterFrame{
 								break;
 							} else{
 								createNewUser.setEnabled(true);
-							};
+							}
 						}
 					}
-					
+
 					@Override
 					public void changedUpdate(DocumentEvent e) {
 						for (JTextField fields: textFieldMap.values()) {
@@ -170,16 +170,16 @@ public class CreateUser extends MasterFrame{
 								break;
 							} else{
 								createNewUser.setEnabled(true);
-							};
-						} 		
+							}
+						}
 					}
 				});
 				//PUT THE HEADERS
 				HEADERS.add(Name);
 			}
-			
+
 		}
-		
+
 		//BOTTOM
 		Bottom.setLayout(new FlowLayout());
 		JButton cancelNewUser = new JButton("Cancel");
@@ -187,10 +187,10 @@ public class CreateUser extends MasterFrame{
 		Bottom.add(createNewUser);
 		Bottom.add(cancelNewUser);
 		createNewUser.setEnabled(false);
-		
+
 		//EVENTS
 		createNewUser.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Set<Achievement> list = new LinkedHashSet<>();
@@ -217,9 +217,9 @@ public class CreateUser extends MasterFrame{
 				}
 			}
 		});
-		
+
 		cancelNewUser.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int option = JOptionPane.showConfirmDialog(CreateUser.this, "Are you sure you want to cancel?","Confirmation",JOptionPane.YES_NO_OPTION);
@@ -228,10 +228,10 @@ public class CreateUser extends MasterFrame{
 					for (JTextField removeField: textFieldMap.values()) {
 						removeField.setText("");
 					}
-				} 
+				}
 			}
 		});
-		
+
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -242,12 +242,12 @@ public class CreateUser extends MasterFrame{
 			}
 		});
 	}
-	
+
 	@Override
 	public String windowName() {
 		return MasterFrame.CreateUser;
 	}
-	
+
 	public void saveImage() {
 		try {
      	   Files.copy(ImageFile.toPath(), ImageUser.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -259,6 +259,6 @@ public class CreateUser extends MasterFrame{
         }
         catch(IOException ex){
      	   logger.log(Level.SEVERE,"Error when copying file: " + ImageFile.toString());
-        };
+        }
 	}
 }

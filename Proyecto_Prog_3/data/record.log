@@ -1,2 +1,6 @@
-ene 08, 2024 3:48:04 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.windows.MainMenu   All existing JFrames were terminated
+ene 08, 2024 4:14:28 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   MainMenu running
+ene 08, 2024 4:14:28 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window building ended
+ene 08, 2024 4:14:50 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   All data was saved to the file successfully

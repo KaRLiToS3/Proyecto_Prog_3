@@ -42,7 +42,7 @@ public class DataManager{
 	private static final String propertyFile = Paths.get("data/configuration.properties").toAbsolutePath().toString();
 	private ImmutableList<User> registeredUsers = new ImmutableList<>();
 	private ImmutableList<Match> registeredMatches = new ImmutableList<>();
-	private static LogRecorder logger = new LogRecorder(DataManager.class);
+	private static LogRecorder logger = new LogRecorder();
 		
 	private Connection conn;
 	private static int userChoiceToContinue = JOptionPane.YES_OPTION;

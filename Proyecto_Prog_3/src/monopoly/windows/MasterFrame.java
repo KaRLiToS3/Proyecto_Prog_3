@@ -50,7 +50,7 @@ public abstract class MasterFrame extends JFrame{
 	protected static final String[] windowArray = {MainGameMenu, GameSettingsMenu, UserAchievementsMenu, MatchRecordMenu, UsersMenu,
 			HelpMenu, CreditsMenu, PasswordVerification};
 	
-	protected LogRecorder logger = new LogRecorder(this.getClass());
+	protected static LogRecorder logger = new LogRecorder();
 	
 	/**
 	 *Class specially designed to draw images into panels
@@ -244,8 +244,7 @@ public abstract class MasterFrame extends JFrame{
 	public static void disposeAllFrames() {
 		for(JFrame jfr : windowRefs.values()) {
 			jfr.dispose();
-			LogRecorder lg = new LogRecorder(jfr.getClass());
-			lg.log(Level.INFO, "All existing JFrames were terminated");
+			logger.log(Level.INFO, "All existing JFrames were terminated");
 		}
 	}
 	
@@ -254,8 +253,7 @@ public abstract class MasterFrame extends JFrame{
 			if( jfr instanceof Updatable) {
 				Updatable upd = (Updatable) jfr;
 				upd.updateAllData();
-				LogRecorder lg = new LogRecorder(jfr.getClass());
-				lg.log(Level.INFO, "Data updated in " + jfr.getName());
+				logger.log(Level.INFO, "Data updated in " + jfr.getName());
 			}
 		}
 	}

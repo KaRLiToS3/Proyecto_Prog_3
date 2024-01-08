@@ -14,7 +14,7 @@ import org.junit.Test;
 import monopoly.data.LogRecorder;
 
 public class GraphFactory {
-	private static LogRecorder logger = new LogRecorder(GraphFactory.class.getClass());
+	private static LogRecorder logger = new LogRecorder();
 	
 	/**This method creates a line graph using the JFreeChart library, in case it is to be displayed in a window, a ChartPanel shall be required
 	 * @param graphTitle	The 

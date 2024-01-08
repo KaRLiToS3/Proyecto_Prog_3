@@ -1,7 +1,6 @@
 package monopoly.data;
 
 import java.sql.*;
-import java.text.FieldPosition;
 import java.text.ParseException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,11 +9,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -215,7 +212,6 @@ public class DataManager{
 		try {
 			uploadUsers();
 			uploadMatches();
-//			saveMatch(new Match());
 			disconnect();
 		}catch (SQLException e) {
 			userChoiceToContinue = JOptionPane.showConfirmDialog(null, 

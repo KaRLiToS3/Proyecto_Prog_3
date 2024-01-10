@@ -70,19 +70,15 @@ import monopoly.objects.User;
 public class MainGameMenu extends MasterFrame {
 	private static final long serialVersionUID = 1L;
 	
-
 	private static Font font1 = new Font("Arial Black", Font.BOLD, 24);
 	private static Font font2 = new Font("Arial Black", Font.PLAIN, 16);
 	private static Font font3 = new Font("Arial Black", Font.PLAIN, 12);
-
-
 	
 	private final URL boardPath = getClass().getResource(getStringProperty("board_img"));
 	private final URL dicePath = getClass().getResource(getStringProperty("dice_img"));
 	public static final Dimension defaultWindowDimension = getDimensionProperty("mainGameMenuSizeX", "mainGameMenuSizeY");
 	private static String cellPositionsPath = Paths.get(getStringProperty("cellPositions1")).toAbsolutePath().toString();
 	private static String cellPricesPath = Paths.get(getStringProperty("cellPrices")).toAbsolutePath().toString();
-	
 	
 	// cell position setter
 	/////////////
@@ -112,7 +108,7 @@ public class MainGameMenu extends MasterFrame {
 	Random dice = new Random();
 	
 	public MainGameMenu() {
-		
+		System.out.println("New window");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(defaultWindowDimension);
 		setMinimumSize(defaultWindowDimension);
@@ -502,15 +498,7 @@ public class MainGameMenu extends MasterFrame {
 			tokenList.add(new Token(defaultColors[i], boardPanel));
 			moneyLabels[i].setForeground(tokenList.get(i).getColor());
 		}
-//		tokenList.add(new Token(Color.RED, boardPanel));
-//		tokenList.add(new Token(Color.GREEN, boardPanel));
-//		tokenList.add(new Token(Color.BLUE, boardPanel, 0));
-//		tokenList.add(new Token(Color.YELLOW, boardPanel, 0));
-		
-//		money0.setForeground(tokenList.get(0).getColor());
-//		money1.setForeground(tokenList.get(1).getColor());
-//		money2.setForeground(tokenList.get(2).getColor());
-//		money3.setForeground(tokenList.get(3).getColor());
+
 		updateMoney();
 
 		// -------------tryin token in each cell----------------------

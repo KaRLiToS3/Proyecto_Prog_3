@@ -219,8 +219,7 @@ public abstract class MasterFrame extends JFrame{
 	 */
 	protected void switchToNextWindow(String nextWindowName) {
 		SwingUtilities.invokeLater(() -> {
-			saveWindowReference(windowName(), this);
-			
+			saveWindowReference(windowName(), this);	
 			if(!isReferenceInMemory(nextWindowName)) {
 				try {
 					Class<?> clazz = Class.forName(nextWindowName);

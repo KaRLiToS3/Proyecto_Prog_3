@@ -1,20 +1,50 @@
-ene 10, 2024 7:33:37 P. M. monopoly.data.LogRecorder log
+ene 10, 2024 7:45:08 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   MainMenu running
-ene 10, 2024 7:33:37 P. M. monopoly.data.LogRecorder log
+ene 10, 2024 7:45:09 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   Window building ended
-ene 10, 2024 7:33:38 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.MainMenu with value monopoly.windows.MainMenu[frame0,268,58,1000x700,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,986x663,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@6857b65f,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-ene 10, 2024 7:33:39 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.CreditsMenu was created
-ene 10, 2024 7:33:59 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.CreditsMenu with value monopoly.windows.CreditsMenu[frame1,468,83,600x650,invalid,hidden,layout=java.awt.BorderLayout,title=,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,586x613,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@248bd2a8,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-ene 10, 2024 7:33:59 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainMenu is visible
-ene 10, 2024 7:33:59 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.CreditsMenu is not visible
-ene 10, 2024 7:34:01 P. M. monopoly.data.LogRecorder log
+ene 10, 2024 7:45:28 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.MainMenu with value monopoly.windows.MainMenu[frame0,334,115,1000x700,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,986x663,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@47dd61ac,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+ene 10, 2024 7:45:28 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.UsersMenu was created
+ene 10, 2024 7:45:29 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.UsersMenu with value monopoly.windows.UsersMenu[frame1,368,108,800x600,invalid,layout=java.awt.BorderLayout,title=USERS,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,786x563,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@687bd7cd,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+ene 10, 2024 7:45:29 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.CreateUser was created
+ene 10, 2024 7:45:32 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   New User created
+ene 10, 2024 7:45:33 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.CreateUser with value monopoly.windows.CreateUser[frame2,518,248,500x320,invalid,hidden,layout=java.awt.BorderLayout,title=CREATE NEW USER,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,486x283,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@42c5a66e,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+ene 10, 2024 7:45:33 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.UsersMenu is visible
+ene 10, 2024 7:45:33 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.CreateUser is not visible
+ene 10, 2024 7:45:34 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All data was saved to the file successfully
-ene 10, 2024 7:34:01 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
-ene 10, 2024 7:34:01 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
+ene 10, 2024 7:45:34 P. M. monopoly.data.LogRecorder log
+ADVERTENCIA: monopoly.data.LogRecorder   Window with monopoly.windows.UsersMenu was already saved
+ene 10, 2024 7:45:34 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainMenu is visible
+ene 10, 2024 7:45:34 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.UsersMenu is not visible
+ene 10, 2024 7:45:35 P. M. monopoly.data.LogRecorder log
+ADVERTENCIA: monopoly.data.LogRecorder   Window with monopoly.windows.MainMenu was already saved
+ene 10, 2024 7:45:36 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.UserAchievementsMenu was created
+ene 10, 2024 7:47:00 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.UserAchievementsMenu with value monopoly.windows.UserAchievementsMenu[frame3,469,68,800x700,invalid,hidden,layout=java.awt.BorderLayout,title=USER ACHIEVEMENTS MENU,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,786x663,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@374d7738,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+ene 10, 2024 7:47:00 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainMenu is visible
+ene 10, 2024 7:47:00 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.UserAchievementsMenu is not visible
+ene 10, 2024 7:47:01 P. M. monopoly.data.LogRecorder log
+ADVERTENCIA: monopoly.data.LogRecorder   Window with monopoly.windows.MainMenu was already saved
+ene 10, 2024 7:47:01 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.UserAchievementsMenu is visible
+ene 10, 2024 7:47:01 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainMenu is not visible
+ene 10, 2024 7:47:04 P. M. monopoly.data.LogRecorder log
+ADVERTENCIA: monopoly.data.LogRecorder   Window with monopoly.windows.UserAchievementsMenu was already saved
+ene 10, 2024 7:47:04 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainMenu is visible
+ene 10, 2024 7:47:04 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.UserAchievementsMenu is not visible

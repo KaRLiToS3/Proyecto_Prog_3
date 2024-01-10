@@ -1,7 +1,6 @@
 package monopoly.data;
 
 import java.sql.*;
-import java.text.FieldPosition;
 import java.text.ParseException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,11 +9,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -45,7 +42,7 @@ public class DataManager{
 	private static final String propertyFile = Paths.get("data/configuration.properties").toAbsolutePath().toString();
 	private ImmutableList<User> registeredUsers = new ImmutableList<>();
 	private ImmutableList<Match> registeredMatches = new ImmutableList<>();
-	private static LogRecorder logger = new LogRecorder(DataManager.class);
+	private static LogRecorder logger = new LogRecorder();
 		
 	private Connection conn;
 	private static int userChoiceToContinue = JOptionPane.YES_OPTION;
@@ -215,7 +212,6 @@ public class DataManager{
 		try {
 			uploadUsers();
 			uploadMatches();
-//			saveMatch(new Match());
 			disconnect();
 		}catch (SQLException e) {
 			userChoiceToContinue = JOptionPane.showConfirmDialog(null, 
@@ -348,7 +344,11 @@ public class DataManager{
 				prepStmt.setString(2, user.getName());
 				prepStmt.setString(3, user.getAlias());
 				prepStmt.setString(4, user.getPassword());
-				prepStmt.setString(5, null);
+				if (user.getImage() != null) {
+					prepStmt.setString(5, user.getImage().toString());
+				} else {
+					prepStmt.setString(5, null);
+				}
 				prepStmt.setString(6, convertAchievementSetToString(user.getAchievements()));
 				prepStmt.executeUpdate();
 				prepStmt.close();

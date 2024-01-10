@@ -29,7 +29,7 @@ public class Main {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			LogRecorder logger = new LogRecorder(Main.class);
+			LogRecorder logger = new LogRecorder();
 			logger.log(Level.SEVERE, "LookAndFeel was not found");
 		}
 	}

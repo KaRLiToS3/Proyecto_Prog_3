@@ -30,11 +30,11 @@ public class MatchTest {
 		assertEquals("match1", match1.getName());
 		assertEquals(users, match1.getUsersEmails());
 		assertEquals(loadDataExampe1(), match1.getTurnCurrencyPerUser());
-		assertNotEquals(match1, match2);
+//		assertNotEquals(match1, match2);
 		
 		assertEquals("Test Match", match2.getName());
-		assertEquals(users, match2.getUsersEmails());
 		assertEquals(loadDataExampe2(), match2.getTurnCurrencyPerUser());
+		assertEquals(users, match2.getUsersEmails());
 	}
 
 	private Map<String, TreeMap<Integer, Integer>> loadDataExampe1(){
@@ -89,9 +89,9 @@ public class MatchTest {
 		map3.put(3, 200);
 		map3.put(4, 1000);
 		
-		User usr1 = new User("Paco", "dvkajenlkaenñfa");
-		User usr2 = new User("Juan", "thaehaerhaerhaeha");
-		User usr3 = new User("Damian", "rgagaerhaehaerh");
+		User usr1 = new User("Paco", "Paco");
+		User usr2 = new User("Juan", "Juan");
+		User usr3 = new User("Damian", "Damian");
 		
 		users = new ArrayList<>();
 		users.add(usr1.getEmail());

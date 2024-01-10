@@ -34,7 +34,7 @@ public class MainMenu extends MasterFrame {
 	private final URL path3 = getClass().getResource(getStringProperty("right_image_menu"));
 	private final URL path4 = getClass().getResource(getStringProperty("cash_bg"));
 	
-//	//TEST MAIN
+	//TEST MAIN
 //	public static void main(String[] args) {
 //		SwingUtilities.invokeLater(() -> new MainMenu());
 //	}

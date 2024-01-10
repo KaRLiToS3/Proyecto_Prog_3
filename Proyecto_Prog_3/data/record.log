@@ -1,6 +1,20 @@
-ene 08, 2024 4:14:28 P. M. monopoly.data.LogRecorder log
+ene 10, 2024 7:33:37 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   MainMenu running
-ene 08, 2024 4:14:28 P. M. monopoly.data.LogRecorder log
+ene 10, 2024 7:33:37 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   Window building ended
-ene 08, 2024 4:14:50 P. M. monopoly.data.LogRecorder log
+ene 10, 2024 7:33:38 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.MainMenu with value monopoly.windows.MainMenu[frame0,268,58,1000x700,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,986x663,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@6857b65f,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+ene 10, 2024 7:33:39 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.CreditsMenu was created
+ene 10, 2024 7:33:59 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.CreditsMenu with value monopoly.windows.CreditsMenu[frame1,468,83,600x650,invalid,hidden,layout=java.awt.BorderLayout,title=,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,586x613,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@248bd2a8,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+ene 10, 2024 7:33:59 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainMenu is visible
+ene 10, 2024 7:33:59 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.CreditsMenu is not visible
+ene 10, 2024 7:34:01 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All data was saved to the file successfully
+ene 10, 2024 7:34:01 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
+ene 10, 2024 7:34:01 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated

@@ -47,7 +47,10 @@ public class CreateUser extends MasterFrame{
 	private File ImageUser;
 	//Folder where the images are saved
 	private File destinationFolder = new File("data/UserImage");
-
+	
+	Color BackgroundColor = Color.GRAY;
+	Color JLabelColor = Color.WHITE;
+	
 	public CreateUser() {
 		//FONTS
 		Font UserFont = new Font("Arial Black", Font.BOLD, 24);
@@ -65,62 +68,53 @@ public class CreateUser extends MasterFrame{
 		setVisible(true);
 
 		JPanel JTitle = new JPanel();
-		JPanel LeftSide = new JPanel();
-		JPanel RightSide = new JPanel();
+		JPanel CenterContainer = new JPanel();
 		JPanel Bottom = new JPanel();
 		JPanel HEADERS = new JPanel();
 		JPanel FIELDS = new JPanel();
 		JPanel Center = new JPanel();
+		JPanel leftButtons = new JPanel();
+		JPanel rightButtons = new JPanel();
+		
+		JTitle.setBackground(BackgroundColor);
+		CenterContainer.setBackground(BackgroundColor);
+		Bottom.setBackground(BackgroundColor);
+		HEADERS.setBackground(BackgroundColor);
+		FIELDS.setBackground(BackgroundColor);
+		Center.setBackground(BackgroundColor);
+		leftButtons.setBackground(BackgroundColor);
+		rightButtons.setBackground(BackgroundColor);
+		
 		this.add(JTitle,BorderLayout.NORTH);
 		this.add(Center,BorderLayout.CENTER);
 		this.add(Bottom,BorderLayout.SOUTH);
 
 		//TITLE
 		JLabel Title = new JLabel("New user data");
+		Title.setForeground(JLabelColor);
 		Title.setFont(UserFont);
 		JTitle.add(Title);
-
-		//LEFT SIDE
-		Center.add(LeftSide,BorderLayout.WEST);
-		JButton IUser = new JButton("Upload Image");
-		LeftSide.add(IUser);
-		IUser.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser ImageChooser = new JFileChooser();
-	            // Only ".jpeg , .jpg , .png" extension
-	            FileFilter ImageFilter = new FileNameExtensionFilter("JPEG, JPG, PNG Files", "jpeg", "jpg", "png");
-	            ImageChooser.setFileFilter(ImageFilter);
-	            int result = ImageChooser.showSaveDialog(CreateUser.this);
-	            if (result == JFileChooser.APPROVE_OPTION) {
-	            	// Save the path for the moment
-	               ImageFile = ImageChooser.getSelectedFile();
-	               ImageUser = new File(destinationFolder, ImageFile.getName());
-	            }
-			}
-
-		});
-
-		//RIGHT SIDE
+		
+		//CENTER
 		//These button don't go here, but we need to use it for the document listener.
 		JButton createNewUser = new JButton("Create User");
 		createNewUser.setBackground(Color.GREEN);
 
 		//I want to use the data that the user gives me, so i use a Map in order to later
 		//identified the JTextField that i need to use.
-		Center.add(RightSide,BorderLayout.EAST);
+		Center.add(CenterContainer,BorderLayout.CENTER);
 		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:","PASSWORD:","CODE:"};
 		Map<String, JTextField> textFieldMap = new HashMap<>();
 
-		RightSide.setLayout(new GridLayout(1,2));
-		RightSide.add(HEADERS, BorderLayout.WEST);
-		RightSide.add(FIELDS, BorderLayout.EAST);
+		CenterContainer.setLayout(new GridLayout(1,2));
+		CenterContainer.add(HEADERS, BorderLayout.WEST);
+		CenterContainer.add(FIELDS, BorderLayout.EAST);
 		HEADERS.setLayout(new GridLayout(HEADERSNAMES.length,1));
 		FIELDS.setLayout(new GridLayout(HEADERSNAMES.length,1));
 
 		for (String elem: HEADERSNAMES) {
 			JLabel Name = new JLabel(elem);
+			Name.setForeground(JLabelColor);
 			Name.setFont(TextFont);
 
 			//CREATING THE FIELDS, ADDING TO THE MAP AND PUTTING THEM IN FIELDS
@@ -181,14 +175,48 @@ public class CreateUser extends MasterFrame{
 		}
 
 		//BOTTOM
-		Bottom.setLayout(new FlowLayout());
+		Bottom.setLayout(new GridLayout(1, 2));
+		rightButtons.setLayout(new FlowLayout());
+		//Button for cancel
 		JButton cancelNewUser = new JButton("Cancel");
 		cancelNewUser.setBackground(Color.RED);
-		Bottom.add(createNewUser);
-		Bottom.add(cancelNewUser);
+		
+		//Button for user image
+		JButton IUser = new JButton("Upload Image");
+		
+		//ORDER
+		leftButtons.add(IUser);
+		
+		rightButtons.add(createNewUser);
+		rightButtons.add(cancelNewUser);
+		
+		Bottom.add(leftButtons);
+		Bottom.add(rightButtons);
+		
 		createNewUser.setEnabled(false);
+		
+			
+		
 
-		//EVENTS
+		//EVENTS		
+		IUser.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser ImageChooser = new JFileChooser();
+	            // Only ".jpeg , .jpg , .png" extension
+	            FileFilter ImageFilter = new FileNameExtensionFilter("JPEG, JPG, PNG Files", "jpeg", "jpg", "png");
+	            ImageChooser.setFileFilter(ImageFilter);
+	            int result = ImageChooser.showSaveDialog(CreateUser.this);
+	            if (result == JFileChooser.APPROVE_OPTION) {
+	            	// Save the path for the moment
+	               ImageFile = ImageChooser.getSelectedFile();
+	               ImageUser = new File(destinationFolder, ImageFile.getName());
+	            }
+			}
+
+		});
+		
 		createNewUser.addActionListener(new ActionListener() {
 
 			@Override

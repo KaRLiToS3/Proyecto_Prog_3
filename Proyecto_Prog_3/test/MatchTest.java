@@ -31,13 +31,7 @@ public class MatchTest {
 		assertEquals("match1", match1.getName());
 		assertEquals(users, match1.getUsersEmails());
 		assertEquals(loadDataExampe1(), match1.getTurnCurrencyPerUser());
-<<<<<<< HEAD
 		assertNotEquals(match1, match2);
-
-=======
-//		assertNotEquals(match1, match2);
-		
->>>>>>> branch 'master' of https://github.com/KaRLiToS3/Proyecto_Prog_3.git
 		assertEquals("Test Match", match2.getName());
 		assertEquals(loadDataExampe2(), match2.getTurnCurrencyPerUser());
 		assertEquals(users, match2.getUsersEmails());

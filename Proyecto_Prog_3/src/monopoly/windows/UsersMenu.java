@@ -11,7 +11,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Level;
 
+import javax.sound.midi.Patch;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -79,7 +88,7 @@ public class UsersMenu extends MasterFrame{
 		}
 
 		DefaultTableModel tableModel = new MyTableModel();
-		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:"};
+		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:","IMAGES:"};
 		for (String values : HEADERSNAMES) {
 			tableModel.addColumn(values);
 		}
@@ -101,17 +110,45 @@ public class UsersMenu extends MasterFrame{
 			@Override
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 					boolean hasFocus, int row, int column) {
-				String strCell = value.toString();
-				setText(strCell);
-				String searchText = SearchUser.getText();
-				if (column == 0) {
-					if (!searchText.isEmpty() && strCell.toLowerCase().startsWith(SearchUser.getText().toLowerCase())) {
-						setBackground(Color.LIGHT_GRAY);
-						setFont(new Font("Arial", Font.BOLD, 12));
-					} else {
-						setBackground(Color.WHITE);
-						setFont(new Font("Arial", Font.PLAIN, 12));
+				
+				if (column != 3) {
+					String strCell = value.toString();
+					setText(strCell);
+					String searchText = SearchUser.getText();
+					if (column == 0) {
+						if (!searchText.isEmpty() && strCell.toLowerCase().startsWith(SearchUser.getText().toLowerCase())) {
+							setBackground(Color.LIGHT_GRAY);
+							setFont(new Font("Arial", Font.BOLD, 12));
+						} else {
+							setBackground(Color.WHITE);
+							setFont(new Font("Arial", Font.PLAIN, 12));
+						}
 					}
+				}
+				
+				if (column == 3) {
+//					JLabel image = new JLabel();
+					if (value != null) {
+						File imageFile = (File) value;
+						URL imageURL;
+						try {
+							imageURL = imageFile.toURI().toURL();
+							PanelImageBuilder imagePanel = new PanelImageBuilder(imageURL, 1d);
+							return imagePanel;
+							//this.add(imagePanel);
+						} catch (MalformedURLException e) {
+							logger.log(Level.SEVERE, "Error when displaying image: " + imageFile);
+						}
+//						Path filePath = Paths.get(imageFile);
+//						Icon userIm = new ImageIcon(imageFile);
+//						setIcon(userIm);
+//						image.setIcon(userIm);
+//						logger.log(Level.SEVERE, "Error");
+					} else {
+//						image.setText("Without image");
+						setText("Without image");
+					}
+//					this.add(image);
 				}
 				if (hasFocus) {
 					setBackground(Color.LIGHT_GRAY);
@@ -159,8 +196,16 @@ public class UsersMenu extends MasterFrame{
 				tableModel.setRowCount(0);
 				//AddUsers
 				for (User user: DataManager.getManager().getRegisteredUsers()) {
-					Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
-					tableModel.addRow(UserRow);
+					if (user.getImage() != null){
+						Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail(),user.getImage()};
+						tableModel.addRow(UserRow);
+						logger.log(Level.SEVERE, "Image charged: " + user.getImage().getPath());
+					} else {
+						Object[] UserRow = {user.getAlias(),user.getName(),user.getEmail()};
+						tableModel.addRow(UserRow);
+					}
+					
+					
 				}
 			}
 		});

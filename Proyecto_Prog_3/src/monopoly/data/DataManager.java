@@ -255,8 +255,16 @@ public class DataManager{
 			String Password = rs.getString("PASSWORD");
 			String Achievements = rs.getString("ACHIEVEMENTS");
 			Set<Achievement> setAch = convertStringToAchievementSet(Achievements);
-			User usr = new User(Name, Email, Password, Alias, setAch);
-			registeredUsers.addObject(usr);
+			try {
+				String Image = rs.getString("IMAGE");
+				File imageFile = new File(Image);
+				User usr = new User(Name, Email, Password, Alias, imageFile, setAch);
+				registeredUsers.addObject(usr);
+			} catch (NullPointerException e) {
+				// If the User don't have image
+				User usr = new User(Name, Email, Password, Alias, setAch);
+				registeredUsers.addObject(usr);
+			}
 		}
 		stmt.close();
 		rs.close();

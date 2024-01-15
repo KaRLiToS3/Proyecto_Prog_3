@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 
 import javax.sound.midi.Patch;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -123,6 +125,10 @@ public class UsersMenu extends MasterFrame{
 
 		JScrollPane scrollTable = new JScrollPane(table);
 		C.add(scrollTable);
+		
+		//BORDER
+		Border border = BorderFactory.createLineBorder(Color.DARK_GRAY, 3, true);
+		scrollTable.setBorder(border);
 
 		class MyCellRenderer extends JLabel implements TableCellRenderer{
 

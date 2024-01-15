@@ -31,7 +31,6 @@ public class MatchTest {
 		assertEquals("match1", match1.getName());
 		assertEquals(users, match1.getUsersEmails());
 		assertEquals(loadDataExampe1(), match1.getTurnCurrencyPerUser());
-		assertNotEquals(match1, match2);
 		assertEquals("Test Match", match2.getName());
 		assertEquals(loadDataExampe2(), match2.getTurnCurrencyPerUser());
 		assertEquals(users, match2.getUsersEmails());

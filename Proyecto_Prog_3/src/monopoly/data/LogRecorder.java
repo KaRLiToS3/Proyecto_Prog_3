@@ -11,17 +11,19 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 public class LogRecorder{
-	public Logger logger;
+	public static Logger logger;
 	private Path setupPath = Paths.get("data/loggerSetup.properties").toAbsolutePath();
 	private Path loggerLocation = Paths.get("data/record.log").toAbsolutePath();
-
-	public LogRecorder(Class<?> clazz) {
-		logger = Logger.getLogger(clazz.getName());
-		try (InputStream file = Files.newInputStream(setupPath)){
-			LogManager.getLogManager().readConfiguration(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-			 logger.log(Level.SEVERE, "Unable to read the file");
+	
+	public LogRecorder() {
+		if(logger == null) {			
+			logger = Logger.getLogger(LogRecorder.class.getName());
+			try (InputStream file = Files.newInputStream(setupPath)){
+				LogManager.getLogManager().readConfiguration(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+				logger.log(Level.SEVERE, "Unable to read the file");
+			}
 		}
 	}
 

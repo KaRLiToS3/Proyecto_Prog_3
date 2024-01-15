@@ -1,5 +1,6 @@
 package monopoly.objects;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -8,6 +9,8 @@ import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import org.bouncycastle.oer.its.ieee1609dot2.Opaque;
 
 import monopoly.windows.MainGameMenu;
 
@@ -20,47 +23,57 @@ public class Cell extends JComponent{
 
 	private int x;
 	private int y;
+	Color color;
+	int width;
+	int height;
 	double perX;
 	double perY;
 	JPanel panel;
+	String name;
 	private int cellNumber;
-
-	private final static int cellWidth = 30;
-	private final static int cellHeight = 40;
-
-
 
 	static int counter = 0;
 	public static final List<double[]> cellPositionList = new ArrayList<>();
-
-//	public Cell(int x, int y, Dimension defaultWindowDimension, Dimension actualWindowDimension) {
-//		this.x = (int) (x * ( defaultWindowDimension.getWidth() / actualWindowDimension.getWidth()));
-//		this.y = (int) (y * ( defaultWindowDimension.getHeight() / actualWindowDimension.getHeight()));
-//		this.cellNumber = counter;
-//		counter++;
-//	}
-
-
-
-	public Cell(double perX, double perY, JPanel panel) {
+	
+	public enum CellType {
+		Property(30,40),
+		Start(50,50),
+		Free(50,50),
+		Gojail(50,50),
+		Jail(50,50),
+		Tax(40,40),
+		Train(40,40),
+		Utility(40,40),
+		Chest(40,40),
+		Chance(40,40);
+		
+		
+		int width;
+		int height;
+		
+		private CellType(int w, int h) {
+			width=w;
+			height=h;
+		}
+	}
+	
+	CellType cType;
+	
+	
+	public Cell(double perX, double perY, CellType type, String name, JPanel panel) {
 		this.perX = perX;
 		this.perY = perY;
 		this.panel = panel;
 		this.cellNumber = counter;
+		this.cType=type;
+		this.width=type.width;
+		this.height=type.height;
+		this.color=Color.black;
+		this.name=name;
 		setX((int)(this.getPerX()*this.getPanel().getWidth()));
 		setY((int)(this.getPerY()*this.getPanel().getWidth()));
 		counter++;
 	}
-
-//	public Cell(double perX, double perY, JPanel panel) {
-//		this.x = (int)(perX*panel.getWidth());
-//		this.y = (int)(perY*panel.getHeight());
-//		this.cellNumber = counter;
-////		this.panel = panel;
-//		counter++;
-//	}
-
-
 
 	@Override
 	public int getX() {
@@ -100,14 +113,28 @@ public class Cell extends JComponent{
 	public void setPanel(JPanel panel) {
 		this.panel = panel;
 	}
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 
-	@Override
 	public int getWidth() {
-		return (int)(cellWidth*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
+		return (int)(width*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
 	}
 	@Override
 	public int getHeight() {
-		return (int)(cellHeight*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
+		return (int)(height*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
+	}
+	public CellType getcType() {
+		return cType;
 	}
 
 	// Corner getters
@@ -137,10 +164,15 @@ public class Cell extends JComponent{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		Graphics2D graphics2d = (Graphics2D) g;
-
-		graphics2d.fillRect(getX(), getY(), getWidth(), getHeight());
+		
+		if (!getColor().equals(Color.black)) {
+			Graphics2D graphics2d = (Graphics2D) g;
+			
+			graphics2d.setColor(getColor());
+			graphics2d.fillRect(getX(), getY(), getWidth(), getHeight());
+			graphics2d.setColor(Color.black);
+			graphics2d.drawRect(getX(), getY(), getWidth(), getHeight());
+		}
 	}
 
 
@@ -148,10 +180,6 @@ public class Cell extends JComponent{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "x: "+getX()+", y: "+getY();
+		return getName()+" Selling Price: "+getX()+", Current Rent: "+getY();
 	}
-
-
-
-
 }

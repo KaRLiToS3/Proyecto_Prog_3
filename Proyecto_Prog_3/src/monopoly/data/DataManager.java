@@ -1,5 +1,7 @@
 package monopoly.data;
 
+import java.sql.*;
+import java.text.ParseException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -47,8 +49,7 @@ public class DataManager{
 	private static final String propertyFile = Paths.get("data/configuration.properties").toAbsolutePath().toString();
 	private ImmutableList<User> registeredUsers = new ImmutableList<>();
 	private ImmutableList<Match> registeredMatches = new ImmutableList<>();
-	private static LogRecorder logger = new LogRecorder(DataManager.class);
-
+	private static LogRecorder logger = new LogRecorder();
 	private Connection conn;
 	private static int userChoiceToContinue = JOptionPane.YES_OPTION;
 	private static String driver = getInitializer().getProperty("driver");
@@ -217,7 +218,6 @@ public class DataManager{
 		try {
 			uploadUsers();
 			uploadMatches();
-//			saveMatch(new Match());
 			disconnect();
 		}catch (SQLException e) {
 			userChoiceToContinue = JOptionPane.showConfirmDialog(null,

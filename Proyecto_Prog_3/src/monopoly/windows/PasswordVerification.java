@@ -25,7 +25,7 @@ public class PasswordVerification extends MasterFrame{
 	private User user = ((UsersMenu) returnWindow(MasterFrame.UsersMenu)).getSelectedUser();
 	private JLabel label;
 	private static final Dimension frameSize = getDimensionProperty("passwordVerificationSizeX", "passwordVerificationSizeY");
-	
+
 	public PasswordVerification(){
 		// user = ((UsersMenu) returnWindow(MasterFrame.UsersMenu)).getSelectedUser();
         // Configuración de la ventana principal
@@ -35,13 +35,13 @@ public class PasswordVerification extends MasterFrame{
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
-        
+
         //Components
         label = new JLabel("Insert the password for " + user.getAlias() + ":");
         label.setFont(new Font("Arial Black", Font.BOLD, 12));
         JPasswordField passwordField = new JPasswordField(20);
         JButton verification = new JButton("Accept");
-        
+
         //Add to windows
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2,1));
@@ -53,10 +53,10 @@ public class PasswordVerification extends MasterFrame{
         DownPanel.add(passwordField);
         DownPanel.add(verification);
         add(panel);
-        
+
         //Listeners
         verification.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(user.getPassword().equals(new String(passwordField.getPassword()))) {
@@ -64,17 +64,17 @@ public class PasswordVerification extends MasterFrame{
 					if (user.getImage() != null) {
 						int counter = 0;
 						for (User sameUserImage : DataManager.getManager().getRegisteredUsers()) {
-							// Check if the deleted user's image is repeated 
+							// Check if the deleted user's image is repeated
 							try {
 								if (sameUserImage.getImage().equals(user.getImage())){
-									// We count 2 because 1 is the same user and it is enough with a repetition to not delete the file 
+									// We count 2 because 1 is the same user and it is enough with a repetition to not delete the file
 									if (counter<2) {
 										counter++;
-									}	
-								}	
+									}
+								}
 							}catch(NullPointerException e1) {
 								// This catch is here because there are some users without an image
-							}		
+							}
 						}
 						if (counter < 2) {
 							// Here the image is deleted
@@ -98,14 +98,14 @@ public class PasswordVerification extends MasterFrame{
 				passwordField.setText("");
 			}
 		});
-        
+
         this.addWindowListener(new WindowAdapter() {
-			
+
 			@Override
 			public void windowActivated(WindowEvent e) {
 				updateLabelText();
 			}
-			
+
 			@Override
             public void windowClosing(WindowEvent e) {
                 switchToNextWindow(MasterFrame.UsersMenu);
@@ -118,7 +118,7 @@ public class PasswordVerification extends MasterFrame{
 		// TODO Auto-generated method stub
 		return MasterFrame.PasswordVerification;
 	}
-	
+
 	private void updateLabelText() {
         user = ((UsersMenu) returnWindow(MasterFrame.UsersMenu)).getSelectedUser();
         label.setText("Insert the password for " + user.getAlias() + ":");

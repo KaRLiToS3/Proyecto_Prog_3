@@ -1,27 +1,21 @@
 package monopoly.objects;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Point;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import org.bouncycastle.oer.its.ieee1609dot2.Opaque;
 
 import monopoly.windows.MainGameMenu;
 
 public class Cell extends JComponent{
 	private static final long serialVersionUID = 1L;
-	
+
 	private int x;
 	private int y;
 	Color color;
@@ -33,9 +27,6 @@ public class Cell extends JComponent{
 	String name;
 	private int cellNumber;
 
-
-	
-	
 	static int counter = 0;
 	public static final List<double[]> cellPositionList = new ArrayList<>();
 	
@@ -79,9 +70,11 @@ public class Cell extends JComponent{
 		counter++;
 	}
 
+	@Override
 	public int getX() {
 		return x;
 	}
+	@Override
 	public int getY() {
 		return y;
 	}
@@ -131,16 +124,15 @@ public class Cell extends JComponent{
 	public int getWidth() {
 		return (int)(width*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
 	}
+	@Override
 	public int getHeight() {
 		return (int)(height*(getPanel().getWidth()/MainGameMenu.defaultWindowDimension.getWidth()));
 	}
 	public CellType getcType() {
 		return cType;
 	}
-	
-	
+
 	// Corner getters
-	
 
 	public Point getTopLeft() {
 		return new Point(getX(), getY());
@@ -161,8 +153,8 @@ public class Cell extends JComponent{
 		setX((int)(this.getPerX()*this.getPanel().getWidth()));
 		setY((int)(this.getPerY()*this.getPanel().getWidth()));
 	}
-	
-	
+
+
 
 	@Override
 	public void paintComponent(Graphics g) {

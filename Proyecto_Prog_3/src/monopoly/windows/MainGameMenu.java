@@ -12,17 +12,13 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -37,16 +33,19 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.ListModel;
@@ -115,14 +114,14 @@ public class MainGameMenu extends MasterFrame {
 		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
-		
-		
+
+
 		// PANEL FOR MAIN DISTRIBUTION
-		 
+
 		setLayout(new BorderLayout());
-		
+
 		// PANEL FOR BOARD
-		
+
 		JPanel boardPanel = new PanelImageBuilder(boardPath, 0.7, 1, true) {
 			private static final long serialVersionUID = 1L;
 
@@ -141,18 +140,18 @@ public class MainGameMenu extends MasterFrame {
 				for (Cell c : cellList) {
 					c.paintComponent(g);
 				}
-				
+
 				for (Token token : tokenList) {
 					token.paintComponent(g);
 				}
-				
+
 				repaint();
 			}
 		};
 		boardPanel.setBackground(Color.BLACK);
 		add(boardPanel, BorderLayout.WEST);
-		
-		
+
+
 		// PANEL FOR EVENTS
 		JPanel eventPanel = new JPanel();
 		eventPanel.setBackground(Color.black);
@@ -515,7 +514,7 @@ public class MainGameMenu extends MasterFrame {
 	public String windowName() {
 		return MasterFrame.MainGameMenu;
 	}
-	
+
 	public void loadCellPositions(JPanel panel) {
 		File file = new File(cellPositionsPath);
 		// TODO probar a crear un input stream en vez de un file para utilizar el this.geclas... y tener el fichero fuera de src
@@ -529,7 +528,7 @@ public class MainGameMenu extends MasterFrame {
 			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("no hay");
-		}	
+		}
 	}
 	// TODO poner pop-ups en los catches
 	public void loadPrices() {

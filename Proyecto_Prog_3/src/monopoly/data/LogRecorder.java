@@ -26,11 +26,11 @@ public class LogRecorder{
 			}
 		}
 	}
-	
+
 	public void log(Level level,String Message) {
 		logger.log(level, logger.getName() + "   " + Message);
 	}
-	
+
 	public void readReadLogger() {
 		System.out.println(loggerLocation.toString());
 		try(Scanner file = new Scanner(loggerLocation.toFile())) {

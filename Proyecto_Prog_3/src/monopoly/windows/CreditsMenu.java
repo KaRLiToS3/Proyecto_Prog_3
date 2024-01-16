@@ -4,7 +4,6 @@ import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
@@ -23,30 +22,30 @@ public class CreditsMenu extends MasterFrame {
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setDefaultWindowIcon();
-		
+
 		showMeme();
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		JLabel lab = new JLabel(new ImageIcon(meme));
 		JPanel p = new JPanel();
 		p.setLayout(new FlowLayout(FlowLayout.CENTER));
 		p.add(lab);
 		getContentPane().add(p);
-		
+
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				switchToNextWindow(MasterFrame.MainMenu);
 			}
 		});
-		
+
 		setVisible(true);
 	}
-	
+
 	private static void showMeme() {
 		//https://www.youtube.com/shorts/4O_DwPlJQvc
 		String url = "https://www.tiktok.com/@dev.c10/video/7306564034113883397?is_from_webapp=1&sender_device=pc";
@@ -67,7 +66,7 @@ public class CreditsMenu extends MasterFrame {
             }
         }
     }
-	
+
 	@Override
 	public String windowName() {
 		return MasterFrame.CreditsMenu;

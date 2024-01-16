@@ -9,7 +9,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.junit.Test;
 
 import monopoly.data.LogRecorder;
 
@@ -17,7 +16,7 @@ public class GraphFactory {
 	private static LogRecorder logger = new LogRecorder();
 	
 	/**This method creates a line graph using the JFreeChart library, in case it is to be displayed in a window, a ChartPanel shall be required
-	 * @param graphTitle	The 
+	 * @param graphTitle	The
 	 * @param match
 	 * @return
 	 * @throws NullPointerException
@@ -33,7 +32,7 @@ public class GraphFactory {
 				XYSeries legend = new XYSeries(usr);	//Assigns a legend to the graph of a user
 
 				for(Integer lng : turnAndCurrencyData.keySet()) {
-					legend.add((double) lng, (double) turnAndCurrencyData.get(lng));	//Assigns points to the XY axles 
+					legend.add((double) lng, (double) turnAndCurrencyData.get(lng));	//Assigns points to the XY axles
 				}
 
 				dataset.addSeries(legend);	//The legend of every user and its data associated is added to the dataset

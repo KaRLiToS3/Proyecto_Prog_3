@@ -14,8 +14,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.logging.Level;
 
-import javax.swing.*;
-import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import monopoly.data.DataManager;
 import monopoly.windows.GameSettingsMenu;
@@ -33,15 +36,15 @@ public class MainMenu extends MasterFrame {
 	private final URL path2 = getClass().getResource(getStringProperty("left_image_menu"));
 	private final URL path3 = getClass().getResource(getStringProperty("right_image_menu"));
 	private final URL path4 = getClass().getResource(getStringProperty("cash_bg"));
-	
+
 	//TEST MAIN
 //	public static void main(String[] args) {
 //		SwingUtilities.invokeLater(() -> new MainMenu());
 //	}
-	
+
 	public MainMenu() {
 		logger.log(Level.INFO, "MainMenu running");
-		
+
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(frameSize);
@@ -49,53 +52,53 @@ public class MainMenu extends MasterFrame {
 		setDefaultWindowIcon();
 		setLocationRelativeTo(null);
 		setTitle("MONOPOLY");
-		
+
         // ADD PANEL FOR BACKGROUND IMAGE
 		JPanel backgroundPanel = new PanelImageBuilder(path4, 1);
         backgroundPanel.setLayout(new BorderLayout());
         setContentPane(backgroundPanel);
-		
+
 		//DECLARATION OF COMPONENTS
-		
+
 		JPanel N = new JPanel();
 		JPanel W = new PanelImageBuilder(path2, percentagePanelsWE);
 		JPanel C = new JPanel();
 		JPanel E = new PanelImageBuilder(path3, percentagePanelsWE);
 		JPanel S = new JPanel();
 		JPanel pCentralImg = new PanelImageBuilder(path1, 0.5);
-		
+
 		//INICIALISATION FOR BUTTON AND PANEL PARAMETERS
-		
+
 		N.setOpaque(false);
 		W.setOpaque(false);
 		C.setOpaque(false);
 		E.setOpaque(false);
 		S.setOpaque(false);
-		
+
 		C.setAlignmentX(Component.CENTER_ALIGNMENT);
 		C.setLayout(new BoxLayout(C, BoxLayout.Y_AXIS));
 		S.setLayout(new BoxLayout(S, BoxLayout.X_AXIS));
-		
+
 		backgroundPanel.add(N, BorderLayout.NORTH);
 		backgroundPanel.add(W, BorderLayout.WEST);
 		backgroundPanel.add(C, BorderLayout.CENTER);
 		backgroundPanel.add(E, BorderLayout.EAST);
 		backgroundPanel.add(S, BorderLayout.SOUTH);
-		
+
 		C.add(pCentralImg);
-		
+
 		//BUTTON SETTINGS
 		JButton[] buttons = new JButton[8];
-		String[] bText = 
-			{"PLAY", 
-			"GAME SETTINGS", 
-			"USER ACHIEVEMENTS", 
-			"MATCH RECORD", 
-			"MANAGE USERS", 
-			"HELP", 
-			"CREDITS", 
+		String[] bText =
+			{"PLAY",
+			"GAME SETTINGS",
+			"USER ACHIEVEMENTS",
+			"MATCH RECORD",
+			"MANAGE USERS",
+			"HELP",
+			"CREDITS",
 			"LEAVE GAME"};
-		
+
 		for(int i = 0; i < 8; i++) {
 			if(i <6) {
 				buttons[i] = new JButton(bText[i]) {
@@ -143,7 +146,7 @@ public class MainMenu extends MasterFrame {
 				if(option == JOptionPane.YES_OPTION) dispose();
 			}
 		});
-		
+
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -166,7 +169,7 @@ public class MainMenu extends MasterFrame {
 		setVisible(true);
 		logger.log(Level.INFO, "Window building ended");
 	}
-	
+
 	
 	class ButtonActionListener implements ActionListener{
 		private String className;

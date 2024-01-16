@@ -12,17 +12,13 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -42,16 +38,19 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+
 import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -94,7 +93,6 @@ public class MainGameMenu extends MasterFrame {
 	private static DataManager dataManager = DataManager.getManager();
 	
 
-
 	private static List<Cell> cellList = new ArrayList<>();
 	private static List<Token> tokenList = new ArrayList<>();
 	private static Map<Integer, Integer[]> priceList = new HashMap<>();
@@ -115,6 +113,7 @@ public class MainGameMenu extends MasterFrame {
 	private JLabel turnLabel = new JLabel();
 	private DefaultListModel<String> optionModel = new DefaultListModel<>();
 	private JButton diceButton = new JButton(getIconifiedImage(dicePath, 100, 100));
+
 	
 	private final static int maxWidth = 2000;
 // tener en cuenta que si luego ponemos que la ventana se reinicie (la partida) hay que meterlos en el constructor MainGameMenu()
@@ -134,12 +133,13 @@ public class MainGameMenu extends MasterFrame {
 			turnCurrencyPerUser.put(u.getEmail(), new TreeMap<>());
 			userNames.add(u.getAlias());
 		}
-		
+
 		// PANEL FOR MAIN DISTRIBUTION
+
 		setLayout(new BorderLayout());
-		
+
 		// PANEL FOR BOARD
-		
+
 		JPanel boardPanel = new PanelImageBuilder(boardPath, 0.7, 1, true) {
 			private static final long serialVersionUID = 1L;
 
@@ -158,18 +158,18 @@ public class MainGameMenu extends MasterFrame {
 				for (Cell c : cellList) {
 					c.paintComponent(g);
 				}
-				
+
 				for (Token token : tokenList) {
 					token.paintComponent(g);
 				}
-				
+
 				repaint();
 			}
 		};
 		boardPanel.setBackground(Color.BLACK);
 		add(boardPanel, BorderLayout.WEST);
-		
-		
+
+
 		// PANEL FOR EVENTS
 		JPanel eventPanel = new JPanel();
 		eventPanel.setBackground(Color.black);
@@ -193,8 +193,10 @@ public class MainGameMenu extends MasterFrame {
 		infoText.setFont(font2);
 		infoText.setLineWrap(true);
 		infoText.setWrapStyleWord(true);
+
 		setComponentDimension(infoText, maxWidth, 300);
 		infoText.setText("Roll the dice to start the game!");
+
 		
 		eventPanel.add(infoText);
 		
@@ -294,14 +296,16 @@ public class MainGameMenu extends MasterFrame {
 		
 		dicePanel.add(diceButton);
 
+
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				switchToNextWindow(MasterFrame.MainMenu);
 			}
 		});
-		
+
 		setVisible(true);
+
 		
 		buyButton.addActionListener( new ActionListener() {
 			
@@ -339,6 +343,7 @@ public class MainGameMenu extends MasterFrame {
 							t.modifyMoney(-result*10);
 							propietary.modifyMoney(result*10);	
 						}
+
 					}
 				}
 				utilityDice.setVisible(false);
@@ -440,10 +445,10 @@ public class MainGameMenu extends MasterFrame {
 				}
 			}
 		});
+
 		loadPrices();
 		loadCellPositions(boardPanel);
 		loadTokens(boardPanel);
-
 
 		updateMoney();
 	}
@@ -453,7 +458,7 @@ public class MainGameMenu extends MasterFrame {
 	public String windowName() {
 		return MasterFrame.MainGameMenu;
 	}
-	
+
 	public void loadCellPositions(JPanel panel) {
 		logger.log(Level.INFO, "Loading cells");
 		File file = new File(cellPositionsPath);
@@ -468,7 +473,7 @@ public class MainGameMenu extends MasterFrame {
 			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("no hay");
-		}	
+		}
 	}
 	
 	public void loadTokens(JPanel panel) {
@@ -627,8 +632,7 @@ public class MainGameMenu extends MasterFrame {
 				Thread.sleep(500);
 			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			//				e.printStackTrace();
+
 		}
 	}
 	

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ene 16, 2024 7:32:49 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   MainMenu running
 ene 16, 2024 7:32:49 P. M. monopoly.data.LogRecorder log
@@ -38,3 +39,11 @@ ene 16, 2024 7:33:01 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
 ene 16, 2024 7:33:01 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
+=======
+ene 15, 2024 4:59:04 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Data from User: Paco was properly obtained
+ene 15, 2024 4:59:04 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Data from User: Juan was properly obtained
+ene 15, 2024 4:59:04 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Data from User: Damian was properly obtained
+>>>>>>> branch 'master' of https://github.com/KaRLiToS3/Proyecto_Prog_3

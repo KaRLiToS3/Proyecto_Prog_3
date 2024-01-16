@@ -1,6 +1,6 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ public class GraphFactoryTest {
 		JFreeChart chart = GraphFactory.createLineChart("Test Match", "Turn", "Currency", defaultMatch);
 		assertNotNull(defaultMatch);
 		assertNotNull(chart);
-		
+
 		assertEquals("Test Match", chart.getTitle().getText());
 		assertEquals("Paco", chart.getXYPlot().getDataset().getSeriesKey(0));
 		assertEquals("Juan", chart.getXYPlot().getDataset().getSeriesKey(1));

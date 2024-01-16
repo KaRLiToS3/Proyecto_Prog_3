@@ -14,9 +14,10 @@ import monopoly.windows.MainGameMenu;
 
 public class Token extends JComponent{
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
+
 	
 	private int x;
 	private int y;
@@ -29,9 +30,10 @@ public class Token extends JComponent{
 	private int money;
 	private boolean inJail;
 	private int jailTurnCounter;
-	
+
 	
 	private final static int radius = 10;	
+
 	
 	public int getX() {
 		return x;
@@ -109,6 +111,7 @@ public class Token extends JComponent{
 		setMoney(getMoney()+value);
 	}
 	
+
 	public Token(Color color, JPanel panel, int money, String userEmail) {
 		this.color = color;
 		this.panel = panel;
@@ -119,11 +122,13 @@ public class Token extends JComponent{
 		this.jailTurnCounter=3;
 	}
 
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		Graphics2D graphics2D = (Graphics2D)g;
+
 		
 		if (!this.isInJail()) {
 			graphics2D.setPaint(color);
@@ -139,7 +144,7 @@ public class Token extends JComponent{
 			graphics2D.drawLine(getX()+radiusCalc, getY()-radiusCalc, getX()-radiusCalc, getY()+radiusCalc);
 		}
 	}
-	
+
 	public void updateToken(Cell cell) {
 		if (this.getColor().equals(Color.RED)) {
 			this.setCoordinates(cell.getTopLeft());
@@ -157,8 +162,8 @@ public class Token extends JComponent{
 		return "x = " + getX() + ", y = " + getY() + ", perx = " + getPerX() + ", pery = " + getPerY();
 	}
 
-	
-	
-	
+
+
+
 
 }

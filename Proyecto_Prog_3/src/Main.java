@@ -15,9 +15,9 @@ public class Main {
 			SwingUtilities.invokeLater(() -> new MainMenu());
 		}
 	}
-	
+
 	/**
-	 * This method searches for the predefined look and feel "Nimbus" 
+	 * This method searches for the predefined look and feel "Nimbus"
 	 */
 	private static void setUpLookAndFeel() {
 		try {

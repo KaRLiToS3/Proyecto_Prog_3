@@ -7,7 +7,7 @@
 The clasic monopoly game for playing in local with friends, you can save profiles and get achievements.
 
 
-##Current Status
+## Current Status
 
 
 The game is currently totally functional and playable for it's core purpose, players can be registered, play matches, gain achievements, view match statistics and so on. Moreover it can be upgraded by adding more functionalities and options.

@@ -61,7 +61,7 @@ public class MainGameMenu extends MasterFrame {
 	private final URL boardPath = getClass().getResource(getStringProperty("board_img"));
 	private final URL dicePath = getClass().getResource(getStringProperty("dice_img"));
 	public static final Dimension defaultWindowDimension = getDimensionProperty("mainGameMenuSizeX", "mainGameMenuSizeY");
-	private static String cellPositionsPath = Paths.get(getStringProperty("cellPositions1")).toAbsolutePath().toString();
+	private static String cellPositionsPath = Paths.get(getStringProperty("cellPositions")).toAbsolutePath().toString();
 	private static String cellPricesPath = Paths.get(getStringProperty("cellPrices")).toAbsolutePath().toString();
 	private static DataManager dataManager = DataManager.getManager();
 	

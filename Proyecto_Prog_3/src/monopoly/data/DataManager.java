@@ -137,7 +137,7 @@ public class DataManager{
 	}
 
 	public boolean checkForUserChoice() {
-		if(userChoiceToContinue == JOptionPane.NO_OPTION) return false;
+		if(userChoiceToContinue != JOptionPane.YES_OPTION ) return false;
 		else return true;
 	}
 

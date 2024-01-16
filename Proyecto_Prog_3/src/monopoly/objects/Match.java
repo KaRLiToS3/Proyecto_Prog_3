@@ -106,8 +106,7 @@ public class Match implements Serializable{
 
 	@Override
 	public String toString() {
-//		return name + "    " + format.format(date);
-		return getName() +" "+ getDateAsString() +" "+ getTurnCurrencyPerUser();
+		return name + "    " + format.format(date);
 	}
 
 }

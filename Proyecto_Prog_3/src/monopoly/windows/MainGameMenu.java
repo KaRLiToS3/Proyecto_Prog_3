@@ -70,6 +70,7 @@ import org.jfree.ui.tabbedui.VerticalLayout;
 import com.orsoncharts.util.json.parser.ParseException;
 
 import monopoly.data.DataManager;
+import monopoly.objects.Achievement;
 import monopoly.objects.Cell;
 import monopoly.objects.Cell.CellType;
 import monopoly.objects.Match;
@@ -98,7 +99,7 @@ public class MainGameMenu extends MasterFrame {
 	private static List<Token> tokenList = new ArrayList<>();
 	private static Map<Integer, Integer[]> priceList = new HashMap<>();
 	private static final Color[] defaultColors = {Color.red,Color.green,Color.blue,Color.yellow,};
-	private static List<User> gameUsers = new ArrayList<>(monopoly.windows.GameSettingsMenu.getSelectedUsers());
+	private static final List<User> gameUsers = new ArrayList<>(monopoly.windows.GameSettingsMenu.getSelectedUsers());
 	private static List<String> userNames = new ArrayList<>();
 	
 	private static int turn = -1;
@@ -545,10 +546,24 @@ public class MainGameMenu extends MasterFrame {
 			infoText.setText("Looks like we have got a winner!");
 			logger.log(Level.INFO, "Saving match");
 			dataManager.saveMatch(new Match(new Date(), monopoly.windows.GameSettingsMenu.getMatchName(), turnCurrencyPerUser));
+			assingAchievements();
 			optionModel.clear();
 			diceButton.setEnabled(false);
 			
 		}
+	}
+	
+	public void assingAchievements() {
+		
+		for (User u:gameUsers) {
+			if (u.getEmail().equals(tokenList.get(0).getUserEmail())) {
+				u.addAchievement(new Achievement(Achievement.Type.MVP));
+			}
+		
+			turnCurrencyPerUser.get(u.getEmail());
+		}
+		
+
 	}
 	
 	public void cellMechanics(Token token) {

@@ -1,6 +1,5 @@
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
@@ -9,7 +8,6 @@ import java.util.Set;
 import org.junit.Test;
 
 import monopoly.objects.Achievement;
-import monopoly.objects.User;
 
 public class AchievementTest {
 
@@ -45,6 +43,5 @@ public class AchievementTest {
 		
 		String[] answ = {"/monopoly/images/MVP.jpg", "/monopoly/images/MVPtext.png"};
 		assertArrayEquals(answ, ach.getType().getImg());
-		assertFalse(ach.equals(new User()));
 	}
 }

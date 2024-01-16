@@ -39,8 +39,6 @@ public class GameSettingsMenu extends MasterFrame implements Updatable{
 	private static final Font font1 = new Font("Arial Rounded MT Bold", Font.BOLD, 24);
 	private static final Font font2 = new Font("Rockwell Nova", Font.PLAIN, 15);
 	private static final Font font3 = new Font("Cascadia Code", Font.BOLD, 15);
-	private static final Color gold = new Color(212, 175, 55);
-	private static final Color bg = new Color(27, 27, 27);
 	private static final int compSpace = 20;
 	private DefaultListModel<User> modelUserSelectionList;
 	private static List<User> selectedUsers = new ArrayList<>();

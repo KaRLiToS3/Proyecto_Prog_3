@@ -58,7 +58,6 @@ public class CreateUser extends MasterFrame{
 
 		//GENERAL WINDOW SETTINGS
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setSize(650,340);
 		setSize(frameSize);
 		setResizable(false);
 		setLocationRelativeTo(null);

@@ -41,8 +41,6 @@ public class GameSettingsMenu extends MasterFrame implements Updatable{
 	private static final Font font1 = new Font("Arial Rounded MT Bold", Font.BOLD, 24);
 	private static final Font font2 = new Font("Rockwell Nova", Font.PLAIN, 15);
 	private static final Font font3 = new Font("Cascadia Code", Font.BOLD, 15);
-	private static final Color gold = new Color(212, 175, 55);
-	private static final Color bg = new Color(27, 27, 27);
 	private static final int compSpace = 20;
 	private DefaultListModel<User> modelUserSelectionList;
 	private static List<User> selectedUsers = new ArrayList<>();
@@ -104,20 +102,15 @@ public class GameSettingsMenu extends MasterFrame implements Updatable{
 		for(int i = 0; i < panelListT2.length; i++) {
 			panelListT2[i] = new JPanel();
 			panelListT2[i].setLayout(new FlowLayout(FlowLayout.LEFT));
-			T2.add(new Filler(new Dimension(1,1), new Dimension(compSpace,compSpace), new Dimension(compSpace,compSpace)));
+			T2.add(new Filler(new Dimension(1,1), new Dimension(compSpace,40), new Dimension(compSpace,40)));
 			T2.add(panelListT2[i]);
 		}
 		T2.add(new Filler(new Dimension(1,1), new Dimension(compSpace,compSpace), new Dimension(compSpace,compSpace)));
 
 		createInstructionLabel(panelListT2[0], "Starting Cash", font3, null, null);
-		createInstructionLabel(panelListT2[1], "Cash Multiplier", font3, null, null);
-		
+
 		SpinnerNumberModel startingCashModel = new SpinnerNumberModel(1500, 0, 3000, 100);
 		JSpinner startingCashSp = createSpinner(panelListT2[0], startingCashModel, true);
-
-		SpinnerNumberModel cashMultiplierModel = new SpinnerNumberModel(1, 1, 5, 1);
-		JSpinner cashMultiplierSp = createSpinner(panelListT2[1], cashMultiplierModel, true);
-
 		
 		//T3
 		T3.setLayout(new BoxLayout(T3, BoxLayout.Y_AXIS));
@@ -158,7 +151,7 @@ public class GameSettingsMenu extends MasterFrame implements Updatable{
 						selectedUsers.clear();
 						selectedUsers.addAll(userSelection.getSelectedValuesList());
 						startingCash = (int) startingCashSp.getValue();
-						cashMultiplier = (int) cashMultiplierSp.getValue();
+//						cashMultiplier = (int) cashMultiplierSp.getValue();
 						matchName = nameField.getText();
 					}
 				} else JOptionPane.showMessageDialog(null, "There are not enough Users selected for the match or the match name is blank", "Users not selected/Blank match name", JOptionPane.WARNING_MESSAGE);

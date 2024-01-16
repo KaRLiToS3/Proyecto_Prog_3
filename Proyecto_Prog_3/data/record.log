@@ -1,49 +1,20 @@
-<<<<<<< HEAD
-ene 16, 2024 7:32:49 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 8:08:34 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   MainMenu running
-ene 16, 2024 7:32:49 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 8:08:34 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   Window building ended
-ene 16, 2024 7:32:50 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.MainMenu with value monopoly.windows.MainMenu[frame0,460,166,1000x700,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,8,31,984x661,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@55bd9544,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-ene 16, 2024 7:32:50 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 8:08:35 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.MainMenu with value monopoly.windows.MainMenu[frame0,460,166,1000x700,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,8,31,984x661,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@2a15cad2,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+ene 16, 2024 8:08:35 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.GameSettingsMenu was created
-ene 16, 2024 7:32:56 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.GameSettingsMenu with value monopoly.windows.GameSettingsMenu[frame1,710,391,500x250,invalid,hidden,layout=java.awt.BorderLayout,title=GAME SETTINGS MENU,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,8,31,484x211,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@7b63c4f6,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-ene 16, 2024 7:32:56 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 8:08:49 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.GameSettingsMenu with value monopoly.windows.GameSettingsMenu[frame1,710,391,500x250,invalid,hidden,layout=java.awt.BorderLayout,title=GAME SETTINGS MENU,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,8,31,484x211,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@42045aab,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+ene 16, 2024 8:08:49 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainMenu is visible
-ene 16, 2024 7:32:56 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 8:08:49 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.GameSettingsMenu is not visible
-ene 16, 2024 7:32:57 P. M. monopoly.data.LogRecorder log
-ADVERTENCIA: monopoly.data.LogRecorder   Window with monopoly.windows.MainMenu was already saved
-ene 16, 2024 7:32:57 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Initializing MainGameMenu
-ene 16, 2024 7:32:57 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Loading cell prices
-ene 16, 2024 7:32:57 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Loading cells
-ene 16, 2024 7:32:57 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Loading tokens
-ene 16, 2024 7:32:57 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainGameMenu was created
-ene 16, 2024 7:33:01 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.MainGameMenu with value monopoly.windows.MainGameMenu[frame3,460,166,1000x700,invalid,hidden,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,8,31,984x661,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@403ecf0f,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-ene 16, 2024 7:33:01 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainMenu is visible
-ene 16, 2024 7:33:01 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainGameMenu is not visible
-ene 16, 2024 7:33:01 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 8:08:50 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All data was saved to the file successfully
-ene 16, 2024 7:33:01 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 8:08:50 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
-ene 16, 2024 7:33:01 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 8:08:50 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
-ene 16, 2024 7:33:01 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
-=======
-ene 15, 2024 4:59:04 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Data from User: Paco was properly obtained
-ene 15, 2024 4:59:04 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Data from User: Juan was properly obtained
-ene 15, 2024 4:59:04 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Data from User: Damian was properly obtained
->>>>>>> branch 'master' of https://github.com/KaRLiToS3/Proyecto_Prog_3

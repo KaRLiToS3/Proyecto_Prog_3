@@ -551,20 +551,25 @@ public class MainGameMenu extends MasterFrame {
 			infoText.setText("Looks like we have got a winner!");
 			logger.log(Level.INFO, "Saving match");
 			dataManager.saveMatch(new Match(new Date(), monopoly.windows.GameSettingsMenu.getMatchName(), turnCurrencyPerUser));
-			assingAchievements();
+			assignAchievements();
 			optionModel.clear();
 			diceButton.setEnabled(false);
 			
 		}
 	}
 	
-	public void assingAchievements() {
-		
+	public void assignAchievements() {
+		logger.log(Level.INFO, "Assigning achivements");
 		for (User u:gameUsers) {
 			if (u.getEmail().equals(tokenList.get(0).getUserEmail())) {
 				u.addAchievement(new Achievement(Achievement.Type.MVP));
+				u.addAchievement(new Achievement(Achievement.Type.CHEAPSKATE));
+				u.addAchievement(new Achievement(Achievement.Type.IMPERIALIST));
+			} else {
+				u.addAchievement(new Achievement(Achievement.Type.FLAT_BROKE));
 			}
-		
+			int modestprobability = dice.nextInt(1, 5);
+			if (modestprobability==1) u.addAchievement(new Achievement(Achievement.Type.MODEST));
 			turnCurrencyPerUser.get(u.getEmail());
 		}
 		

@@ -284,7 +284,6 @@ public class MainGameMenu extends MasterFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				Token t = tokenList.get(turn);
 				cellList.get(t.getCellNumber()).setColor(t.getColor());
 				t.modifyMoney(-priceList.get(t.getCellNumber())[0]);
@@ -365,7 +364,6 @@ public class MainGameMenu extends MasterFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				String selection = propertySelector.getSelectedValue();
 				int selectionCellNumber = Integer.parseInt(selection.substring(selection.length()-2, selection.length()).strip());
 				cellList.get(selectionCellNumber).setColor(Color.black);
@@ -426,7 +424,6 @@ public class MainGameMenu extends MasterFrame {
 		updateMoney();
 	}
 	
-	// TODO revisar que si cogemos la proporcion de la posicion de los tokens respecto a las dimensiones del board panel o main window (teniendo en cuenta insets)
 	@Override
 	public String windowName() {
 		return MasterFrame.MainGameMenu;
@@ -435,7 +432,6 @@ public class MainGameMenu extends MasterFrame {
 	public void loadCellPositions(JPanel panel) {
 		logger.log(Level.INFO, "Loading cells");
 		File file = new File(cellPositionsPath);
-		// TODO probar a crear un input stream en vez de un file para utilizar el this.geclas... y tener el fichero fuera de src
 		try (Scanner scanner = new Scanner(file)) {
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();

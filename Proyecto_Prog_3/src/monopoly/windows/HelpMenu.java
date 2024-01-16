@@ -34,13 +34,14 @@ public class HelpMenu extends MasterFrame {
 	private static final Dimension frameMinSize = getDimensionProperty("helpMenuMinSizeX", "helpMenuMinSizeY");
 	private static final String pdf1 = getStringProperty("interface_pdf");
 	private static final String pdf2 = getStringProperty("how_to_start_a_match_pdf");
+	private static final String pdf3 = getStringProperty("how_to_play_pdf");
 
 	private final URL path1 = getClass().getResource(getStringProperty("interface_logo"));
 	private final URL path2 = getClass().getResource(getStringProperty("match_logo"));
 	private final URL path3 = getClass().getResource(getStringProperty("rules_logo"));
 	private ArrayList<JScrollPane> scrollList = new ArrayList<>();
 
-	private static final String[] pdfDirectory = {pdf1,pdf2,pdf1};
+	private static final String[] pdfDirectory = {pdf1,pdf2,pdf3};
 	InputStream[] pdfPaths = new InputStream[pdfDirectory.length];
 
 	public HelpMenu() {
@@ -72,7 +73,7 @@ public class HelpMenu extends MasterFrame {
 		N.setBackground(Color.BLACK);
 		C.addTab("INTERFACE GUIDE", getIconifiedImage(path1, 50, 50), pInteface);
 		C.addTab("HOW TO CREATE A MATCH", getIconifiedImage(path2, 50, 50), pMatch);
-		C.addTab("RULES", getIconifiedImage(path3, 50, 50), pRules);
+		C.addTab("HOW TO PLAY", getIconifiedImage(path3, 50, 50), pRules);
 
 		JLabel title = new JLabel("HELP WINDOW");
 		title.setFont(titleFont);

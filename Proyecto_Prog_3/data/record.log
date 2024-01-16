@@ -1,20 +1,44 @@
-ene 16, 2024 8:53:35 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 9:03:11 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   MainMenu running
-ene 16, 2024 8:53:35 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 9:03:11 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   Window building ended
-ene 16, 2024 8:53:37 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.MainMenu with value monopoly.windows.MainMenu[frame0,268,58,1000x700,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,986x663,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@5db25df,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-ene 16, 2024 8:53:37 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.UserAchievementsMenu was created
-ene 16, 2024 8:53:46 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.UserAchievementsMenu with value monopoly.windows.UserAchievementsMenu[frame1,368,108,800x700,invalid,hidden,layout=java.awt.BorderLayout,title=USER ACHIEVEMENTS MENU,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,786x663,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@259ff5ea,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
-ene 16, 2024 8:53:46 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 9:03:12 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.MainMenu with value monopoly.windows.MainMenu[frame0,268,58,1000x700,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,986x663,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@43ae7d53,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+ene 16, 2024 9:03:13 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.HelpMenu was created
+ene 16, 2024 9:03:14 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Page 0 from file java.io.BufferedInputStream@3e52f434 is ready
+ene 16, 2024 9:03:14 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Page 0 from file java.io.BufferedInputStream@7c6b9484 is ready
+ene 16, 2024 9:03:14 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Page 0 from file java.io.BufferedInputStream@1eaaade0 is ready
+ene 16, 2024 9:03:14 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Page 1 from file java.io.BufferedInputStream@3e52f434 is ready
+ene 16, 2024 9:03:14 P. M. org.apache.fontbox.ttf.CmapSubtable processSubtype14
+ADVERTENCIA: Format 14 cmap table is not supported and will be ignored
+ene 16, 2024 9:03:15 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Page 1 from file java.io.BufferedInputStream@1eaaade0 is ready
+ene 16, 2024 9:03:15 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   PDF file java.io.BufferedInputStream@1eaaade0 loaded correctly
+ene 16, 2024 9:03:15 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Page 2 from file java.io.BufferedInputStream@3e52f434 is ready
+ene 16, 2024 9:03:15 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Page 1 from file java.io.BufferedInputStream@7c6b9484 is ready
+ene 16, 2024 9:03:15 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   PDF file java.io.BufferedInputStream@7c6b9484 loaded correctly
+ene 16, 2024 9:03:15 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Page 3 from file java.io.BufferedInputStream@3e52f434 is ready
+ene 16, 2024 9:03:15 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   PDF file java.io.BufferedInputStream@3e52f434 loaded correctly
+ene 16, 2024 9:03:26 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.HelpMenu with value monopoly.windows.HelpMenu[frame1,218,58,1100x700,invalid,hidden,layout=java.awt.BorderLayout,title=HELP WINDOW,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,7,30,1086x663,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@27580002,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+ene 16, 2024 9:03:26 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainMenu is visible
-ene 16, 2024 8:53:46 P. M. monopoly.data.LogRecorder log
-INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.UserAchievementsMenu is not visible
-ene 16, 2024 8:53:47 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 9:03:26 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.HelpMenu is not visible
+ene 16, 2024 9:03:27 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All data was saved to the file successfully
-ene 16, 2024 8:53:47 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 9:03:27 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
-ene 16, 2024 8:53:47 P. M. monopoly.data.LogRecorder log
+ene 16, 2024 9:03:27 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated

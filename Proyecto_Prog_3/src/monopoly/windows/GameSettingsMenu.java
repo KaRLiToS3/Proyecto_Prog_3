@@ -11,7 +11,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.Box.Filler;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -29,7 +28,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import monopoly.data.DataManager;
 import monopoly.objects.User;
 

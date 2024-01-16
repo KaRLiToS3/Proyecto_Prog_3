@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ene 16, 2024 8:08:34 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   MainMenu running
 ene 16, 2024 8:08:34 P. M. monopoly.data.LogRecorder log
@@ -18,3 +19,17 @@ ene 16, 2024 8:08:50 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
 ene 16, 2024 8:08:50 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
+=======
+ene 16, 2024 8:02:46 P. M. monopoly.data.LogRecorder log
+GRAVE: monopoly.data.LogRecorder   Error uploading data, we will atempt to read from a serialized file
+ene 16, 2024 8:02:46 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   A new database has been created
+ene 16, 2024 8:02:46 P. M. monopoly.data.LogRecorder log
+ADVERTENCIA: monopoly.data.LogRecorder   User loading failed
+ene 16, 2024 8:02:46 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Data from User: Paco was properly obtained
+ene 16, 2024 8:02:46 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Data from User: Juan was properly obtained
+ene 16, 2024 8:02:46 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Data from User: Damian was properly obtained
+>>>>>>> branch 'master' of https://github.com/KaRLiToS3/Proyecto_Prog_3

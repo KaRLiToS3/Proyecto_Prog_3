@@ -1,6 +1,5 @@
 package monopoly.data;
 
-import java.sql.*;
 import java.text.ParseException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,7 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -553,6 +551,7 @@ public class DataManager{
 			registeredData.remove(object);
 		}
 
+		@SuppressWarnings("unused")
 		private void addImmutableList(ImmutableList<T> dataCollection) {
 			registeredData.addAll(dataCollection.getRegisteredData());
 		}

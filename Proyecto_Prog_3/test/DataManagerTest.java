@@ -27,7 +27,6 @@ public class DataManagerTest {
 		assertTrue(DataManager.getManager().getRegisteredUsers().containsObject(new User("name2", "mail2", "password2", "alias2")));
 		DataManager.getManager().deleteUser(new User("name2", "mail2", "password2", "alias2"));
 		assertTrue(!DataManager.getManager().getRegisteredUsers().containsObject(new User("name2", "mail2", "password2", "alias2")));
-		
 	}
 
 	@Test

@@ -4,21 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import org.bouncycastle.oer.its.ieee1609dot2.Opaque;
 
 import monopoly.windows.MainGameMenu;
 
 public class Cell extends JComponent{
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private int x;

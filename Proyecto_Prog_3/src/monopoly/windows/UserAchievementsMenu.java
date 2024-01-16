@@ -164,7 +164,7 @@ public class UserAchievementsMenu extends MasterFrame implements Updatable{
 				info.setText(infoText);
 				User selUser = (User) usersCombo.getSelectedItem();
 				if(selUser != null) {
-					if(selUser.getAchievements() != null && !selUser.getAchievements().isEmpty()) {
+					if(selUser.getAchievements() != null) {
 						for(Achievement ach : selUser.getAchievements()) {
 							URL logoAch = getClass().getResource(ach.getType().getImg()[0]);
 							URL textAch = getClass().getResource(ach.getType().getImg()[1]);

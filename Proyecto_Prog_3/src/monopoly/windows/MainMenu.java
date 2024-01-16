@@ -34,11 +34,6 @@ public class MainMenu extends MasterFrame {
 	private final URL path3 = getClass().getResource(getStringProperty("right_image_menu"));
 	private final URL path4 = getClass().getResource(getStringProperty("cash_bg"));
 
-	//TEST MAIN
-//	public static void main(String[] args) {
-//		SwingUtilities.invokeLater(() -> new MainMenu());
-//	}
-
 	public MainMenu() {
 		logger.log(Level.INFO, "MainMenu running");
 
@@ -127,11 +122,8 @@ public class MainMenu extends MasterFrame {
 			buttons[i].setFont(buttonFont);
 		}
 		
-		////////////////////////////////////xiker
 		buttons[0].setEnabled(false);
 		buttons[0].addActionListener(e -> buttons[1].setEnabled(false));
-		
-		//////////////////////////////////
 		
 		
 		//EVENTS
@@ -150,7 +142,7 @@ public class MainMenu extends MasterFrame {
 				DataManager.getManager().saveDataInDB();
 				disposeAllFrames();
 			}
-			////////xiker
+
 			@Override
 			public void windowActivated(WindowEvent e) {
 				if (monopoly.windows.GameSettingsMenu.getSelectedUsers().size()!=0) {
@@ -160,7 +152,6 @@ public class MainMenu extends MasterFrame {
 				}
 					
 			}
-			///////
 		});
 		
 		setVisible(true);

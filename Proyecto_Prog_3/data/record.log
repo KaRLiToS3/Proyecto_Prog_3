@@ -26,3 +26,17 @@ ene 16, 2024 12:00:51 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   Loading tokens
 ene 16, 2024 12:00:51 P. M. monopoly.data.LogRecorder log
 INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainGameMenu was created
+ene 16, 2024 12:17:20 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Saved key monopoly.windows.MainGameMenu with value monopoly.windows.MainGameMenu[frame3,460,166,1000x700,invalid,hidden,layout=java.awt.BorderLayout,title=MONOPOLY,resizable,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,8,31,984x661,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@50b52745,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+ene 16, 2024 12:17:20 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainMenu is visible
+ene 16, 2024 12:17:20 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   Window monopoly.windows.MainGameMenu is not visible
+ene 16, 2024 12:17:20 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   All data was saved to the file successfully
+ene 16, 2024 12:17:20 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
+ene 16, 2024 12:17:20 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated
+ene 16, 2024 12:17:20 P. M. monopoly.data.LogRecorder log
+INFORMACIÓN: monopoly.data.LogRecorder   All existing JFrames were terminated

@@ -222,10 +222,10 @@ public class CreateUser extends MasterFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Set<Achievement> list = new LinkedHashSet<>();
-				list.add(new Achievement(Achievement.Type.MVP, 2));
-				list.add(new Achievement(Achievement.Type.BEGINNER, 3));
-				list.add(new Achievement(Achievement.Type.CHEAPSKATE, 4));
-				list.add(new Achievement(Achievement.Type.FLAT_BROKE, 1));
+//				list.add(new Achievement(Achievement.Type.MVP, 2));
+//				list.add(new Achievement(Achievement.Type.BEGINNER, 3));
+//				list.add(new Achievement(Achievement.Type.CHEAPSKATE, 4));
+//				list.add(new Achievement(Achievement.Type.FLAT_BROKE, 1));
 //				list.add(new Achievement(Achievement.Type.VETERAN, 1));
 //				list.add(new Achievement(Achievement.Type.IMPERIALIST, 1));
 //				list.add(new Achievement(Achievement.Type.MODEST, 1));

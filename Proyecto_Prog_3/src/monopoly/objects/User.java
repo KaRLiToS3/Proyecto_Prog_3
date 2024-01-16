@@ -99,6 +99,16 @@ public class User implements Serializable{
 	public void setAchievements(Set<Achievement> achievements) {
 		this.achievements = achievements;
 	}
+	
+	public void addAchievement(Achievement achievement) {
+		if (getAchievements().contains(achievement)) {
+			for (Achievement ar:getAchievements()) {
+				if (ar.equals(achievement)) ar.setTimes(ar.getTimes()+1);
+			}
+		} else {
+			getAchievements().add(achievement);
+		}
+	}
 
 	@Override
 	public String toString() {

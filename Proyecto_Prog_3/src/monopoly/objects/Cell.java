@@ -28,20 +28,16 @@ public class Cell extends JComponent{
 	
 	private int x;
 	private int y;
-	Color color;
-	int width;
-	int height;
-	double perX;
-	double perY;
-	JPanel panel;
-	String name;
+	private Color color;
+	private int width;
+	private int height;
+	private double perX;
+	private double perY;
+	private JPanel panel;
+	private String name;
 	private int cellNumber;
-
-
 	
-	
-	static int counter = 0;
-	public static final List<double[]> cellPositionList = new ArrayList<>();
+	private static int counter = 0;
 	
 	public enum CellType {
 		Property(30,40),
@@ -144,8 +140,6 @@ public class Cell extends JComponent{
 	
 	
 	// Corner getters
-	
-
 	public Point getTopLeft() {
 		return new Point(getX(), getY());
 	}

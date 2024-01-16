@@ -18,25 +18,20 @@ public class Token extends JComponent{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	int x;
-	int y;
-	double perX;
-	double perY;
-	JPanel panel;
-	Color color;
-	Insets insets;
-	int cellNumber;
-	int money;
-	boolean inJail;
-	int jailTurnCounter;
+	private int x;
+	private int y;
+	private double perX;
+	private double perY;
+	private JPanel panel;
+	private Color color;
+	private String userEmail;
+	private int cellNumber;
+	private int money;
+	private boolean inJail;
+	private int jailTurnCounter;
 	
 	
-	static int counter = 0;
-	final static int radius = 10;
-	final static double perRadius = 0.0146198830409357;
-	final static int[] CELL_NUMBERS = {0,1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,35,36,37,38,39,40}; 
-	final static Color[] TOKEN_COLORS = {Color.RED, Color.ORANGE, Color.BLUE, Color.GREEN};
-	
+	private final static int radius = 10;	
 	
 	public int getX() {
 		return x;
@@ -80,6 +75,12 @@ public class Token extends JComponent{
 	public void setCellNumber(int cell) {
 		this.cellNumber = cell;
 	}
+	public String getUserEmail() {
+		return userEmail;
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 	public int getMoney() {
 		return money;
 	}
@@ -103,48 +104,20 @@ public class Token extends JComponent{
 		setX((int)point.getX());
 		setY((int)point.getY());
 	}
-
-//	public Token(int x, int y, Color color, JPanel panel) {
-//		this.x = x;
-//		this.y = y;
-//		this.color = color;
-//		this.panel = panel;
-//		this.cellNumber = counter;
-//		counter++;
-//	}
 	
-//	public Token(Point p, Color color, JPanel panel, int cellNumber) {
-//		this.x = (int)p.getX();
-//		this.y = (int)p.getY();
-//		this.color = color;
-//		this.panel = panel;
-//		this.cellNumber = cellNumber;
-//	}
+	public void modifyMoney(int value) {
+		setMoney(getMoney()+value);
+	}
 	
-	public Token(Color color, JPanel panel) {
+	public Token(Color color, JPanel panel, int money, String userEmail) {
 		this.color = color;
 		this.panel = panel;
 		this.cellNumber=0;
-		this.money=1500;
+		this.money=money;
+		this.userEmail=userEmail;
 		this.inJail=false;
-		this.jailTurnCounter=0;
+		this.jailTurnCounter=3;
 	}
-	
-//	public Token(double perX, double perY, Color color, JPanel panel,Insets insets) {
-//		this.perX = perX;
-//		this.perY = perY;
-//		this.color = color;
-//		this.panel = panel;
-//		this.insets = insets;
-//		this.cellNumber = counter;
-//		counter++;
-//	}
-	
-	
-	
-//	public Token() {
-//		this (100*(counter+1),100*(counter+1),TOKEN_COLORS[counter]);
-//	}
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -168,7 +141,6 @@ public class Token extends JComponent{
 	}
 	
 	public void updateToken(Cell cell) {
-//		System.out.println(this.getColor().toString());
 		if (this.getColor().equals(Color.RED)) {
 			this.setCoordinates(cell.getTopLeft());
 		} else if (this.getColor().equals(Color.GREEN)) {

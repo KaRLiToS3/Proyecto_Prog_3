@@ -129,6 +129,7 @@ public class MainMenu extends MasterFrame {
 		
 		////////////////////////////////////xiker
 		buttons[0].setEnabled(false);
+		buttons[0].addActionListener(e -> buttons[1].setEnabled(false));
 		
 		//////////////////////////////////
 		

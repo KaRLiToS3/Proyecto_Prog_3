@@ -46,9 +46,9 @@ public class Match implements Serializable{
 		map3.put(3, 200);
 		map3.put(4, 1000);
 		
-		User usr1 = new User("Paco", "Paco");
-		User usr2 = new User("Juan", "Juan");
-		User usr3 = new User("Damian", "Damian");
+		User usr1 = new User("a", "a");
+		User usr2 = new User("b", "b");
+		User usr3 = new User("c", "c");
 		
 		usersEmails = new ArrayList<>();
 		usersEmails.add(usr1.getEmail());

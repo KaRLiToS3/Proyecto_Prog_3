@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -167,6 +168,14 @@ public class DataManager{
 				+ "	CURRENCY INT,"
 				+ "	FOREIGN KEY (MATCH_DAT) REFERENCES MATCH(DAT)"
 				+ ");");
+		
+		///////////////// DEFAULT DATA /////////////////
+		saveUser(new User("a","a","a","a", new LinkedHashSet<>()));
+		saveUser(new User("b","b","b","b", new LinkedHashSet<>()));
+		saveUser(new User("c","c","c","c", new LinkedHashSet<>()));
+		saveMatch(new Match());
+		///////////////// DEFAULT DATA /////////////////
+		
 		stmt.close();
 	}
 

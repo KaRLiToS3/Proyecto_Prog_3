@@ -103,7 +103,7 @@ public class CreateUser extends MasterFrame{
 		//I want to use the data that the user gives me, so i use a Map in order to later
 		//identified the JTextField that i need to use.
 		Center.add(CenterContainer,BorderLayout.CENTER);
-		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:","PASSWORD:","CODE:"};
+		String[] HEADERSNAMES = {"ALIAS:","NAME:","EMAIL:","PASSWORD:"};
 		Map<String, JTextField> textFieldMap = new HashMap<>();
 
 		CenterContainer.setLayout(new GridLayout(1,2));

@@ -45,7 +45,6 @@ public class AchievementTest {
 		
 		String[] answ = {"/monopoly/images/MVP.jpg", "/monopoly/images/MVPtext.png"};
 		assertArrayEquals(answ, ach.getType().getImg());
-
 		assertFalse(ach.equals(new User()));
 	}
 }

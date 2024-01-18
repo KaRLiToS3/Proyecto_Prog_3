@@ -368,7 +368,7 @@ public class MainGameMenu extends MasterFrame {
 				int selectionCellNumber = Integer.parseInt(selection.substring(selection.length()-2, selection.length()).strip());
 				cellList.get(selectionCellNumber).setColor(Color.black);
 				Token t = tokenList.get(turn);
-				t.modifyMoney((int)(priceList.get(selectionCellNumber)[0]*0.5));;
+				t.modifyMoney((int)(priceList.get(selectionCellNumber)[0]*0.5));
 				updatePropertyList(t);
 				sellButton.setEnabled(false);
 				updateMoney();

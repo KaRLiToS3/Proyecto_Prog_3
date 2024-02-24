@@ -541,8 +541,6 @@ public class MainGameMenu extends MasterFrame {
 			if (modestprobability==1) u.addAchievement(new Achievement(Achievement.Type.MODEST));
 			turnCurrencyPerUser.get(u.getEmail());
 		}
-		
-
 	}
 	
 	public void cellMechanics(Token token) {
